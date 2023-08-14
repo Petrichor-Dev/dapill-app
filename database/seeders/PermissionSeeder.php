@@ -20,12 +20,15 @@ class PermissionSeeder extends Seeder
             'lihat-tps', 'tambah-tps', 'edit-tps', 'hapus-tps',
             'lihat-pemilih', 'tambah-pemilih', 'edit-pemilih', 'hapus-pemilih',
             'lihat-dpt', 'tambah-dpt', 'edit-dpt', 'hapus-dpt',
+            'lihat-role', 'tambah-role', 'edit-role', 'hapus-role',
             'lihat-user', 'tambah-user', 'edit-user', 'hapus-user',
             'lihat-dashboard', 
         ];
 
+        $role = Role::first();
         foreach($arrayOfPermissionNames as $permission){
-            Permission::create(['name' => $permission, 'guard_name' => 'web']);
+            $permission = Permission::create(['name' => $permission, 'guard_name' => 'web']);
+            $role->givePermissionTo($permission);
         }
     }
 }
