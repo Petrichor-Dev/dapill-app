@@ -1,0 +1,63 @@
+@extends('layout.main')
+@section('body')
+    <main>
+        <div class="container-fluid px-4">
+            <h1 class="mt-4">TPS</h1>
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item active">Tambah Data TPS</li>
+            </ol>
+            
+            <div class="mb-4">
+              <form method="POST" action="/tps/create">
+                @csrf
+                <div class="mb-3">
+                  <label for="namaTps" class="form-label">Nama TPS</label>
+                  <input type="text" name="namaTps" class="form-control" id="namaTps">
+                  @error('namaTps')
+                      <div class="form-text text-danger">{{ $message }}</div>
+                  @enderror
+                </div>
+
+                <div class="mb-3">
+                  <label for="kecamatan" class="form-label">Kecamatan</label>
+                  <select class="form-select" name="kecamatan" id="kecamatan" aria-label="Default select example">
+                    <option selected>Pilih Kecamatan</option>
+                    @foreach ($kecamatans as $kecamatan)
+                      <option value="{{ $kecamatan['id'] }}" @selected(old('kecamatan') == $kecamatan['nama'])>
+                          {{ $kecamatan['nama'] }}
+                      </option>
+                    @endforeach
+                  </select>
+                  @error('kecamatan')
+                      <div class="form-text text-danger">{{ $message }}</div>
+                  @enderror
+                </div>
+                
+                <div class="mb-3">
+                  <label for="desa" class="form-label">Desa</label>
+                  <select class="form-select" name="desa" id="desa" aria-label="Default select example">
+                    <option selected>Pilih Desa</option>
+                    @foreach ($desas as $desa)
+                    <option value="{{ $desa['id'] }}" @selected(old('desa') == $desa['nama'])>
+                        {{ $desa['nama'] }}
+                    </option>
+                  @endforeach
+                  </select>
+                  @error('desa')
+                      <div class="form-text text-danger">{{ $message }}</div>
+                  @enderror
+                </div>
+
+                <div class="mb-4">
+                  <label for="jumlahPemilih" class="form-label">Jumlah Pemilih</label>
+                  <input type="number" name="jumlahPemilih" class="form-control" id="jumlahPemilih">
+                  @error('jumlahPemilih')
+                      <div class="form-text text-danger">{{ $message }}</div>
+                  @enderror
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+            </div>
+        </div>
+    </main>
+@endsection

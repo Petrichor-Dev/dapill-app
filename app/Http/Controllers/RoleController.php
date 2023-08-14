@@ -1,0 +1,111 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+use Illuminate\Http\Request;
+use Exception;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\RoleResource;
+
+class RoleController extends Controller
+{
+    public $componentPath = "role";
+
+    public function rules()
+    {
+        return [
+            'nama' => ['required', 'string',  'max:255'],
+            'permissions' => ['nullable', 'array'],
+        ];
+    }
+    public function index()
+    {
+        $roles = Role::get()->toArray();
+        return view("$this->componentPath/index", [
+            'roles' => new RoleResource($roles),
+           ]);  
+    }
+
+    public function create()
+    {
+        return view("$this->componentPath/create", [
+            'permissions' => Permission::get()->toArray()
+        ]);
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate($this->rules());
+        DB::beginTransaction();
+        try {
+            $role = Role::create([
+                'name' => $request->nama,
+            ]);
+            foreach($request->permissions as $item) {
+                $permission = Permission::where('name',$item)->first();
+                
+                if(!$permission){
+                    $permission = Permission::create(['name' => $item]);
+                }
+                $role->givePermissionTo($permission);
+            }
+            DB::commit();
+            $request->session()->flash('success', 'Data Role Berhasil di Tambahkan');
+           return redirect('/role');
+        } catch (\Exception $e) {
+            return back()->withErrors($e->getMessage());
+        }
+    }
+
+    public function edit(Role $role)
+    {
+        $dataWithPermissions = Role::with('permissions')->where('id', $role->id)->get()->first()->toArray();
+        return view(
+            "$this->componentPath/Edit",
+            [
+                'permissions' => Permission::get()->toArray(),
+                'dataWithPermissions' => $dataWithPermissions ?? []
+            ]
+        );
+    }
+    public function update(Request $request, Role $role)
+    {
+        $request->validate($this->rules());
+        DB::beginTransaction();
+        try {
+            $role->update([
+                'name' => $request->nama,
+            ]);
+            $role->permissions()->detach();
+            foreach($request->permissions as $item) {
+                $permission = Permission::where('name',$item)->first();
+                
+                if(!$permission){
+                    $permission = Permission::create(['name' => $item]);
+                }
+                $role->givePermissionTo($permission);
+            }
+            DB::commit();
+            $request->session()->flash('success', 'Data Role Berhasil di Edit');
+           return redirect('/role');
+        } catch (\Exception $e) {
+            return back()->withErrors($e->getMessage());
+        }
+    }
+
+    public function destroy(Role $role)
+    {
+        DB::beginTransaction();
+        try {
+            $role->delete();
+            DB::commit();
+            return back();
+        } catch (\Exception $e) {
+            return back()->withErrors(['message' => $e->getMessage()]);
+        }
+    }
+}

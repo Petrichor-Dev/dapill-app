@@ -1,0 +1,5 @@
+admin can all, !del (tokyo123)
+panglima can all (berlin123)
+jendral can kec, !del (palermo123)
+mayor can des, !del (jakarta123)
+prajurit can tps, !del (london123)  
