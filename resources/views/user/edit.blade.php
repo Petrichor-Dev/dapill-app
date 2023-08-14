@@ -8,49 +8,48 @@
             </ol>
             
             <div class="mb-4">
-              <form method="POST" action="/pemilih/create">
+              <form method="POST" action="/user/edit/{{ $user['id'] }}">
+                @method('PUT')
                 @csrf
                 <div class="mb-3">
-                  <label for="nama" class="form-label">Nama</label>
-                  <input name="nama" type="text" class="form-control" id="nama">
-                  @error('nama')
+                  <label for="name" class="form-label">Nama</label>
+                  <input name="name" type="text" class="form-control" id="name" value="{{ $user['name'] }}">
+                  @error('name')
                       <div class="form-text text-danger">{{ $message }}</div>
                   @enderror
                 </div>
 
                 <div class="mb-4">
-                  <label for="NIK" class="form-label">Email</label>
-                  <input name="nik" type="email" class="form-control" id="NIK">
-                  @error('nik')
+                  <label for="email" class="form-label">Email</label>
+                  <input name="email" type="email" class="form-control" id="email" value="{{ $user['email'] }}">
+                  @error('email')
                       <div class="form-text text-danger">{{ $message }}</div>
                   @enderror
                 </div>
 
                 <div class="mb-4">
-                  <label for="NIK" class="form-label">Password</label>
-                  <input name="nik" type="password" class="form-control" id="NIK">
-                  @error('nik')
+                  <label for="password" class="form-label">Password</label>
+                  <input name="password" type="password" class="form-control" id="password">
+                  @error('password')
                       <div class="form-text text-danger">{{ $message }}</div>
                   @enderror
                 </div>
 
                 <div class="mb-3">
-                  <label for="tps" class="form-label">Tentukan Hak Akses</label>
-                    <div class="row">
-                      <div class="col-2 col-sm-6 mt-1">
-                        <div class="form-check">
-                          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                          <label class="form-check-label" for="flexCheckDefault">
-                            Default checkbox
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  
-                  @error('tps')
+                  <label for="role" class="form-label">Pilih Role</label>
+                  <select class="form-select" name="role" id="role" aria-label="Default select example">
+                
+                    @foreach ($roles as $role)
+                      <option value="{{ $role['id'] }}" @if(old('role', $userRoleName[0] === $role['name'])) selected @endif>
+                          {{ $role['name'] }}
+                      </option>
+                    @endforeach
+                  </select>
+                  @error('role')
                       <div class="form-text text-danger">{{ $message }}</div>
                   @enderror
-                </div>  
+                </div>
+
                 <button type="submit" class="btn btn-primary">Submit</button>
               </form>
             </div>

@@ -33,7 +33,7 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Nama User</th>
-                                            <th>Status Aktif</th>
+                                            <th>Email</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
@@ -41,24 +41,24 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Nama User</th>
-                                            <th>Status Aktif</th>
+                                            <th>Email</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                        @foreach ($Users as $pemilih)
+                                        @foreach ($users as $user)
                                         <tr>
                                             <td>1</td>
-                                            <td>{{ $pemilih['nama'] }}</td>
+                                            <td>{{ $user['name'] }}</td>
                                             <td>
-                                                <span class="badge text-bg-success">{{ $pemilih['status_memilih'] }}</span>
+                                                {{ $user['email'] }}
                                             </td>
                                             <td>
-                                                <a href="/edit-pemilih/{{ $pemilih['id'] }}">
+                                                <a href="/edit-user/{{ $user['id'] }}">
                                                     <button type="button" class="btn btn-outline-primary">Edit</button>
                                                 </a>
                                                 @if (Auth::user()->id == 1)
-                                                    <a href="/pemilih/delete/{{ $pemilih['id'] }}">
+                                                    <a href="/user/delete/{{ $user['id'] }}">
                                                     <button type="button" class="btn btn-outline-danger">Hapus</button>
                                                 </a>
                                                 @endif

@@ -4,7 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Permission;
+use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Exception;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Resources\UserResource;
+
 
 class UserController extends Controller
 {
@@ -13,57 +19,55 @@ class UserController extends Controller
     public function rules()
     {
         return [
-            'namaKecamatan' => 'required|string',
-            'namaJendral' => 'required|string',
-            'jumlahDesa' => 'required|integer',
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'max:255'],
+            'password' => ['required', 'string', 'min:8'],
+            'role' => 'required|integer',
         ];
     }
     public function index()
     {
         return view("$this->componentPath/index", [
-            'Users' =>[]
+            'users' => User::get()->toArray()
            ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
-    {
+    {   
         return view("$this->componentPath/create", [
-            'permissions' => Permission::get()->toArray()
+            'roles' => Role::get()->toArray()
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        dd($request->module);
-        foreach($request->permissions as $item) {
-            $permission = Permission::where('name',$item)->first();
-            if(!$permission){
-                $permission = Permission::create(['name' => $item]);
-            }
-            $role->givePermissionTo($permission);
+        $request->validate($this->rules());
+        DB::beginTransaction();
+        try {
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
+            $user->assignRole($request->role);
+            DB::commit();
+            $request->session()->flash('success', 'Data User Berhasil di Tambahkan');
+            return redirect('/user');
+        } catch (\Exception $e) {
+            return back()->withErrors(['message' => $e->getMessage()]);
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(User $user)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(User $user)
     {
-        //
+        return view(
+            "$this->componentPath/Edit",
+            [
+                'user' => $user->toArray() ?? [],
+                'userRoleName' => $user->getRoleNames(),
+                'roles' => Role::get()->toArray() ?? []
+            ]
+        );
     }
 
     /**
@@ -71,7 +75,27 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'max:255'],
+            'password' => ['nullable', 'string', 'min:8'],
+            'role' => 'required|integer',
+        ]);
+
+        DB::beginTransaction();
+        try {
+            $user->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => $request->password ? Hash::make($request->password) : $user->password,
+            ]);
+            $user->syncRoles($request->role);
+            DB::commit();
+            $request->session()->flash('success', 'Data User Berhasil di Update');
+            return redirect('/user');
+        } catch (\Exception $e) {
+            return back()->withErrors(['message' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -79,6 +103,14 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        DB::beginTransaction();
+        try {
+            $user->syncRoles([]);
+            $user->delete();
+            DB::commit();
+            return back();
+        } catch (\Exception $e) {
+            return back()->withErrors(['message' => $e->getMessage()]);
+        }
     }
 }

@@ -11,48 +11,44 @@
               <form method="POST" action="/user/create">
                 @csrf
                 <div class="mb-3">
-                  <label for="nama" class="form-label">Nama</label>
-                  <input name="nama" type="text" class="form-control" id="nama">
-                  @error('nama')
+                  <label for="name" class="form-label">Nama</label>
+                  <input name="name" type="text" class="form-control" id="name">
+                  @error('name')
                       <div class="form-text text-danger">{{ $message }}</div>
                   @enderror
                 </div>
 
                 <div class="mb-4">
-                  <label for="NIK" class="form-label">Email</label>
-                  <input name="nik" type="email" class="form-control" id="NIK">
-                  @error('nik')
+                  <label for="email" class="form-label">Email</label>
+                  <input name="email" type="email" class="form-control" id="email">
+                  @error('email')
                       <div class="form-text text-danger">{{ $message }}</div>
                   @enderror
                 </div>
 
                 <div class="mb-4">
-                  <label for="NIK" class="form-label">Password</label>
-                  <input name="nik" type="password" class="form-control" id="NIK">
-                  @error('nik')
+                  <label for="password" class="form-label">Password</label>
+                  <input name="password" type="password" class="form-control" id="password">
+                  @error('password')
                       <div class="form-text text-danger">{{ $message }}</div>
                   @enderror
                 </div>
 
-                <div class="mb-3">
-                  <label for="tps" class="form-label">Tentukan Hak Akses</label>
-                    <div class="row">
-                      @foreach ($permissions as $permission)
-                      <div class="col-md-3 col-xs-6 mt-1">
-                        <div class="form-check">
-                          <input class="form-check-input" type="checkbox" name="module[]" value="{{ $permission['name'] }}" id="flexCheckDefault">
-                          <label class="form-check-label" for="flexCheckDefault">
-                            {{ $permission['name'] }}
-                          </label>
-                        </div>
-                      </div>
-                      @endforeach
-                    </div>
-                  
-                  @error('tps')
+                <div class="mb-4">
+                  <label for="role" class="form-label">Role</label>
+                  <select class="form-select" name="role" id="role" aria-label="Default select example">
+                    <option selected>Pilih Role</option>
+                    @foreach ($roles as $role)
+                      <option value="{{ $role['id'] }}" @selected(old('role') == $role['name'])>
+                          {{ $role['name'] }}
+                      </option>
+                    @endforeach
+                  </select>
+                  @error('role')
                       <div class="form-text text-danger">{{ $message }}</div>
                   @enderror
                 </div>  
+
                 <button type="submit" class="btn btn-primary">Submit</button>
               </form>
             </div>
