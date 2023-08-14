@@ -18,13 +18,11 @@
                         </ol>
                         <div class="card mb-4">
                             <div class="card-header">   
-                                {{-- <i class="fas fa-table"></i>
-                                DataTable Exampel --}}
-                                {{-- <div class="d-flex justify-content-end"> --}}
-                                    <a href="/tambah-pemilih">
-                                        <button class="btn btn-primary">Tambah Pemilih</button>
-                                    </a>
-                                {{-- </div> --}}
+                                @can('tambah-pemilih')
+                                <a href="/tambah-pemilih">
+                                    <button class="btn btn-primary">Tambah Pemilih</button>
+                                </a>
+                                @endcan
                             </div>
                             
                             <div class="card-body">
@@ -63,14 +61,16 @@
                                             </td>
                                             <td>isan</td>
                                             <td>
+                                                @can('edit-pemilih')
                                                 <a href="/edit-pemilih/{{ $pemilih['id'] }}">
                                                     <button type="button" class="btn btn-outline-primary">Edit</button>
                                                 </a>
-                                                @if (Auth::user()->id == 1)
-                                                    <a href="/pemilih/delete/{{ $pemilih['id'] }}">
+                                                @endcan
+                                                @can('hapus-pemilih')
+                                                <a href="/pemilih/delete/{{ $pemilih['id'] }}">
                                                     <button type="button" class="btn btn-outline-danger">Hapus</button>
                                                 </a>
-                                                @endif
+                                                @endcan
                                             </td>
                                         </tr>
                                         @endforeach

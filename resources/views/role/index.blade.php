@@ -18,13 +18,11 @@
                         </ol>
                         <div class="card mb-4">
                             <div class="card-header">   
-                                {{-- <i class="fas fa-table"></i>
-                                DataTable Exampel --}}
-                                {{-- <div class="d-flex justify-content-end"> --}}
-                                    <a href="/tambah-role">
-                                        <button class="btn btn-primary">Tambah Role</button>
-                                    </a>
-                                {{-- </div> --}}
+                                @can('tambah-role')
+                                <a href="/tambah-role">
+                                    <button class="btn btn-primary">Tambah Role</button>
+                                </a>
+                                @endcan
                             </div>
                             
                             <div class="card-body">
@@ -50,14 +48,16 @@
                                             <td>1</td>
                                             <td>{{$role['name'] }}</td>
                                             <td>
+                                                @can('edit-role')
                                                 <a href="/edit-role/{{$role['id'] }}">
                                                     <button type="button" class="btn btn-outline-primary">Edit</button>
                                                 </a>
-                                                @if (Auth::user()->id == 1)
-                                                    <a href="/role/delete/{{$role['id'] }}">
+                                                @endcan
+                                                @can('hapus-role')
+                                                <a href="/role/delete/{{$role['id'] }}">
                                                     <button type="button" class="btn btn-outline-danger">Hapus</button>
                                                 </a>
-                                                @endif
+                                                @endcan
                                             </td>
                                         </tr>
                                         @endforeach

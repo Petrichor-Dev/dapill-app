@@ -16,13 +16,11 @@
                         </ol>
                         <div class="card mb-4">
                             <div class="card-header">   
-                                {{-- <i class="fas fa-table"></i>
-                                DataTable Exampel --}}
-                                {{-- <div class="d-flex justify-content-end"> --}}
-                                    <a href="/tambah-desa">
-                                        <button class="btn btn-primary">Tambah Desa</button>
-                                    </a>
-                                {{-- </div> --}}
+                                @can('tambah-desa')
+                                <a href="/tambah-desa">
+                                    <button class="btn btn-primary">Tambah Desa</button>
+                                </a>
+                                @endcan
                             </div>
                             
                             <div class="card-body">
@@ -53,15 +51,17 @@
                                             <td>{{ $desa['ketua'] }}</td>
                                             <td>{{ $desa['jumlah_tps'] }}</td>
                                             <td>
+                                                @can('edit-desa')
                                                 <a href="/edit-desa/{{ $desa['id'] }}">
                                                     <button type="button" class="btn btn-outline-primary">Edit</button>
                                                 </a>
+                                                @endcan
 
-                                                @if (Auth::user()->id == 1)
-                                                    <a href="/desa/delete/{{ $desa['id'] }}">
+                                                @can('hapus-desa')
+                                                <a href="/desa/delete/{{ $desa['id'] }}">
                                                     <button type="button" class="btn btn-outline-danger">Hapus</button>
                                                 </a>
-                                                @endif
+                                                @endcan
                                             </td>
                                         </tr>
                                         @endforeach

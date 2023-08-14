@@ -60,12 +60,16 @@
                 <nav class="sb-sidenav accordion sb-sidenav-light" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
                         <div class="nav">
-                            <div class="sb-sidenav-menu-heading">Core</div>
-                            <a class="nav-link" href="/">
+
+                            @can('lihat-dashboard')
+                            {{-- <div class="sb-sidenav-menu-heading">Core</div> --}}
+                            <a class="nav-link mt-4" href="/">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Dashboard
                             </a>
-                            <div class="sb-sidenav-menu-heading">Interface</div>
+                            @endcan
+                            
+                            {{-- <div class="sb-sidenav-menu-heading">Interface</div> --}}
                             
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                                 <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
@@ -75,85 +79,62 @@
                             <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
 
-                                    @switch($uid)
-                                        @case(1)
-                                            <a class="nav-link collapsed" href="/kecamatan">
-                                                Kecamatan
-                                                {{-- <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div> --}}
-                                            </a>
+                 
+                                            @can('lihat-kecamatan')
+                                                <a class="nav-link collapsed" href="/kecamatan">
+                                                    Kecamatan
+                                                    {{-- <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div> --}}
+                                                </a>
+                                            @endcan
                                                 
+                                            @can('lihat-desa')
                                             <a class="nav-link collapsed" href="/desa">
                                                 Desa
                                                 {{-- <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div> --}}
                                             </a>
-                                            <a class="nav-link collapsed" href="/tps">
-                                                TPS
-                                                {{-- <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div> --}}
-                                            </a>
-                                            <a class="nav-link collapsed" href="/pemilih">
-                                                Pemilih
-                                                {{-- <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div> --}}
-                                            </a>
-                                            @break
-                                        @case(2)
-                                            <a class="nav-link collapsed" href="/kecamatan">
-                                                Kecamatan
-                                                {{-- <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div> --}}
-                                            </a>
-                                                
-                                            <a class="nav-link collapsed" href="/desa">
-                                                Desa
-                                                {{-- <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div> --}}
-                                            </a>
-                                            <a class="nav-link collapsed" href="/tps">
-                                                TPS
-                                                {{-- <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div> --}}
-                                            </a>
-                                            <a class="nav-link collapsed" href="/pemilih">
-                                                Pemilih
-                                                {{-- <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div> --}}
-                                            </a>
-                                            @break
-                                        @case(3)
-                                            <a class="nav-link collapsed" href="/kecamatan">
-                                                Kecamatan
-                                                {{-- <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div> --}}
-                                            </a>
-                                            @break
-                                        @case(4)
-                                            <a class="nav-link collapsed" href="/desa">
-                                                Desa
-                                                {{-- <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div> --}}
-                                            </a>
-                                            @break
-                                        @case(5)
-                                            <a class="nav-link collapsed" href="/tps">
-                                                TPS
-                                                {{-- <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div> --}}
-                                            </a>
-                                            @break
-                                        @default
+
+                                            @endcan
                                             
-                                    @endswitch
+                                            @can('lihat-tps')
+                                            <a class="nav-link collapsed" href="/tps">
+                                                TPS
+                                                {{-- <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div> --}}
+                                            </a>
+                                            @endcan
+                                            
+                                            @can('lihat-pemilih')
+                                            <a class="nav-link collapsed" href="/pemilih">
+                                                Pemilih
+                                                {{-- <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div> --}}
+                                            </a>
+                                            @endcan
+                          
+                                            
 
                                 </nav>
                             </div>
-                            @if (Auth::user()->id == 1 || 2)
+                                @can('lihat-pemilih')
                                 <a class="nav-link" href="dpt">
                                     <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                                     DPT
                                 </a>
-                            @endif
-                            <div class="sb-sidenav-menu-heading">Addons</div>
+                                @endcan
+                            {{-- <div class="sb-sidenav-menu-heading">Addons</div> --}}
 
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
+                                <div class="sb-nav-link-icon"><i class="fas fa-gear"></i></div>
                                 Setting
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
                             <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                                 <nav class="sb-sidenav-menu-nested nav">
+                                    @can('lihat-role')
                                     <a class="nav-link" href="/role">Role</a>
+                                    @endcan
+                                    
+                                    @can('lihat-user')
                                     <a class="nav-link" href="/user">Users</a>
+                                    @endcan
                                 </nav>
                             </div>
                         </div>

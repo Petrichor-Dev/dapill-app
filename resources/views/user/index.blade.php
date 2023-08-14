@@ -18,13 +18,11 @@
                         </ol>
                         <div class="card mb-4">
                             <div class="card-header">   
-                                {{-- <i class="fas fa-table"></i>
-                                DataTable Exampel --}}
-                                {{-- <div class="d-flex justify-content-end"> --}}
-                                    <a href="/tambah-user">
-                                        <button class="btn btn-primary">Tambah User</button>
-                                    </a>
-                                {{-- </div> --}}
+                                @can('tambah-user')
+                                <a href="/tambah-user">
+                                    <button class="btn btn-primary">Tambah User</button>
+                                </a>
+                                @endcan
                             </div>
                             
                             <div class="card-body">
@@ -54,14 +52,17 @@
                                                 {{ $user['email'] }}
                                             </td>
                                             <td>
+                                                @can('edit-user')
                                                 <a href="/edit-user/{{ $user['id'] }}">
                                                     <button type="button" class="btn btn-outline-primary">Edit</button>
                                                 </a>
-                                                @if (Auth::user()->id == 1)
-                                                    <a href="/user/delete/{{ $user['id'] }}">
+                                                @endcan
+                                                
+                                                @can('hapus-user')
+                                                <a href="/user/delete/{{ $user['id'] }}">
                                                     <button type="button" class="btn btn-outline-danger">Hapus</button>
                                                 </a>
-                                                @endif
+                                                @endcan
                                             </td>
                                         </tr>
                                         @endforeach

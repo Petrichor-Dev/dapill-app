@@ -18,13 +18,11 @@
             
             <div class="card mb-4">
                 <div class="card-header">   
-                    {{-- <i class="fas fa-table"></i>
-                    DataTable Exampel --}}
-                    {{-- <div class="d-flex justify-content-end"> --}}
-                        <a href="/tambah-kecamatan">
-                            <button class="btn btn-primary">Tambah Kecamatan</button>
-                        </a>
-                    {{-- </div> --}}
+                    @can('tambah-kecamatan')
+                    <a href="/tambah-kecamatan">
+                        <button class="btn btn-primary">Tambah Kecamatan</button>
+                    </a>
+                    @endcan
                 </div>
                 
                 <div class="card-body">
@@ -54,14 +52,17 @@
                                 <td>{{ $kecamatan['ketua'] }}</td>
                                 <td>{{ $kecamatan['jumlah_desa'] }}</td>
                                 <td>
+                                    @can('edit-kecamatan')
                                     <a href="/edit-kecamatan/{{ $kecamatan['id'] }}">
                                         <button type="button" class="btn btn-outline-primary">Edit</button>
                                     </a>
-                                    @if (Auth::user()->id == 1)
-                                        <a href="/kecamatan/delete/{{ $kecamatan['id'] }}">
+                                    @endcan
+                                    
+                                    @can('hapus-kecamatan')
+                                    <a href="/kecamatan/delete/{{ $kecamatan['id'] }}">
                                         <button type="button" class="btn btn-outline-danger">Hapus</button>
                                     </a>
-                                    @endif
+                                    @endcan
                                 </td>
                             </tr>
                             @endforeach
