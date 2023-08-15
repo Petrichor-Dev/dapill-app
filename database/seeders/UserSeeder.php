@@ -19,38 +19,39 @@ class UserSeeder extends Seeder
             'name' => 'super admin',
             'email' => 'superadmin@email.com',
             'password' => Hash::make('berlin123'),
+            'jabatan_id' => 1
+        ]);
+
+        User::create([
+            'name' => 'panglima',
+            'email' => 'panglima@email.com',
+            'password' => Hash::make('berlin123'),
+        ]);
+
+        User::create([
+            'name' => 'admin',
+            'email' => 'admin@email.com',
+            'password' => Hash::make('tokyo123'),
+        ]);
+
+        User::create([
+            'name' => 'jendral',
+            'email' => 'jendral@email.com',
+            'password' => Hash::make('palermo123'),
+        ]);
+
+        User::create([
+            'name' => 'mayor',
+            'email' => 'mayor@email.com',
+            'password' => Hash::make('jakarta123'),
+        ]);
+
+        User::create([
+            'name' => 'kapten',
+            'email' => 'kapten@email.com',
+            'password' => Hash::make('london123'),
         ]);
 
         $superAdmin->assignRole('Super Admin');
-
-        // DB::table('users')->insert([
-        //     'name' => 'panglima',
-        //     'email' => 'panglima@email.com',
-        //     'password' => Hash::make('berlin123'),
-        // ]);
-
-        // DB::table('users')->insert([
-        //     'name' => 'admin',
-        //     'email' => 'admin@email.com',
-        //     'password' => Hash::make('tokyo123'),
-        // ]);
-
-        // DB::table('users')->insert([
-        //     'name' => 'jendral',
-        //     'email' => 'jendral@email.com',
-        //     'password' => Hash::make('palermo123'),
-        // ]);
-
-        // DB::table('users')->insert([
-        //     'name' => 'mayor',
-        //     'email' => 'mayor@email.com',
-        //     'password' => Hash::make('jakarta123'),
-        // ]);
-
-        // DB::table('users')->insert([
-        //     'name' => 'prajurit',
-        //     'email' => 'prajurit@email.com',
-        //     'password' => Hash::make('london123'),
-        // ]);
     }
 }

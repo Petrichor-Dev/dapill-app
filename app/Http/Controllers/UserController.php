@@ -60,11 +60,15 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
+
+        $userData = new UserResource($user->load(['roles'])->toArray());
+        // dd($x);
+        // dd($user->getRoleNames()->toArray());
         return view(
             "$this->componentPath/Edit",
             [
-                'user' => $user->toArray() ?? [],
-                'userRoleName' => $user->getRoleNames(),
+                'user' => $userData->resource ?? [],
+                'userRoleName' => $user->getRoleNames()->toArray(),
                 'roles' => Role::get()->toArray() ?? []
             ]
         );

@@ -35,13 +35,18 @@
                   @enderror
                 </div>
 
+                {{-- @dd($user['roles']) --}}
+                @dd(array_column($user['roles'], 'id'))
                 <div class="mb-3">
                   <label for="role" class="form-label">Pilih Role</label>
                   <select class="form-select" name="role" id="role" aria-label="Default select example">
-                
+                    
                     @foreach ($roles as $role)
-                      <option value="{{ $role['id'] }}" @if(old('role', $userRoleName[0] === $role['name'])) selected @endif>
+                      {{-- <option value="{{ $role['id'] }}" @if(old('role', (array_column($user['roles'], 'name') === $role['name']))) selected @endif>
                           {{ $role['name'] }}
+                      </option> --}}
+                      <option value="" {{ in_array($role['name'], array_column($user['roles'], 'name')) ? 'checked' : '' }}>
+                        {{ $role['name'] }}
                       </option>
                     @endforeach
                   </select>
