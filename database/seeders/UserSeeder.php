@@ -22,35 +22,35 @@ class UserSeeder extends Seeder
             'jabatan_id' => 1
         ]);
 
-        User::create([
-            'name' => 'panglima',
-            'email' => 'panglima@email.com',
-            'password' => Hash::make('berlin123'),
-        ]);
+        // User::create([
+        //     'name' => 'panglima', 
+        //     'email' => 'panglima@email.com',
+        //     'password' => Hash::make('berlin123'),
+        // ]);
 
-        User::create([
-            'name' => 'admin',
-            'email' => 'admin@email.com',
-            'password' => Hash::make('tokyo123'),
-        ]);
+        // User::create([
+        //     'name' => 'admin',
+        //     'email' => 'admin@email.com',
+        //     'password' => Hash::make('tokyo123'),
+        // ]);
 
-        User::create([
-            'name' => 'jendral',
-            'email' => 'jendral@email.com',
-            'password' => Hash::make('palermo123'),
-        ]);
+        // User::create([
+        //     'name' => 'jendral',
+        //     'email' => 'jendral@email.com',
+        //     'password' => Hash::make('palermo123'),
+        // ]);
 
-        User::create([
-            'name' => 'mayor',
-            'email' => 'mayor@email.com',
-            'password' => Hash::make('jakarta123'),
-        ]);
+        // User::create([
+        //     'name' => 'mayor',
+        //     'email' => 'mayor@email.com',
+        //     'password' => Hash::make('jakarta123'),
+        // ]);
 
-        User::create([
-            'name' => 'kapten',
-            'email' => 'kapten@email.com',
-            'password' => Hash::make('london123'),
-        ]);
+        // User::create([
+        //     'name' => 'kapten',
+        //     'email' => 'kapten@email.com',
+        //     'password' => Hash::make('london123'),
+        // ]);
 
         $superAdmin->assignRole('Super Admin');
     }

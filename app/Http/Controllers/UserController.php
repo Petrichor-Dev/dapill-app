@@ -42,13 +42,16 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate($this->rules());
+        
         DB::beginTransaction();
         try {
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
+                'jabatan_id' => (int)$request->role
             ]);
+            // dd((int)$request->role);
             $user->assignRole($request->role);
             DB::commit();
             $request->session()->flash('success', 'Data User Berhasil di Tambahkan');
@@ -72,9 +75,6 @@ class UserController extends Controller
         );
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, User $user)
     {
         $request->validate([
@@ -90,6 +90,7 @@ class UserController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => $request->password ? Hash::make($request->password) : $user->password,
+                'jabatan_id' => (int)$request->role
             ]);
             $user->syncRoles($request->role);
             DB::commit();

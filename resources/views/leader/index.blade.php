@@ -62,7 +62,7 @@
                                                 @endcan
                                                 
                                                 @can('hapus-leader')
-                                                <a href="/leader/delete/{{ $leader['id'] }}">
+                                                <a  href="/leader/delete/{{ $leader['id'] }}">
                                                     <button type="button" class="btn btn-outline-danger">Hapus</button>
                                                 </a>
                                                 @endcan

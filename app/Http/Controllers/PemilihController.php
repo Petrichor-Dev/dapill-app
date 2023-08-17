@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Pemilih;
 use App\Models\Desa;
 use App\Models\Tps;
+use App\Models\Leader;
+use App\Models\User;
 use App\Models\Kecamatan;
 use Illuminate\Http\Request;
 use Exception;
@@ -24,26 +26,29 @@ class PemilihController extends Controller
             'kecamatan' => 'required',
             'desa' => 'required',
             'tps' => 'required',
+            'mayor' => 'required',
+            'leader' => 'required',
+            'kapten' => 'required'
         ];
     }
     
     public function index()
     {
-        $pemilihs = Pemilih::get()->toArray();
+        $pemilihs = Pemilih::get()->toArray() ?? [];
         return view("$this->componentPath/index",[
             'pemilihs' => $pemilihs
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view("$this->componentPath/create", [
-            'kecamatans' => Kecamatan::get()->toArray(),
-            'desas' => Desa::get()->toArray(),
-            'tpss' => Tps::get()->toArray()
+            'kecamatans' => Kecamatan::get()->toArray() ?? [],
+            'desas' => Desa::get()->toArray() ?? [],
+            'tpss' => Tps::get()->toArray() ?? [],
+            'leaders' => Leader::get()->toArray() ?? [],
+            'mayors' => User::where('jabatan_id', 5)->get()->toArray() ?? [],
+            'kaptens' => User::where('jabatan_id', 6)->get()->toArray() ?? []
         ]);
     }
 
@@ -60,7 +65,10 @@ class PemilihController extends Controller
        try {
            $category = Pemilih::create([
                'kecamatan_id' => $request->kecamatan,
-               'user_id' => 1,
+               'user_id' => Auth::user()->id,
+               'leader_id' => $request->leader,
+               'mayor_id' => $request->mayor,
+               'kapten_id' => $request->kapten,
                'tps_id' => $request->tps,
                'desa_id' => $request->desa,
                'namaDesa' => $desa,
@@ -81,12 +89,12 @@ class PemilihController extends Controller
 
     public function edit(Pemilih $pemilih)
     {
-        dd($pemilih->toArray());
+        dd($pemilih->toArray() ?? []);
         return view("$this->componentPath/edit", [
-            'pemilih' => $pemilih->toArray(),
-            'kecamatans' => Kecamatan::get()->toArray(),
-            'desas' => Desa::get()->toArray(),
-            'tpss' => Tps::get()->toArray()
+            'pemilih' => $pemilih->toArray() ?? [],
+            'kecamatans' => Kecamatan::get()->toArray() ?? [],
+            'desas' => Desa::get()->toArray() ?? [],
+            'tpss' => Tps::get()->toArray() ?? []
         ]);
     }
 
@@ -94,15 +102,18 @@ class PemilihController extends Controller
     {
         $request->validate($this->rules());
         $kecamatan = Kecamatan::where('id', $request->kecamatan)->pluck('nama')->get(0);
-       $desa = Desa::where('id', $request->desa)->pluck('nama')->get(0);
-       $tps = Tps::where('id', $request->tps)->pluck('nama')->get(0);
+        $desa = Desa::where('id', $request->desa)->pluck('nama')->get(0);
+        $tps = Tps::where('id', $request->tps)->pluck('nama')->get(0);
         DB::beginTransaction();
         try {
             $pemilih->update([
                 'kecamatan_id' => $request->kecamatan,
-                'user_id' => 1,
+                'user_id' => Auth::user()->id,
                 'tps_id' => $request->tps,
                 'desa_id' => $request->desa,
+                'leader_id' => $request->leader,
+                'mayor_id' => $request->mayor,
+                'kapten_id' => $request->kapten,
                 'namaDesa' => $desa,
                 'namaTps' => $tps,
                 'namaKecamatan' => $kecamatan,

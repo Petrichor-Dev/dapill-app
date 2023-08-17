@@ -50,9 +50,9 @@
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                        @foreach ($pemilihs as $pemilih)
+                                        @foreach ($pemilihs as $key => $pemilih)
                                         <tr>
-                                            <td>1</td>
+                                            <td>{{ $key+1 }}</td>
                                             <td>{{ $pemilih['nama'] }}</td>
                                             <td>{{ $pemilih['nik'] }}</td>
                                             <td>{{ $pemilih['namaTps'] }}</td>

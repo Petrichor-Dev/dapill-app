@@ -27,26 +27,20 @@
                   @enderror
                 </div>
 
-                <div class="mb-4">
+                {{-- <div class="mb-4">
                   <label for="password" class="form-label">Password</label>
                   <input name="password" type="password" class="form-control" id="password">
                   @error('password')
                       <div class="form-text text-danger">{{ $message }}</div>
                   @enderror
-                </div>
+                </div> --}}
 
-                {{-- @dd($user['roles']) --}}
-                @dd(array_column($user['roles'], 'id'))
                 <div class="mb-3">
-                  <label for="role" class="form-label">Pilih Role</label>
+                  <label for="role" class="form-label">Role</label>
                   <select class="form-select" name="role" id="role" aria-label="Default select example">
-                    
                     @foreach ($roles as $role)
-                      {{-- <option value="{{ $role['id'] }}" @if(old('role', (array_column($user['roles'], 'name') === $role['name']))) selected @endif>
+                      <option value="{{ $role['id'] }}" @if(old('role', $user['jabatan_id']) == $role['id']) selected @endif>
                           {{ $role['name'] }}
-                      </option> --}}
-                      <option value="" {{ in_array($role['name'], array_column($user['roles'], 'name')) ? 'checked' : '' }}>
-                        {{ $role['name'] }}
                       </option>
                     @endforeach
                   </select>
@@ -54,6 +48,24 @@
                       <div class="form-text text-danger">{{ $message }}</div>
                   @enderror
                 </div>
+
+                {{-- <div class="mb-3">
+                  <label for="role" class="form-label">Pilih Role</label>
+                  <select class="form-select" name="role" id="role" aria-label="Default select example">
+                    
+                    @foreach ($roles as $role)
+                      <option value="{{ $role['id'] }}" @if(old('role', (array_column($user['roles'], 'name') === $role['name']))) selected @endif>
+                          {{ $role['name'] }}
+                      </option>
+                      <option value="{{ $role['id'] }}" {{ in_array($role['name'], array_column($user['roles'], 'name')) ? 'checked' : '' }}>
+                        {{ $role['name'] }}
+                      </option>
+                    @endforeach
+                  </select>
+                  @error('role')
+                      <div class="form-text text-danger">{{ $message }}</div>
+                  @enderror
+                </div> --}}
 
                 <button type="submit" class="btn btn-primary">Submit</button>
               </form>
