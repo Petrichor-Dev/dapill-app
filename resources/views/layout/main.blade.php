@@ -108,9 +108,13 @@
                                                 {{-- <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div> --}}
                                             </a>
                                             @endcan
-                          
-                                            
 
+                                            @can('lihat-leader')
+                                            <a class="nav-link collapsed" href="/leader">
+                                                Leader
+                                                {{-- <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div> --}}
+                                            </a>
+                                            @endcan
                                 </nav>
                             </div>
                                 @can('lihat-pemilih')

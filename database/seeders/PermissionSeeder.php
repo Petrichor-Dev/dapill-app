@@ -19,6 +19,7 @@ class PermissionSeeder extends Seeder
             'lihat-desa', 'tambah-desa', 'edit-desa', 'hapus-desa',
             'lihat-tps', 'tambah-tps', 'edit-tps', 'hapus-tps',
             'lihat-pemilih', 'tambah-pemilih', 'edit-pemilih', 'hapus-pemilih',
+            'lihat-leader', 'tambah-leader', 'edit-leader', 'hapus-leader',
             'lihat-dpt', 'tambah-dpt', 'edit-dpt', 'hapus-dpt',
             'lihat-role', 'tambah-role', 'edit-role', 'hapus-role',
             'lihat-user', 'tambah-user', 'edit-user', 'hapus-user',

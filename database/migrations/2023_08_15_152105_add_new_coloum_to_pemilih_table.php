@@ -10,6 +10,7 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
+    
     {
         Schema::table('pemilih', function (Blueprint $table) {
             $table->foreignId('leader_id')->constrained('leaders');

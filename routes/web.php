@@ -9,7 +9,7 @@ use App\Http\Controllers\PemilihController;
 use App\Http\Controllers\DptController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
-
+use App\Http\Controllers\LeaderController;  
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -73,6 +73,16 @@ Route::prefix('/dpt')->name('.dpt')->middleware('auth')->group(function () {
     Route::post('/create', [DptController::class, 'store']);
     Route::put('/edit/{pemilih}', [DptController::class, 'update']);
     Route::get('/delete/{pemilih}', [DptController::class, 'destroy']);
+});
+
+//leader
+Route::get('/tambah-leader', [LeaderController::class, 'create'])->middleware('auth');
+Route::get('/edit-leader/{leader}', [LeaderController::class, 'edit'])->middleware('auth');
+Route::prefix('/leader')->name('.leader')->middleware('auth')->group(function () {
+    Route::get('/', [LeaderController::class, 'index']);
+    Route::post('/create', [LeaderController::class, 'store']);
+    Route::put('/edit/{leader}', [LeaderController::class, 'update']);
+    Route::get('/delete/{leader}', [LeaderController::class, 'destroy']);
 });
 
 Route::get('/dashboard', function () {

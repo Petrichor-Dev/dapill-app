@@ -3,3 +3,9 @@ panglima can all (berlin123)
 jendral can kec, !del (palermo123)
 mayor can des, !del (jakarta123)
 prajurit can tps, !del (london123)  
+
+
+add tombol back di semua form edit dan tambah
+tambah can add dan edit di halaman add dan edit
+tambah miidleware can untuk hapus
+add alert when delete

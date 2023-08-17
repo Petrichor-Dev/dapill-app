@@ -62,8 +62,6 @@ class UserController extends Controller
     {
 
         $userData = new UserResource($user->load(['roles'])->toArray());
-        // dd($x);
-        // dd($user->getRoleNames()->toArray());
         return view(
             "$this->componentPath/Edit",
             [
@@ -102,9 +100,6 @@ class UserController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(User $user)
     {
         DB::beginTransaction();
