@@ -44,9 +44,9 @@
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                        @foreach ($desas as $desa)
+                                        @foreach ($desas as $key => $desa)
                                         <tr>
-                                            <td>1</td>
+                                            <td>{{ $key+1 }}</td>
                                             <td>{{ $desa['nama'] }}</td>
                                             <td>{{ $desa['ketua'] }}</td>
                                             <td>{{ $desa['jumlah_tps'] }}</td>

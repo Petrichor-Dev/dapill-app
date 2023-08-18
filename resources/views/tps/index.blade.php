@@ -47,9 +47,9 @@
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                        @foreach ($tpss as $tps)
+                                        @foreach ($tpss as $key => $tps)
                                         <tr>
-                                            <td>1</td>
+                                            <td>{{ $key+1 }}</td>
                                             <td>{{ $tps['nama'] }}</td>
                                             <td>{{ $tps['jumlah_pemilih'] }} orang</td>
                                             <td>{{ $tps['ketua'] }}</td>

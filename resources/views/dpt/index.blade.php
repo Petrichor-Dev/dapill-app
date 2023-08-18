@@ -30,7 +30,9 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Nama</th>
-                                            <th>NIK</th>
+                                            <th>Leader</th>
+                                            <th>Kapten</th>
+                                            <th>Mayor</th>
                                             <th>Nama TPS</th>
                                             <th>Status Memilih</th>
                                             <th>Admin</th>
@@ -41,7 +43,9 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Nama</th>
-                                            <th>NIK</th>
+                                            <th>Leader</th>
+                                            <th>Kapten</th>
+                                            <th>Mayor</th>
                                             <th>Nama TPS</th>
                                             <th>Status Memilih</th>
                                             <th>Admin</th>
@@ -49,16 +53,18 @@
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                        @foreach ($pemilihs as $pemilih)
+                                        @foreach ($pemilihs as $key => $pemilih)
                                         <tr>
-                                            <td>1</td>
+                                            <td>{{ $key+1 }}</td>
                                             <td>{{ $pemilih['nama'] }}</td>
-                                            <td>{{ $pemilih['nik'] }}</td>
+                                            <td>{{ $pemilih['leader']['name'] }}</td>
+                                            <td>{{ $pemilih['kapten']['name'] }}</td>
+                                            <td>{{ $pemilih['mayor']['name'] }}</td>
                                             <td>{{ $pemilih['namaTps'] }}</td>
                                             <td>
                                                 -
                                             </td>
-                                            <td>isan</td>
+                                            <td>{{ $pemilih['user_admin']['name'] }}</td>
                                             <td>
                                                 @can('edit-dpt')
                                                 <a href="/edit-dpt/{{ $pemilih['id'] }}">

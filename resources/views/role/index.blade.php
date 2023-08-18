@@ -42,10 +42,10 @@
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                        @foreach ($roles->resource as $role)
+                                        @foreach ($roles->resource as $key => $role)
                                         
                                         <tr>
-                                            <td>1</td>
+                                            <td>{{ $key+1 }}</td>
                                             <td>{{$role['name'] }}</td>
                                             <td>
                                                 @can('edit-role')

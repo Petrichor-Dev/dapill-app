@@ -45,9 +45,9 @@
                             </tr>
                         </tfoot>
                         <tbody>
-                            @foreach ($kecamatans as $kecamatan)
+                            @foreach ($kecamatans as $key => $kecamatan)
                             <tr>
-                                <td>1.</td> 
+                                <td>{{ $key+1 }}</td> 
                                 <td>{{ $kecamatan['nama'] }}</td>
                                 <td>{{ $kecamatan['ketua'] }}</td>
                                 <td>{{ $kecamatan['jumlah_desa'] }}</td>

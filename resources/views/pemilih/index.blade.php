@@ -31,7 +31,9 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Nama</th>
-                                            <th>NIK</th>
+                                            <th>Leader</th>
+                                            <th>Kapten</th>
+                                            <th>Mayor</th>
                                             <th>Nama TPS</th>
                                             <th>Status Memilih</th>
                                             <th>Admin</th>
@@ -42,7 +44,9 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Nama</th>
-                                            <th>NIK</th>
+                                            <th>Leader</th>
+                                            <th>Kapten</th>
+                                            <th>Mayor</th>
                                             <th>Nama TPS</th>
                                             <th>Status Memilih</th>
                                             <th>Admin</th>
@@ -54,12 +58,30 @@
                                         <tr>
                                             <td>{{ $key+1 }}</td>
                                             <td>{{ $pemilih['nama'] }}</td>
-                                            <td>{{ $pemilih['nik'] }}</td>
+                                            <td>{{ $pemilih['leader']['name'] }}</td>
+                                            <td>{{ $pemilih['kapten']['name'] }}</td>
+                                            <td>{{ $pemilih['mayor']['name'] }}</td>
                                             <td>{{ $pemilih['namaTps'] }}</td>
                                             <td>
-                                                <span class="badge text-bg-success">{{ $pemilih['status_memilih'] }}</span>
+                                                @switch($pemilih['status_memilih'])
+                                                    @case('Ragu-Ragu')
+                                                        <span class="badge text-bg-warning">{{ $pemilih['status_memilih'] }}</span>
+                                                        @break
+
+                                                    @case('Memilih')
+                                                        <span class="badge text-bg-success">{{ $pemilih['status_memilih'] }}</span>
+                                                        @break
+
+                                                    @case('Tidak-Memilih')
+                                                        <span class="badge text-bg-danger">{{ $pemilih['status_memilih'] }}</span>
+                                                        @break
+
+                                                
+                                                    @default
+                                                        
+                                                @endswitch
                                             </td>
-                                            <td>isan</td>
+                                            <td>{{ $pemilih['user_admin']['name'] }}</td>
                                             <td>
                                                 @can('edit-pemilih')
                                                 <a href="/edit-pemilih/{{ $pemilih['id'] }}">

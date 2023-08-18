@@ -34,7 +34,8 @@ class PemilihController extends Controller
     
     public function index()
     {
-        $pemilihs = Pemilih::get()->toArray() ?? [];
+        $pemilihs = Pemilih::with(['userAdmin', 'leader', 'kapten', 'mayor'])->get()->toArray() ?? [];
+        // dd($pemilihs);
         return view("$this->componentPath/index",[
             'pemilihs' => $pemilihs
         ]);
@@ -89,12 +90,15 @@ class PemilihController extends Controller
 
     public function edit(Pemilih $pemilih)
     {
-        dd($pemilih->toArray() ?? []);
+        // dd($pemilih->toArray() ?? []);
         return view("$this->componentPath/edit", [
             'pemilih' => $pemilih->toArray() ?? [],
             'kecamatans' => Kecamatan::get()->toArray() ?? [],
             'desas' => Desa::get()->toArray() ?? [],
-            'tpss' => Tps::get()->toArray() ?? []
+            'tpss' => Tps::get()->toArray() ?? [],
+            'leaders' => Leader::get()->toArray() ?? [],
+            'mayors' => User::where('jabatan_id', 5)->get()->toArray() ?? [],
+            'kaptens' => User::where('jabatan_id', 6)->get()->toArray() ?? []
         ]);
     }
 

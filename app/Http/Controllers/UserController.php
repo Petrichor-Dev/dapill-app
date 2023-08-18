@@ -66,7 +66,7 @@ class UserController extends Controller
 
         $userData = new UserResource($user->load(['roles'])->toArray());
         return view(
-            "$this->componentPath/Edit",
+            "$this->componentPath/edit",
             [
                 'user' => $userData->resource ?? [],
                 'userRoleName' => $user->getRoleNames()->toArray(),

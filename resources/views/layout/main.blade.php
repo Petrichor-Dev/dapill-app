@@ -118,7 +118,7 @@
                                 </nav>
                             </div>
                                 @can('lihat-pemilih')
-                                <a class="nav-link" href="dpt">
+                                <a class="nav-link" href="/dpt">
                                     <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                                     DPT
                                 </a>

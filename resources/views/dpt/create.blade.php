@@ -71,6 +71,51 @@
                   @enderror
                 </div>
 
+                <div class="mb-3">
+                  <label for="leader" class="form-label">Leader</label>
+                  <select class="form-select" name="leader" id="leader" aria-label="Default select example">
+                    <option selected>Pilih Leader</option>
+                    @foreach ($leaders as $leader)
+                      <option value="{{ $leader['id'] }}" @selected(old('leader') == $leader['name'])>
+                          {{ $leader['name'] }}
+                      </option>
+                    @endforeach
+                  </select>
+                  @error('leader')
+                      <div class="form-text text-danger">{{ $message }}</div>
+                  @enderror
+                </div>
+
+                <div class="mb-3">
+                  <label for="mayor" class="form-label">Mayor</label>
+                  <select class="form-select" name="mayor" id="mayor" aria-label="Default select example">
+                    <option selected>Pilih Mayor</option>
+                    @foreach ($mayors as $mayor)
+                      <option value="{{ $mayor['id'] }}" @selected(old('mayor') == $mayor['name'])>
+                          {{ $mayor['name'] }}
+                      </option>
+                    @endforeach
+                  </select>
+                  @error('mayor')
+                      <div class="form-text text-danger">{{ $message }}</div>
+                  @enderror
+                </div>
+
+                <div class="mb-3">
+                  <label for="kapten" class="form-label">Kapten</label>
+                  <select class="form-select" name="kapten" id="kapten" aria-label="Default select example">
+                    <option selected>Pilih Kapten</option>
+                    @foreach ($kaptens as $kapten)
+                      <option value="{{ $kapten['id'] }}" @selected(old('kapten') == $kapten['name'])>
+                          {{ $kapten['name'] }}
+                      </option>
+                    @endforeach
+                  </select>
+                  @error('kapten')
+                      <div class="form-text text-danger">{{ $message }}</div>
+                  @enderror
+                </div>
+
                 <button type="submit" class="btn btn-primary">Submit</button>
               </form>
             </div>
