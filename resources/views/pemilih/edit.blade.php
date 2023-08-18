@@ -7,6 +7,7 @@
                 <li class="breadcrumb-item active">Edit Data Pemilih</li>
             </ol>
             
+            @can('edit-pemilih')
             <div class="mb-4">
               <form method="POST" action="/pemilih/edit/{{ $pemilih['id'] }}">
                 @method('PUT')
@@ -130,6 +131,7 @@
                 <button type="submit" class="btn btn-primary">Submit</button>
               </form>
             </div>
+            @endcan
         </div>
     </main>
 @endsection

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kecamatan;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -17,7 +18,7 @@ class KecamatanController extends Controller
     {
         return [
             'namaKecamatan' => 'required|string',
-            'namaJendral' => 'required|string',
+            'jendral' => 'required',
             'jumlahDesa' => 'required|integer',
         ];
     }
@@ -25,7 +26,7 @@ class KecamatanController extends Controller
 
     public function index()
     {
-       $kecamatans = Kecamatan::get()->toArray();
+       $kecamatans = Kecamatan::with('jendral')->get()->toArray();
        return view("$this->componentPath/index", [
         'kecamatans' =>$kecamatans
        ]);
@@ -33,7 +34,9 @@ class KecamatanController extends Controller
 
     public function create()
     {
-        return view("$this->componentPath/create");
+        return view("$this->componentPath/create", [
+            'jendrals' => User::where('jabatan_id', 4)->get()->toArray() ?? []
+        ]);
     }
 
     public function store(Request $request)
@@ -43,9 +46,9 @@ class KecamatanController extends Controller
         try {
             $category = Kecamatan::create([
                 'nama' => $request->namaKecamatan,
-                'ketua' => $request->namaJendral,
+                'jendral_id' => $request->jendral,
                 'jumlah_desa' => $request->jumlahDesa,
-                'user_id' => 1,
+                'user_id' => Auth::user()->id,
             ]);
 
             DB::commit();
@@ -59,7 +62,8 @@ class KecamatanController extends Controller
     public function edit(Kecamatan $kecamatan)
     {
         return view("$this->componentPath/edit", [
-            'kecamatan' => $kecamatan->toArray()
+            'kecamatan' => $kecamatan->toArray(),
+            'jendrals' => User::where('jabatan_id', 4)->get()->toArray() ?? []
         ]);
     }
 
@@ -70,9 +74,9 @@ class KecamatanController extends Controller
         try {
             $kecamatan->update([
                 'nama' => $request->namaKecamatan,
-                'ketua' => $request->namaJendral,
+                'jendral_id' => $request->jendral,
                 'jumlah_desa' => $request->jumlahDesa,
-                'user_id' => 1,
+                'user_id' => Auth::user()->id,
             ]);
 
             DB::commit();

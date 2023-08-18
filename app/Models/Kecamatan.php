@@ -11,4 +11,9 @@ class Kecamatan extends Model
     protected $guarded = [];
 
     protected $table = 'kecamatan';
+
+    public function jendral()
+    {
+        return $this->belongsTo(User::class, 'jendral_id', 'id', 'name');
+    }
 }

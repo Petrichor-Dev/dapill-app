@@ -7,6 +7,7 @@
                 <li class="breadcrumb-item active">Tambah Data Desa</li>
             </ol>
             
+            @can('tambah-desa')
             <div class="mb-4">
               <form method="POST" action="/desa/create">
                 @csrf
@@ -34,9 +35,15 @@
                 </div>
                 
                 <div class="mb-3">
-                  <label for="namaMayor" class="form-label">Nama Mayor</label>
-                  <input type="text" name="namaMayor" class="form-control" id="namaMayor">
-                  @error('namaMayor')
+                  <label for="mayor" class="form-label">mayor</label>
+                  <select class="form-select" name="mayor" id="mayor" aria-label="Default select example">
+                    <option selected>Pilih mayor</option>
+                    @foreach ($mayors as $mayor)
+                      <option value="{{ $mayor['id'] }}" @selected(old('mayor') == $mayor['name'])>
+                          {{ $mayor['name'] }}
+                    @endforeach
+                  </select>
+                  @error('mayor')
                       <div class="form-text text-danger">{{ $message }}</div>
                   @enderror
                 </div>
@@ -51,6 +58,7 @@
                 <button type="submit" class="btn btn-primary">Submit</button>
               </form>
             </div>
+            @endcan
         </div>
     </main>
 @endsection

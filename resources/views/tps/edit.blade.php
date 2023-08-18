@@ -7,6 +7,7 @@
                 <li class="breadcrumb-item active">Edit Data TPS</li>
             </ol>
             
+            @can('edit-tps')
             <div class="mb-4">
               <form method="POST" action="/tps/edit/{{ $tps['id'] }}">
                 @method('PUT')
@@ -46,6 +47,7 @@
                 <button type="submit" class="btn btn-primary">Submit</button>
               </form>
             </div>
+            @endcan
         </div>
     </main>
 @endsection

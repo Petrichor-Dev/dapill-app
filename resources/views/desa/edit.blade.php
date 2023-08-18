@@ -7,6 +7,7 @@
                 <li class="breadcrumb-item active">Edit Data Desa</li>
             </ol>
             
+            @can('edit-desa')
             <div class="mb-4">
               <form method="POST" action="/desa/edit/{{ $desa['id'] }}">
                 @method('PUT')
@@ -28,10 +29,20 @@
                   </select>
               </div>
               
-                <div class="mb-3">
-                  <label for="namaMayor" class="form-label">Nama Mayor</label>
-                  <input value="{{ $desa['ketua'] }}" type="text" name="namaMayor" class="form-control" id="namaMayor">
-                </div>
+              <div class="mb-3">
+                <label for="mayor" class="form-label">mayor</label>
+                <select class="form-select" name="mayor" id="mayor" aria-label="Default select example">
+                  <option selected>Pilih mayor</option>
+                  @foreach ($mayors as $mayor)
+                    <option value="{{ $mayor['id'] }}" @selected(old('mayor', $desa['mayor_id']) == $mayor['id'])>
+                        {{ $mayor['name'] }}
+                    </option>
+                  @endforeach
+                </select>
+                @error('mayor')
+                    <div class="form-text text-danger">{{ $message }}</div>
+                @enderror
+              </div>
 
                 <div class="mb-4">
                   <label for="jumlahTps" class="form-label">Jumlah Tps</label>
@@ -40,6 +51,7 @@
                 <button type="submit" class="btn btn-primary">Submit</button>
               </form>
             </div>
+            @endcan
         </div>
     </main>
 @endsection

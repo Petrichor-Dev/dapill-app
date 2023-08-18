@@ -23,6 +23,7 @@
                                 @endcan
                             </div>
                             
+                            @can('lihat-desa')
                             <div class="card-body">
                                 <table id="datatablesSimple">
                                     <thead>
@@ -48,7 +49,7 @@
                                         <tr>
                                             <td>{{ $key+1 }}</td>
                                             <td>{{ $desa['nama'] }}</td>
-                                            <td>{{ $desa['ketua'] }}</td>
+                                            <td>{{ $desa['mayor']['name'] }}</td>
                                             <td>{{ $desa['jumlah_tps'] }}</td>
                                             <td>
                                                 @can('edit-desa')
@@ -68,6 +69,7 @@
                                     </tbody>
                                 </table>
                             </div>
+                            @endcan
                         </div>
                     </div>
                 </main>

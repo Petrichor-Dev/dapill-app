@@ -25,6 +25,7 @@
                                 @endcan
                             </div>
                             
+                            @can('lihat-dpt')
                             <div class="card-body">
                                 <table id="datatablesSimple">
                                     <thead>
@@ -69,6 +70,7 @@
                                     </tbody>
                                 </table>
                             </div>
+                            @endcan
                         </div>
                     </div>
                 </main>

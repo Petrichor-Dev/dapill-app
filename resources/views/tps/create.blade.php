@@ -7,6 +7,7 @@
                 <li class="breadcrumb-item active">Tambah Data TPS</li>
             </ol>
             
+            @can('tambah-tps')
             <div class="mb-4">
               <form method="POST" action="/tps/create">
                 @csrf
@@ -58,6 +59,7 @@
                 <button type="submit" class="btn btn-primary">Submit</button>
               </form>
             </div>
+            @endcan
         </div>
     </main>
 @endsection

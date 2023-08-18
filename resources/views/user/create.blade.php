@@ -7,6 +7,7 @@
                 <li class="breadcrumb-item active">Tambah Data User</li>
             </ol>
             
+            @can('tambah-user')
             <div class="mb-4">
               <form method="POST" action="/user/create">
                 @csrf
@@ -52,6 +53,7 @@
                 <button type="submit" class="btn btn-primary">Submit</button>
               </form>
             </div>
+            @endcan
         </div>
     </main>
 @endsection

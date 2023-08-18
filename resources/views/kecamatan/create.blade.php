@@ -7,6 +7,7 @@
                 <li class="breadcrumb-item active">Tambah Data Kecamatan</li>
             </ol>
             
+            @can('tambah-kecamatan')
             <form method="POST" action="/kecamatan/create">
               @csrf
                 <div class="mb-3">
@@ -16,13 +17,20 @@
                       <div class="form-text text-danger">{{ $message }}</div>
                   @enderror
                 </div>
+
                 <div class="mb-3">
-                  <label for="namaJendral" class="form-label">Nama Jendral</label>
-                  <input type="text" class="form-control" name="namaJendral" id="namaJendral">
-                  @error('namaJendral')
+                  <label for="jendral" class="form-label">jendral</label>
+                  <select class="form-select" name="jendral" id="jendral" aria-label="Default select example">
+                    <option selected>Pilih jendral</option>
+                    @foreach ($jendrals as $jendral)
+                      <option value="{{ $jendral['id'] }}" @selected(old('jendral') == $jendral['name'])>
+                          {{ $jendral['name'] }}                    @endforeach
+                  </select>
+                  @error('jendral')
                       <div class="form-text text-danger">{{ $message }}</div>
                   @enderror
                 </div>
+
                 <div class="mb-3">
                   <label for="jumlahDesa" class="form-label">Jumlah Desa</label>
                   <input type="number" class="form-control" name="jumlahDesa" id="jumlahDesa">
@@ -32,6 +40,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
+            @endcan
         </div>
     </main>
 @endsection

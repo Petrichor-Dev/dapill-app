@@ -25,13 +25,14 @@
                     @endcan
                 </div>
                 
+                @can('lihat-kecamatan')
                 <div class="card-body">
                     <table id="datatablesSimple">
                         <thead>
                             <tr>
                                 <th>No</th>
                                 <th>Kecamatan</th>
-                                <th>Ketua</th>
+                                <th>Jendral</th>
                                 <th>Jumlah Desa</th>
                                 <th>Aksi</th>
                             </tr>
@@ -39,7 +40,7 @@
                         <tfoot>
                             <tr>
                                 <th>Kecamatan</th>
-                                <th>Ketua</th>
+                                <th>Jendral</th>
                                 <th>Jumlah Desa</th>
                                 <th>Aksi</th>
                             </tr>
@@ -49,7 +50,7 @@
                             <tr>
                                 <td>{{ $key+1 }}</td> 
                                 <td>{{ $kecamatan['nama'] }}</td>
-                                <td>{{ $kecamatan['ketua'] }}</td>
+                                <td>{{ $kecamatan['jendral']['name'] }}</td>
                                 <td>{{ $kecamatan['jumlah_desa'] }}</td>
                                 <td>
                                     @can('edit-kecamatan')
@@ -69,6 +70,7 @@
                         </tbody>
                     </table>
                 </div>
+                @endcan
             </div>
         </div>
     </main>

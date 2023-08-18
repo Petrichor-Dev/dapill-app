@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Desa;
+use App\Models\User;
 use App\Models\Kecamatan;
 use Illuminate\Http\Request;
 use Exception;
@@ -19,16 +20,17 @@ class DesaController extends Controller
         return [
             'kecamatan' => 'required',
             'namaDesa' => 'required|string',
-            'namaMayor' => 'required|string',
+            'mayor' => 'required',
             'jumlahTps' => 'required|integer',
         ];
     }
 
     public function index()
     {
-        $desas = Desa::get()->toArray();
+        $desas = Desa::with('mayor')->get()->toArray();
         return view("$this->componentPath/index", [
-         'desas' =>$desas
+         'desas' =>$desas ?? [],
+         
         ]);
     }
 
@@ -36,22 +38,22 @@ class DesaController extends Controller
     {
         $kecamatans = Kecamatan::get()->toArray();
         return view("$this->componentPath/create", [
-            'kecamatans' => $kecamatans
+            'kecamatans' => $kecamatans ?? [],
+            'mayors' => User::where('jabatan_id', 5)->get()->toArray() ?? []
         ]);
     }
 
     public function store(Request $request)
     {
-        // dd($request->all());
         $request->validate($this->rules());
         DB::beginTransaction();
         try {
             $category = Desa::create([
                 'nama' => $request->namaDesa,
-                'ketua' => $request->namaMayor,
+                'mayor_id' => $request->mayor,
                 'jumlah_tps' => $request->jumlahTps,
                 'kecamatan_id' => $request->kecamatan,
-                'user_id' => 1,
+                'user_id' => Auth::user()->id,
             ]);
 
             DB::commit();
@@ -67,7 +69,8 @@ class DesaController extends Controller
         $kecamatans = Kecamatan::get()->toArray();
         return view("$this->componentPath/edit", [
             'desa' => $desa->toArray(),
-            'kecamatans' => $kecamatans
+            'kecamatans' => $kecamatans,
+            'mayors' => User::where('jabatan_id', 5)->get()->toArray() ?? []
         ]);
     }
 
@@ -78,10 +81,10 @@ class DesaController extends Controller
         try {
             $desa->update([
                 'nama' => $request->namaDesa,
-                'ketua' => $request->namaMayor,
+                'mayor_id' => $request->mayor,
                 'jumlah_tps' => $request->jumlahTps,
                 'kecamatan_id' => $request->kecamatan,
-                'user_id' => 1,
+                'user_id' => Auth::user()->id,
             ]);
 
             DB::commit();

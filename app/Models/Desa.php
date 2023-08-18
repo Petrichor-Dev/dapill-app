@@ -11,4 +11,9 @@ class Desa extends Model
     protected $guarded = [];
 
     protected $table = 'desa';
+
+    public function mayor()
+    {
+        return $this->belongsTo(User::class, 'mayor_id', 'id', 'name');
+    }
 }
