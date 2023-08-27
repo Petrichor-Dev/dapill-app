@@ -13,7 +13,7 @@
                 @csrf
                 <div class="mb-3">
                   <label for="nama" class="form-label">Nama</label>
-                  <input name="nama" type="text" class="form-control" id="nama">
+                  <input name="nama" type="text" class="form-control" id="nama" value="{{ old('nama') }}">
                   @error('nama')
                       <div class="form-text text-danger">{{ $message }}</div>
                   @enderror
@@ -21,7 +21,7 @@
 
                 <div class="mb-4">
                   <label for="NIK" class="form-label">NIK</label>
-                  <input name="nik" type="number" class="form-control" id="NIK">
+                  <input name="nik" type="number" class="form-control" id="NIK" value="{{ old('nik') }}">
                   @error('nik')
                       <div class="form-text text-danger">{{ $message }}</div>
                   @enderror
@@ -32,7 +32,8 @@
                   <select class="form-select" name="kecamatan" id="kecamatan" aria-label="Default select example">
                     <option selected>Pilih Kecamatan</option>
                     @foreach ($kecamatans as $kecamatan)
-                      <option value="{{ $kecamatan['id'] }}" @selected(old('kecamatan') == $kecamatan['nama'])>
+                    {{-- @selected(old('kecamatan')) --}}
+                      <option value="{{ $kecamatan['id'] }}" >
                           {{ $kecamatan['nama'] }}
                       </option>
                     @endforeach
@@ -47,7 +48,8 @@
                   <select class="form-select" name="desa" id="desa" aria-label="Default select example">
                     <option selected>Pilih Desa</option>
                     @foreach ($desas as $desa)
-                      <option value="{{ $desa['id'] }}" @selected(old('desa') == $desa['nama'])>
+                    {{-- @selected(old('desa')) --}}
+                      <option value="{{ $desa['id'] }}" >
                           {{ $desa['nama'] }}
                       </option>
                     @endforeach
@@ -62,7 +64,8 @@
                   <select class="form-select" name="tps" id="tps" aria-label="Default select example">
                     <option selected>Pilih TPS</option>
                     @foreach ($tpss as $tps)
-                    <option value="{{ $tps['id'] }}" @selected(old('tps') == $tps['nama'])>
+                    {{-- @selected(old('tps')) --}}
+                    <option value="{{ $tps['id'] }}" >
                         {{ $tps['nama'] }}
                     </option>
                   @endforeach
@@ -77,7 +80,8 @@
                   <select class="form-select" name="leader" id="leader" aria-label="Default select example">
                     <option selected>Pilih Leader</option>
                     @foreach ($leaders as $leader)
-                      <option value="{{ $leader['id'] }}" @selected(old('leader') == $leader['name'])>
+                      {{-- @selected(old('leader')) --}}
+                      <option value="{{ $leader['id'] }}" >
                           {{ $leader['name'] }}
                       </option>
                     @endforeach
@@ -92,7 +96,8 @@
                   <select class="form-select" name="mayor" id="mayor" aria-label="Default select example">
                     <option selected>Pilih Mayor</option>
                     @foreach ($mayors as $mayor)
-                      <option value="{{ $mayor['id'] }}" @selected(old('mayor') == $mayor['name'])>
+                    {{-- @selected(old('mayor')) --}}
+                      <option value="{{ $mayor['id'] }}" >
                           {{ $mayor['name'] }}
                       </option>
                     @endforeach
@@ -107,7 +112,8 @@
                   <select class="form-select" name="kapten" id="kapten" aria-label="Default select example">
                     <option selected>Pilih Kapten</option>
                     @foreach ($kaptens as $kapten)
-                      <option value="{{ $kapten['id'] }}" @selected(old('kapten') == $kapten['name'])>
+                    {{-- @selected(old('kapten')) --}}
+                      <option value="{{ $kapten['id'] }}" >
                           {{ $kapten['name'] }}
                       </option>
                     @endforeach
@@ -121,9 +127,9 @@
                   <label for="statusMemilih" class="form-label">Status Memilih</label>
                   <select class="form-select" name="statusMemilih" id="statusMemilih" aria-label="Default select example">
                     <option selected>Pilih Status</option>
-                    <option value="Ragu-Ragu">Ragu Ragu</option>
-                    <option value="Memilih">Memilih</option>
-                    <option value="Tidak-Memilih">Tidak Memilih</option>
+                    @foreach ($statusMemilih as $item)
+                    <option value="{{ $item }}">{{ $item }}</option>
+                    @endforeach
                   </select>
                   @error('statusMemilih')
                       <div class="form-text text-danger">{{ $message }}</div>

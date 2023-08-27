@@ -14,7 +14,7 @@ class LeaderController extends Controller
     public function rules()
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255', 'unique:leaders,name'],
         ];
     }
 
@@ -33,9 +33,7 @@ class LeaderController extends Controller
     public function store(Request $request)
     {
         $request->validate($this->rules());
-        if(Leader::where('name', $request->name)->first() === null)        
-        {
-            DB::beginTransaction();
+        DB::beginTransaction();
             try {
                 $user = Leader::create([
                     'name' => $request->name,
@@ -46,10 +44,6 @@ class LeaderController extends Controller
             } catch (\Exception $e) {
                 return back()->withErrors(['message' => $e->getMessage()]);
             }
-        }
-
-        $request->session()->flash('danger', 'Nama leader sudah di gunakan. Silahkan gunakan nama lain');
-        return redirect('/leader');
     }
 
     public function edit(leader $leader)
@@ -62,9 +56,7 @@ class LeaderController extends Controller
     public function update(Request $request, leader $leader)
     {
         $request->validate($this->rules());
-        if(Leader::where('name', $request->name)->first() === null)
-        {
-            DB::beginTransaction();
+        DB::beginTransaction();
             try {
                 $leader->update([
                     'name' => $request->name,
@@ -75,10 +67,6 @@ class LeaderController extends Controller
             } catch (\Exception $e) {
                 return back()->withErrors(['message' => $e->getMessage()]);
             }
-        }
-
-        $request->session()->flash('danger', 'Nama leader sudah di gunakan. Silahkan gunakan nama lain');
-        return back();
     }
 
     public function destroy(leader $leader)

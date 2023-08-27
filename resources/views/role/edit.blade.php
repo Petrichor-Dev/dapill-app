@@ -13,9 +13,9 @@
               @method('PUT')
               @csrf
               <div class="mb-3">
-                <label for="nama" class="form-label">Nama</label>
-                <input name="nama" type="text" class="form-control" id="nama" value="{{ $dataWithPermissions['name'] }}">
-                @error('nama')
+                <label for="name" class="form-label">Nama</label>
+                <input name="name" type="text" class="form-control" id="name" value="{{ $dataWithPermissions['name'] }}">
+                @error('name')
                     <div class="form-text text-danger">{{ $message }}</div>
                 @enderror
               </div>

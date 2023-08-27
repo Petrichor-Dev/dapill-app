@@ -12,9 +12,9 @@
               <form method="POST" action="/role/create">
                 @csrf
                 <div class="mb-3">
-                  <label for="nama" class="form-label">Nama</label>
-                  <input name="nama" type="text" class="form-control" id="nama">
-                  @error('nama')
+                  <label for="name" class="form-label">Nama</label>
+                  <input name="name" type="text" class="form-control" id="name">
+                  @error('name')
                       <div class="form-text text-danger">{{ $message }}</div>
                   @enderror
                 </div>

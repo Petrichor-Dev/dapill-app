@@ -15,22 +15,24 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Exports\PemilihExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Validation\Rule;
 
 class PemilihController extends Controller
 {
     public $componentPath = "pemilih";
     
     public function rules()
-    {
+    { 
         return [
             'nama' => 'required|string',
-            'nik' => 'required|integer',
+            'nik' => 'required|digits:16|integer|unique:pemilih,nik',
             'kecamatan' => 'required',
             'desa' => 'required',
             'tps' => 'required',
             'mayor' => 'required',
             'leader' => 'required',
-            'kapten' => 'required'
+            'kapten' => 'required',
+            'statusMemilih' => 'required'
         ];
     }
     
@@ -51,17 +53,11 @@ class PemilihController extends Controller
             'tpss' => Tps::get()->toArray() ?? [],
             'leaders' => Leader::get()->toArray() ?? [],
             'mayors' => User::where('jabatan_id', 5)->get()->toArray() ?? [],
-            'kaptens' => User::where('jabatan_id', 6)->get()->toArray() ?? []
+            'kaptens' => User::where('jabatan_id', 6)->get()->toArray() ?? [],
+            'statusMemilih' => ['Memilih', 'Ragu-Ragu', 'Tidak-Memilih']
         ]);
     }
 
-    public function show($status){
-        dd($status);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
        $request->validate($this->rules());
@@ -95,9 +91,7 @@ class PemilihController extends Controller
     }
 
     public function edit(Pemilih $pemilih)
-    {
-        // dd($pemilih->toArray() ?? []);
-        return view("$this->componentPath/edit", [
+    {        return view("$this->componentPath/edit", [
             'pemilih' => $pemilih->toArray() ?? [],
             'kecamatans' => Kecamatan::get()->toArray() ?? [],
             'desas' => Desa::get()->toArray() ?? [],
@@ -110,34 +104,39 @@ class PemilihController extends Controller
 
     public function update(Request $request, Pemilih $pemilih)
     {
-        $request->validate($this->rules());
-        $kecamatan = Kecamatan::where('id', $request->kecamatan)->pluck('nama')->get(0);
-        $desa = Desa::where('id', $request->desa)->pluck('nama')->get(0);
-        $tps = Tps::where('id', $request->tps)->pluck('nama')->get(0);
-        DB::beginTransaction();
-        try {
-            $pemilih->update([
-                'kecamatan_id' => $request->kecamatan,
-                'user_id' => Auth::user()->id,
-                'tps_id' => $request->tps,
-                'desa_id' => $request->desa,
-                'leader_id' => $request->leader,
-                'mayor_id' => $request->mayor,
-                'kapten_id' => $request->kapten,
-                'namaDesa' => $desa,
-                'namaTps' => $tps,
-                'namaKecamatan' => $kecamatan,
-                'nama' => $request->nama,
-                'nik' => $request->nik,
-                'status_memilih' => $request->statusMemilih,
+
+        $request->validate([
+                'nama' => ['required','string'],
+                'nik' => ['required','digits:16','integer', Rule::unique('pemilih')->ignore($pemilih->id)]
             ]);
 
-            DB::commit();
-            $request->session()->flash('success', 'Data Pemilih Berhasil di Edit');
-            return redirect('/pemilih');    
-        } catch (Exception $e) {
-            return back()->withErrors($e->getMessage());
-        }
+        $kecamatan = Kecamatan::where('id', $request->kecamatan)->pluck('nama')->get(0);
+                $desa = Desa::where('id', $request->desa)->pluck('nama')->get(0);
+                $tps = Tps::where('id', $request->tps)->pluck('nama')->get(0);
+                DB::beginTransaction();
+                try {
+                    $pemilih->update([
+                        'kecamatan_id' => $request->kecamatan,
+                        'user_id' => Auth::user()->id,
+                        'tps_id' => $request->tps,
+                        'desa_id' => $request->desa,
+                        'leader_id' => $request->leader,
+                        'mayor_id' => $request->mayor,
+                        'kapten_id' => $request->kapten,
+                        'namaDesa' => $desa,
+                        'namaTps' => $tps,
+                        'namaKecamatan' => $kecamatan,
+                        'nama' => $request->nama,
+                        'nik' => $request->nik,
+                        'status_memilih' => $request->statusMemilih,
+                    ]);
+    
+                    DB::commit();
+                    $request->session()->flash('success', 'Data Pemilih Berhasil di Edit');
+                    return redirect('/pemilih');    
+                } catch (Exception $e) {
+                    return back()->withErrors($e->getMessage());
+                }
     }
 
     public function destroy(Pemilih $pemilih)

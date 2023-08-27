@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Leader;
 use App\Models\User;
+use Illuminate\Validation\Rule;
 
 class DptController extends Controller
 {
@@ -22,7 +23,7 @@ class DptController extends Controller
     {
         return [
             'nama' => 'required|string',
-            'nik' => 'required|integer',
+            'nik' => 'required|digits:16|integer|unique:pemilih,nik',
             'kecamatan' => 'required',
             'desa' => 'required',
             'tps' => 'required',
@@ -37,9 +38,6 @@ class DptController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view("$this->componentPath/create", [
@@ -52,9 +50,6 @@ class DptController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate($this->rules());
@@ -101,7 +96,10 @@ class DptController extends Controller
 
     public function update(Request $request, Pemilih $pemilih)
     {
-        $request->validate($this->rules());
+        $request->validate([
+            'nama' => ['required', 'string'],
+            'nik' => ['required', 'digits:16', 'integer', Rule::unique('pemilih')->ignore($pemilih->id)],
+        ]);
         $kecamatan = Kecamatan::where('id', $request->kecamatan)->pluck('nama')->get(0);
         $desa = Desa::where('id', $request->desa)->pluck('nama')->get(0);
         $tps = Tps::where('id', $request->tps)->pluck('nama')->get(0);

@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\RoleResource;
+use Illuminate\Validation\Rule;
+
 
 class RoleController extends Controller
 {
@@ -18,7 +20,7 @@ class RoleController extends Controller
     public function rules()
     {
         return [
-            'nama' => ['required', 'string',  'max:255'],
+            'name' => ['required', 'string',  'max:255', 'unique:roles,name'],
             'permissions' => ['nullable', 'array'],
         ];
     }
@@ -43,7 +45,7 @@ class RoleController extends Controller
         DB::beginTransaction();
         try {
             $role = Role::create([
-                'name' => $request->nama,
+                'name' => $request->name,
             ]);
             foreach($request->permissions as $item) {
                 $permission = Permission::where('name',$item)->first();
@@ -74,11 +76,14 @@ class RoleController extends Controller
     }
     public function update(Request $request, Role $role)
     {
-        $request->validate($this->rules());
+        $request->validate([
+            'name' => ['required', 'string',  'max:255', Rule::unique('roles')->ignore($role->id)],
+            'permissions' => ['nullable', 'array'],
+        ]);
         DB::beginTransaction();
         try {
             $role->update([
-                'name' => $request->nama,
+                'name' => $request->name,
             ]);
             $role->permissions()->detach();
             foreach($request->permissions as $item) {

@@ -33,6 +33,7 @@
                                             <th>No</th>
                                             <th>Nama User</th>
                                             <th>Email</th>
+                                            <th>Roles</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
@@ -41,6 +42,7 @@
                                             <th>No</th>
                                             <th>Nama User</th>
                                             <th>Email</th>
+                                            <th>Roles</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </tfoot>
@@ -52,6 +54,7 @@
                                             <td>
                                                 {{ $user['email'] }}
                                             </td>
+                                            <td>{{ $user['jabatan']['name'] }}</td>
                                             <td>
                                                 @can('edit-user')
                                                 <a href="/edit-user/{{ $user['id'] }}">

@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\DB;
 use Exception;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Resources\UserResource;
+use Illuminate\Validation\Rule;
+
 
 
 class UserController extends Controller
@@ -20,7 +22,7 @@ class UserController extends Controller
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8'],
             'role' => 'required|integer',
         ];
@@ -28,7 +30,7 @@ class UserController extends Controller
     public function index()
     {
         return view("$this->componentPath/index", [
-            'users' => User::get()->toArray()
+            'users' => User::with('jabatan')->get()->toArray() ?? []
            ]);
     }
 
@@ -79,7 +81,7 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'max:255',  Rule::unique('users')->ignore($user->id)],
             'password' => ['nullable', 'string', 'min:8'],
             'role' => 'required|integer',
         ]);
