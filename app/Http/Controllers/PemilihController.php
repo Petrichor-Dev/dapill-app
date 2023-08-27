@@ -13,6 +13,8 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Exports\PemilihExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PemilihController extends Controller
 {
@@ -145,4 +147,10 @@ class PemilihController extends Controller
             return back()->withErrors($e->getMessage());
         }
     }
+
+    public function export()
+	{   
+        // dd(Pemilih::with(['userAdmin', 'leader', 'kapten', 'mayor'])->get()->toArray());
+		return Excel::download(new PemilihExport, 'siswa.xlsx');
+	}
 }

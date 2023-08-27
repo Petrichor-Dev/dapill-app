@@ -53,6 +53,7 @@ Route::prefix('/pemilih')->name('.pemilih')->middleware('auth')->group(function 
     Route::post('/create', [PemilihController::class, 'store']);
     Route::put('/edit/{pemilih}', [PemilihController::class, 'update']);
     Route::get('/delete/{pemilih}', [PemilihController::class, 'destroy']);
+    Route::get('/export', [PemilihController::class, 'export']);
 });
 
 //tps

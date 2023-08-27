@@ -7,12 +7,14 @@ var ctx = document.getElementById("myBarChart");
 var myLineChart = new Chart(ctx, {
   type: 'bar',
   data: {
-    labels: ["January", "February", "March", "April", "May", "June"],
+    //nama leader
+    labels: ["January", "February", "March", "April", "May", "June", "Januadary", "Fedabruary", "Masdarch", "Apasdril", "Mdaay", "Jdaune","Jdaanuary", "Fedabruary", "Ma23rch", "Aprril", "Mwaey", "Junfe",],
     datasets: [{
       label: "Revenue",
       backgroundColor: "rgba(2,117,216,1)",
       borderColor: "rgba(2,117,216,1)",
-      data: [4215, 5312, 6251, 7841, 9821, 14984],
+      //data jumlah suara
+      data: [4215, 5312, 6251, 7841, 9821, 1231,4215, 5312, 6251, 7841, 9821, 1231,4215, 5312, 6251, 7841, 9821, 1231,],
     }],
   },
   options: {
@@ -25,13 +27,14 @@ var myLineChart = new Chart(ctx, {
           display: false
         },
         ticks: {
-          maxTicksLimit: 6
+          //max total data yang di tampilkan
+          maxTicksLimit: 19
         }
       }],
       yAxes: [{
         ticks: {
           min: 0,
-          max: 15000,
+          max: 20000,
           maxTicksLimit: 5
         },
         gridLines: {
