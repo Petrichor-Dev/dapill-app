@@ -4,17 +4,20 @@ Chart.defaults.global.defaultFontColor = '#292b2c';
 
 // Bar Chart Example
 var ctx = document.getElementById("myBarChart");
+var app = "{{ $totalDpt }}"
+console.log(app)
 var myLineChart = new Chart(ctx, {
   type: 'bar',
   data: {
     //nama leader
-    labels: ["January", "February", "March", "April", "May", "June", "Januadary", "Fedabruary", "Masdarch", "Apasdril", "Mdaay", "Jdaune","Jdaanuary", "Fedabruary", "Ma23rch", "Aprril", "Mwaey", "Junfe",],
+    labels: ["Agus", "Bambang", "Salim", "Arman", "Yuni"],
     datasets: [{
-      label: "Revenue",
+      label: "Total Pemilih",
       backgroundColor: "rgba(2,117,216,1)",
       borderColor: "rgba(2,117,216,1)",
       //data jumlah suara
-      data: [4215, 5312, 6251, 7841, 9821, 1231,4215, 5312, 6251, 7841, 9821, 1231,4215, 5312, 6251, 7841, 9821, 1231,],
+      data: [12, 31, 45, 83, 75].sort((a,b) => a-b),
+      // sort((a,b) => a-b)
     }],
   },
   options: {
@@ -34,7 +37,7 @@ var myLineChart = new Chart(ctx, {
       yAxes: [{
         ticks: {
           min: 0,
-          max: 20000,
+          max: 150,
           maxTicksLimit: 5
         },
         gridLines: {

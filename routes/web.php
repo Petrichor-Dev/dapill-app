@@ -10,6 +10,7 @@ use App\Http\Controllers\DptController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\LeaderController;  
+use App\Http\Controllers\DashboardController;  
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,9 +22,8 @@ use App\Http\Controllers\LeaderController;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-})->middleware('auth');
+Route::get('/', [DashboardController::class, 'index'])->middleware('auth');
+Route::get('/dashboard/{status?}', [DashboardController::class, 'show'])->middleware('auth');
 
 //kecamatan
 Route::get('/tambah-kecamatan', [KecamatanController::class, 'create'])->middleware('auth');
@@ -54,6 +54,7 @@ Route::prefix('/pemilih')->name('.pemilih')->middleware('auth')->group(function 
     Route::put('/edit/{pemilih}', [PemilihController::class, 'update']);
     Route::get('/delete/{pemilih}', [PemilihController::class, 'destroy']);
     Route::get('/export', [PemilihController::class, 'export']);
+    Route::get('/show/{status}', [PemilihController::class, 'show']);
 });
 
 //tps

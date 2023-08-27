@@ -55,6 +55,10 @@ class PemilihController extends Controller
         ]);
     }
 
+    public function show($status){
+        dd($status);
+    }
+
     /**
      * Store a newly created resource in storage.
      */

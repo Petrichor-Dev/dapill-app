@@ -1,7 +1,3 @@
-@php
-    use Illuminate\Support\Facades\Auth;
-    $uid = Auth::user()->id;
-@endphp
 <!DOCTYPE html>
 <html lang="en">
     <head>
