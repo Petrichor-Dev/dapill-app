@@ -16,7 +16,14 @@
                             <li class="breadcrumb-item active">Daftar DPT</li>
                         </ol>
                         <div class="card mb-4">
-                            <div class="card-header">   
+                            <div class="card-header">
+                                @if ($pemilihs !== [])
+                                @can('lihat-dpt')
+                                <a href="/dpt/export">
+                                    <button class="btn btn-success">Eksport Data</button>
+                                </a>
+                                @endcan
+                                @endif  
                                 @can('tambah-dpt')
                                 <a href="/tambah-dpt">
                                     <button class="btn btn-primary">Tambah DPT</button>
@@ -65,7 +72,7 @@
                                             <td>
                                                 -
                                             </td>
-                                            <td>{{ $pemilih['user_admin']['name'] }}</td>
+                                            <td>{{ $pemilih['admin']['name'] }}</td>
                                             <td>
                                                 @can('edit-dpt')
                                                 <a href="/edit-dpt/{{ $pemilih['id'] }}">

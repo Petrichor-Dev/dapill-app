@@ -78,7 +78,7 @@
 
                                                 
                                             </td>
-                                            <td>{{ $data['user_admin']['name'] }}</td>
+                                            <td>{{ $data['admin']['name'] }}</td>
                                             
                                         </tr>
                                         @endforeach

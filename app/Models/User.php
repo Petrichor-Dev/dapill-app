@@ -24,9 +24,21 @@ class User extends Authenticatable
         'email',
         'password',
         'jabatan_id',
+        
     ];
     // protected $guarded = [];
     protected $table = 'users';
+
+       /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
+    
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -37,15 +49,7 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
-    ];
+ 
 
     public function jabatan()
     {

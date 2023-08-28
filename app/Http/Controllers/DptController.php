@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Leader;
 use App\Models\User;
 use Illuminate\Validation\Rule;
+use App\Exports\DptExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DptController extends Controller
 {
@@ -32,7 +34,7 @@ class DptController extends Controller
 
     public function index()
     {
-        $pemilihs = Pemilih::with(['userAdmin', 'leader', 'kapten', 'mayor'])->get()->toArray();
+        $pemilihs = Pemilih::with(['admin', 'leader', 'kapten', 'mayor'])->get()->toArray();
         return view("$this->componentPath/index", [
             'pemilihs' => $pemilihs
         ]);
@@ -139,4 +141,9 @@ class DptController extends Controller
             return back()->withErrors($e->getMessage());
         }
     }
+
+    public function export()
+	{   
+		return Excel::download(new DptExport, 'dataDpt.xlsx');
+	}
 }

@@ -38,7 +38,7 @@ class PemilihController extends Controller
     
     public function index()
     {
-        $pemilihs = Pemilih::with(['userAdmin', 'leader', 'kapten', 'mayor'])->get()->toArray() ?? [];
+        $pemilihs = Pemilih::with(['admin', 'leader', 'kapten', 'mayor'])->get()->toArray() ?? [];
         // dd($pemilihs);
         return view("$this->componentPath/index",[
             'pemilihs' => $pemilihs
@@ -153,7 +153,6 @@ class PemilihController extends Controller
 
     public function export()
 	{   
-        // dd(Pemilih::with(['userAdmin', 'leader', 'kapten', 'mayor'])->get()->toArray());
-		return Excel::download(new PemilihExport, 'siswa.xlsx');
+		return Excel::download(new PemilihExport, 'dataPemilih.xlsx');
 	}
 }

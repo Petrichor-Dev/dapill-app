@@ -13,7 +13,7 @@ use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 
-class PemilihExport implements 
+class DptExport implements 
 FromCollection, 
 WithHeadings, 
 WithMapping, 
@@ -27,7 +27,7 @@ WithStyles
     */
     public function headings(): array
     {
-        return ["NO", "NAMA", "NIK", "LEADER", "KAPTEN", "MAYOR", "NAMA TPS", "STATUS MEMILIH", "ADMIN"];
+        return ["NO", "NAMA", "NIK", "LEADER", "KAPTEN", "MAYOR", "NAMA TPS", "ADMIN"];
     }
 
     public function styles(Worksheet $sheet)
@@ -61,6 +61,7 @@ WithStyles
     private $rowNumber = 0;
     public function map($row):array
     {
+        // dd($row->namaDesa);
         $this->rowNumber++;
         return [
             $this->rowNumber,
@@ -70,7 +71,6 @@ WithStyles
             $row->kapten->name, 
             $row->mayor->name,
             $row->namaTps . ', ' . 'Desa ' . $row->namaDesa . ', ' .  'Kecamatan ' . $row->namaKecamatan,
-            $row->status_memilih,
             $row->admin->name
         ];
     }

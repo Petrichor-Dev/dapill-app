@@ -15,7 +15,7 @@ class Pemilih extends Model
 
     protected $table = 'pemilih';
 
-    public function userAdmin()
+    public function admin()
     {
         return $this->belongsTo(User::class, 'user_id', 'id', 'name');
     }

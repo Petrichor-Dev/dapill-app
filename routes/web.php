@@ -67,7 +67,7 @@ Route::prefix('/tps')->name('.tps')->middleware('auth')->group(function () {
     Route::get('/delete/{tps}', [TpsController::class, 'destroy']);
 });
 
-// pemilih
+// DPT
 Route::get('/tambah-dpt', [DptController::class, 'create'])->middleware('auth');
 Route::get('/edit-dpt/{pemilih}', [DptController::class, 'edit'])->middleware('auth');
 Route::prefix('/dpt')->name('.dpt')->middleware('auth')->group(function () {
@@ -75,6 +75,7 @@ Route::prefix('/dpt')->name('.dpt')->middleware('auth')->group(function () {
     Route::post('/create', [DptController::class, 'store']);
     Route::put('/edit/{pemilih}', [DptController::class, 'update']);
     Route::get('/delete/{pemilih}', [DptController::class, 'destroy']);
+    Route::get('/export', [DptController::class, 'export']);
 });
 
 //leader

@@ -28,19 +28,19 @@ class DashboardController extends Controller
         if($status !== null){
             switch ($status) {
                 case 'Memilih':
-                    $datas = Pemilih::with(['userAdmin', 'leader', 'kapten', 'mayor'])
+                    $datas = Pemilih::with(['admin', 'leader', 'kapten', 'mayor'])
                     ->where('status_memilih', "Memilih")->get()->toArray();
                     $status = "Memilih";
                     break;
     
                 case 'Ragu-Ragu':
-                    $datas = Pemilih::with(['userAdmin', 'leader', 'kapten', 'mayor'])
+                    $datas = Pemilih::with(['admin', 'leader', 'kapten', 'mayor'])
                     ->where('status_memilih', "Ragu-Ragu")->get()->toArray();
                     $status = "Ragu-Ragu";
                     break;
     
                 case 'Tidak-Memilih':
-                    $datas = Pemilih::with(['userAdmin', 'leader', 'kapten', 'mayor'])
+                    $datas = Pemilih::with(['admin', 'leader', 'kapten', 'mayor'])
                     ->where('status_memilih', "Tidak-Memilih")->get()->toArray();
                     $status = "Tidak-Memilih";
                     break;
@@ -51,7 +51,7 @@ class DashboardController extends Controller
                     break;
             }
         } else{
-            $datas = Pemilih::with(['userAdmin', 'leader', 'kapten', 'mayor'])->get()->toArray();
+            $datas = Pemilih::with(['admin', 'leader', 'kapten', 'mayor'])->get()->toArray();
             $status = "DPT";
         }
 
