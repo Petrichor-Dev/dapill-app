@@ -4,8 +4,6 @@ Chart.defaults.global.defaultFontColor = '#292b2c';
 
 // Bar Chart Example
 var ctx = document.getElementById("myBarChart");
-var app = "{{ $totalDpt }}"
-console.log(app)
 var myLineChart = new Chart(ctx, {
   type: 'bar',
   data: {

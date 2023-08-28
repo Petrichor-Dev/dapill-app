@@ -13,9 +13,10 @@
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     </head>
     <body class="sb-nav-fixed">
-        <nav class="sb-topnav navbar navbar-expand navbar-light bg-light">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="/">Pemilu App</a>
+            {{-- <a class="navbar-brand ps-3" href="/">Pemilu App</a> --}}
+            <a href="/"><img src="{{url('/assets/img/logo.png')}}" class="navbar-brand px-3" alt="" /></a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
             <!-- Navbar Search-->
@@ -162,11 +163,67 @@
                 </div>
         </div>
         
+        
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="js/scripts.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-        <script src="/assets/demo/chart-area-demo.js"></script>
-        <script src="/assets/demo/chart-bar-demo.js"></script>
+        <script>
+            // Set new default font family and font color to mimic Bootstrap's default styling
+            Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+            Chart.defaults.global.defaultFontColor = '#292b2c';
+
+            // Bar Chart Example
+            let ctx = document.getElementById("myBarChart");
+            let leaders = @json($leaders)
+            console.log(leaders);
+            let myLineChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                //nama leader
+                labels: ["Agus", "Bambang", "Salim", "Arman", "Yuni"],
+                datasets: [{
+                label: "Total Pemilih",
+                backgroundColor: "rgba(2,117,216,1)",
+                borderColor: "rgba(2,117,216,1)",
+                //data jumlah suara
+                data: [12, 31, 45, 83, 75].sort((a,b) => a-b),
+                // sort((a,b) => a-b)
+                }],
+            },
+            options: {
+                scales: {
+                xAxes: [{
+                    time: {
+                    unit: 'month'
+                    },
+                    gridLines: {
+                    display: false
+                    },
+                    ticks: {
+                    //max total data yang di tampilkan
+                    maxTicksLimit: 19
+                    }
+                }],
+                yAxes: [{
+                    ticks: {
+                    min: 0,
+                    max: 150,
+                    maxTicksLimit: 5
+                    },
+                    gridLines: {
+                    display: true
+                    }
+                }],
+                },
+                legend: {
+                display: false
+                }
+            }
+            });
+
+        </script>
+        {{-- <script src="/assets/demo/chart-area-demo.js"></script>
+        <script src="/assets/demo/chart-bar-demo.js"></script> --}}
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
         <script src="/js/datatables-simple-demo.js"></script>
     </body>
