@@ -11,7 +11,7 @@ use Exception;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Resources\UserResource;
 use Illuminate\Validation\Rule;
-
+use Illuminate\Support\Facades\Auth;
 
 
 class UserController extends Controller
@@ -27,17 +27,25 @@ class UserController extends Controller
             'role' => 'required|integer',
         ];
     }
+    public function getRole(){
+        $uid = Auth::user()->id;
+        $roleName =  User::where('id', $uid)->with(['jabatan'])->first()->toArray();
+        
+        return $roleName;
+    }
     public function index()
     {
         return view("$this->componentPath/index", [
-            'users' => User::with('jabatan')->get()->toArray() ?? []
+            'users' => User::with('jabatan')->get()->toArray() ?? [],
+            'roleName' => $this->getRole() ?? []
            ]);
     }
 
     public function create()
     {   
         return view("$this->componentPath/create", [
-            'roles' => Role::get()->toArray()
+            'roles' => Role::get()->toArray() ?? [],
+            'roleName' => $this->getRole() ?? []
         ]);
     }
 
@@ -72,7 +80,8 @@ class UserController extends Controller
             [
                 'user' => $userData->resource ?? [],
                 'userRoleName' => $user->getRoleNames()->toArray(),
-                'roles' => Role::get()->toArray() ?? []
+                'roles' => Role::get()->toArray() ?? [],
+                'roleName' => $this->getRole() ?? []
             ]
         );
     }

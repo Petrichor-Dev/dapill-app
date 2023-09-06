@@ -142,7 +142,7 @@
                     </div>
                     <div class="sb-sidenav-footer">
                         <div class="small">Login Sebagai:</div>
-                        Super Admin
+                        {{ $roleName['name'] }} - {{ $roleName['jabatan']['name'] }}
                     </div>
                 </nav>
             </div>
@@ -174,8 +174,7 @@
 
             // Bar Chart Example
             let ctx = document.getElementById("myBarChart");
-            let leaders = @json($leaders)
-            console.log(leaders);
+
             let myLineChart = new Chart(ctx, {
             type: 'bar',
             data: {

@@ -32,11 +32,19 @@ class DptController extends Controller
         ];
     }
 
+    public function getRole(){
+        $uid = Auth::user()->id;
+        $roleName =  User::where('id', $uid)->with(['jabatan'])->first()->toArray();
+        
+        return $roleName;
+    }
+
     public function index()
     {
         $pemilihs = Pemilih::with(['admin', 'leader', 'kapten', 'mayor'])->get()->toArray();
         return view("$this->componentPath/index", [
-            'pemilihs' => $pemilihs
+            'pemilihs' => $pemilihs,
+            'roleName' => $this->getRole() ?? []
         ]);
     }
 
@@ -48,7 +56,8 @@ class DptController extends Controller
             'tpss' => Tps::get()->toArray() ?? [],
             'leaders' => Leader::get()->toArray() ?? [],
             'mayors' => User::where('jabatan_id', 5)->get()->toArray() ?? [],
-            'kaptens' => User::where('jabatan_id', 6)->get()->toArray() ?? []
+            'kaptens' => User::where('jabatan_id', 6)->get()->toArray() ?? [],
+            'roleName' => $this->getRole() ?? []
         ]);
     }
 
@@ -92,7 +101,8 @@ class DptController extends Controller
             'tpss' => Tps::get()->toArray(),
             'leaders' => Leader::get()->toArray() ?? [],
             'mayors' => User::where('jabatan_id', 5)->get()->toArray() ?? [],
-            'kaptens' => User::where('jabatan_id', 6)->get()->toArray() ?? []
+            'kaptens' => User::where('jabatan_id', 6)->get()->toArray() ?? [],
+            'roleName' => $this->getRole() ?? []
         ]);
     }
 

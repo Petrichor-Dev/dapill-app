@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Desa;
-use App\Models\User;
 use App\Models\Kecamatan;
 use Illuminate\Http\Request;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class DesaController extends Controller
@@ -25,12 +25,45 @@ class DesaController extends Controller
         ];
     }
 
+    public function getRole(){
+        $uid = Auth::user()->id;
+        $roleName =  User::where('id', $uid)->with(['jabatan'])->first()->toArray();
+        
+        return $roleName;
+    }
+
     public function index()
     {
-        $desas = Desa::with('mayor')->get()->toArray();
+        //get data panglima, admin dan super admin
+        $idAtasan = User::whereIn('jabatan_id', [1,2,3])->with(['jabatan'])->get()->pluck(['id'])->toArray();
+        
+        //get user lalu lihat id nya
+        $uid = Auth::user()->id;
+        // lalu lihat rolenya
+        $userRoleId = User::where('id', $uid)->with(['jabatan'])->first()->toArray()['jabatan']['id'];
+        // dd($userRoleId);
+        //cek apakah idnya mayor atau bukan
+        if($userRoleId === 4){
+            //satukan semua array
+            array_push($idAtasan, $uid);
+             //kalo mayor, tampilkan hanya data mayor dan data admin serta panglima
+            $desas = Desa::with(['mayor', 'kecamatan'])->whereIn('user_id', $idAtasan)->get()->toArray();
+        } elseif($userRoleId === 5){
+            //ambil semua daftar kecamatan berdasarkan si yang menginput (mayor)
+            $atasanKecamatanId = Kecamatan::whereIn('user_id', $idAtasan)->get()->pluck(['id'])->toArray();
+            $mayorKecamatanId = Kecamatan::where('user_id', $uid)->get()->pluck(['id'])->toArray();
+            $arrayResult = array_merge($atasanKecamatanId, $mayorKecamatanId);
+            // dd($atasanKecamatanId);
+            $desas = Desa::with(['mayor', 'kecamatan'])->whereIn('kecamatan_id', $arrayResult)->get()->toArray();
+        } elseif($userRoleId === 2 || $userRoleId === 3 || $userRoleId === 1){
+            $desas = Desa::with(['mayor', 'kecamatan'])->get()->toArray();
+        } else{
+            $desas = [];
+        }
+    
         return view("$this->componentPath/index", [
-         'desas' =>$desas ?? [],
-         
+         'desas' => $desas ?? [],
+         'roleName' => $this->getRole() ?? []
         ]);
     }
 
@@ -39,7 +72,8 @@ class DesaController extends Controller
         $kecamatans = Kecamatan::get()->toArray();
         return view("$this->componentPath/create", [
             'kecamatans' => $kecamatans ?? [],
-            'mayors' => User::where('jabatan_id', 5)->get()->toArray() ?? []
+            'mayors' => User::where('jabatan_id', 5)->get()->toArray() ?? [],
+            'roleName' => $this->getRole() ?? []
         ]);
     }
 
@@ -70,7 +104,8 @@ class DesaController extends Controller
         return view("$this->componentPath/edit", [
             'desa' => $desa->toArray(),
             'kecamatans' => $kecamatans,
-            'mayors' => User::where('jabatan_id', 5)->get()->toArray() ?? []
+            'mayors' => User::where('jabatan_id', 5)->get()->toArray() ?? [],
+            'roleName' => $this->getRole() ?? []
         ]);
     }
 

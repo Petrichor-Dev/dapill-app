@@ -16,4 +16,9 @@ class Desa extends Model
     {
         return $this->belongsTo(User::class, 'mayor_id', 'id', 'name');
     }
+
+    public function kecamatan()
+    {
+        return $this->belongsTo(Kecamatan::class, 'kecamatan_id', 'id', 'name');
+    }
 }

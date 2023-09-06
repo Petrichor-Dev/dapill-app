@@ -10,6 +10,7 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class TpsController extends Controller
 {
@@ -25,11 +26,46 @@ class TpsController extends Controller
         ];
     }
 
+    public function getRole(){
+        $uid = Auth::user()->id;
+        $roleName =  User::where('id', $uid)->with(['jabatan'])->first()->toArray();
+        
+        return $roleName;
+    }
+
     public function index()
     {
-        $tpss = Tps::get()->toArray();
+        //get data panglima, admin dan super admin
+        $idAtasan = User::whereIn('jabatan_id', [1,2,3])->with(['jabatan'])->get()->pluck(['id'])->toArray();
+        
+        //get user lalu lihat id nya
+        $uid = Auth::user()->id;
+        // lalu lihat rolenya
+        $userRoleId = User::where('id', $uid)->with(['jabatan'])->first()->toArray()['jabatan']['id'];
+        // dd($userRoleId);
+        //cek apakah idnya mayor atau bukan
+        if($userRoleId === 4){
+            //satukan semua array
+            array_push($idAtasan, $uid);
+             //kalo mayor, tampilkan hanya data mayor dan data admin serta panglima
+            $tpss = Tps::whereIn('user_id', $idAtasan)->get()->toArray();
+        } elseif($userRoleId === 5){
+            //ambil semua daftar kecamatan berdasarkan si yang menginput (mayor)
+            $atasanKecamatanId = Kecamatan::whereIn('user_id', $idAtasan)->get()->pluck(['id'])->toArray();
+            $mayorKecamatanId = Kecamatan::where('user_id', $uid)->get()->pluck(['id'])->toArray();
+            $arrayResult = array_merge($atasanKecamatanId, $mayorKecamatanId);
+            // dd($atasanKecamatanId);
+            $tpss = Desa::with(['mayor', 'kecamatan'])->whereIn('kecamatan_id', $arrayResult)->get()->toArray();
+        } elseif($userRoleId === 2 || $userRoleId === 3 || $userRoleId === 1){
+            $tpss = Tps::get()->toArray();
+        } else{
+            $tpss = [];
+        }
+
+
         return view("$this->componentPath/index", [
-         'tpss' =>$tpss
+         'tpss' =>$tpss ?? [],
+         'roleName' => $this->getRole() ?? []
         ]);
     }
 
@@ -41,8 +77,9 @@ class TpsController extends Controller
         $kecamatans = Kecamatan::get()->toArray();
         $desas = Desa::get()->toArray();
         return view("$this->componentPath/create", [
-            'kecamatans' => $kecamatans,
-            'desas' => $desas
+            'kecamatans' => $kecamatans ?? [],
+            'desas' => $desas ?? [],
+            'roleName' => $this->getRole() ?? []
         ]);
     }
 
@@ -80,9 +117,10 @@ class TpsController extends Controller
         $kecamatans = Kecamatan::get()->toArray();
         $desas = Desa::get()->toArray();
         return view("$this->componentPath/edit", [
-            'tps' => $tps->toArray(),
-            'desas' => $desas,
-            'kecamatans' => $kecamatans
+            'tps' => $tps->toArray() ?? [],
+            'desas' => $desas ?? [],
+            'kecamatans' => $kecamatans ?? [],
+            'roleName' => $this->getRole() ?? []
         ]);
     }
 

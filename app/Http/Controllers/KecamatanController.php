@@ -23,19 +23,47 @@ class KecamatanController extends Controller
         ];
     }
 
+    public function getRole(){
+        $uid = Auth::user()->id;
+        $roleName =  User::where('id', $uid)->with(['jabatan'])->first()->toArray();
+        
+        return $roleName;
+    }
 
     public function index()
     {
-       $kecamatans = Kecamatan::with('jendral')->get()->toArray();
+        //get data panglima, admin dan super admin
+        $idAtasan = User::whereIn('jabatan_id', [1,2,3])->with(['jabatan'])->get()->pluck(['id'])->toArray();
+        
+        //get user lalu lihat id nya
+        $uid = Auth::user()->id;
+        // lalu lihat rolenya
+        $userRoleId = User::where('id', $uid)->with(['jabatan'])->first()->toArray()['jabatan']['id'];
+        // dd($userRoleId);
+        //cek apakah idnya mayor atau bukan
+        if($userRoleId === 5){
+            //satukan semua array
+            array_push($idAtasan, $uid);
+             //kalo mayor, tampilkan hanya data mayor dan data admin serta panglima
+            $kecamatans = Kecamatan::with('jendral')->whereIn('user_id', $idAtasan)->get()->toArray();
+        } elseif($userRoleId === 2 || $userRoleId === 3 || $userRoleId === 1){
+            //jika admin dan panglima, tampilkan semua data
+            $kecamatans = Kecamatan::with('jendral')->get()->toArray();
+        } else{
+            $kecamatans = [];
+        }
+        
        return view("$this->componentPath/index", [
-        'kecamatans' =>$kecamatans
+        'kecamatans' =>$kecamatans ?? [],
+        'roleName' => $this->getRole() ?? []
        ]);
     }
 
     public function create()
     {
         return view("$this->componentPath/create", [
-            'jendrals' => User::where('jabatan_id', 4)->get()->toArray() ?? []
+            'jendrals' => User::where('jabatan_id', 4)->get()->toArray() ?? [],
+            'roleName' => $this->getRole() ?? []
         ]);
     }
 
@@ -63,7 +91,8 @@ class KecamatanController extends Controller
     {
         return view("$this->componentPath/edit", [
             'kecamatan' => $kecamatan->toArray(),
-            'jendrals' => User::where('jabatan_id', 4)->get()->toArray() ?? []
+            'jendrals' => User::where('jabatan_id', 4)->get()->toArray() ?? [],
+            'roleName' => $this->getRole() ?? []
         ]);
     }
 

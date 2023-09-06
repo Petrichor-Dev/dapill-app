@@ -35,13 +35,20 @@ class PemilihController extends Controller
             'statusMemilih' => 'required'
         ];
     }
+    public function getRole(){
+        $uid = Auth::user()->id;
+        $roleName =  User::where('id', $uid)->with(['jabatan'])->first()->toArray();
+        
+        return $roleName;
+    }
     
     public function index()
     {
         $pemilihs = Pemilih::with(['admin', 'leader', 'kapten', 'mayor'])->get()->toArray() ?? [];
         // dd($pemilihs);
         return view("$this->componentPath/index",[
-            'pemilihs' => $pemilihs
+            'pemilihs' => $pemilihs ?? [],
+            'roleName' => $this->getRole() ?? []
         ]);
     }
 
@@ -54,7 +61,8 @@ class PemilihController extends Controller
             'leaders' => Leader::get()->toArray() ?? [],
             'mayors' => User::where('jabatan_id', 5)->get()->toArray() ?? [],
             'kaptens' => User::where('jabatan_id', 6)->get()->toArray() ?? [],
-            'statusMemilih' => ['Memilih', 'Ragu-Ragu', 'Tidak-Memilih']
+            'statusMemilih' => ['Memilih', 'Ragu-Ragu', 'Tidak-Memilih'],
+            'roleName' => $this->getRole() ?? []
         ]);
     }
 
@@ -98,7 +106,8 @@ class PemilihController extends Controller
             'tpss' => Tps::get()->toArray() ?? [],
             'leaders' => Leader::get()->toArray() ?? [],
             'mayors' => User::where('jabatan_id', 5)->get()->toArray() ?? [],
-            'kaptens' => User::where('jabatan_id', 6)->get()->toArray() ?? []
+            'kaptens' => User::where('jabatan_id', 6)->get()->toArray() ?? [],
+            'roleName' => $this->getRole() ?? []
         ]);
     }
 

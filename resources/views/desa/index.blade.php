@@ -29,19 +29,25 @@
                                     <thead>
                                         <tr>
                                             <th>No</th>
-                                            <th>Desa</th>
+                                            <th>Nama Desa</th>
                                             <th>Major</th>
                                             <th>Jumlah TPS</th>
-                                            <th>Aksi</th>
+                                            <th>Asal Kecamatan</th>
+                                            @can(['edit-desa', 'hapus-desa'])
+                                                <th>Aksi</th>
+                                            @endcan
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
                                             <th>No</th>
-                                            <th>Desa</th>
+                                            <th>Nama Desa</th>
                                             <th>Major</th>
                                             <th>Jumlah TPS</th>
-                                            <th>Aksi</th>
+                                            <th>Asal Kecamatan</th>
+                                            @can(['edit-desa', 'hapus-desa'])
+                                                <th>Aksi</th>
+                                            @endcan
                                         </tr>
                                     </tfoot>
                                     <tbody>
@@ -51,6 +57,8 @@
                                             <td>{{ $desa['nama'] }}</td>
                                             <td>{{ $desa['mayor']['name'] }}</td>
                                             <td>{{ $desa['jumlah_tps'] }}</td>
+                                            <td>{{ $desa['kecamatan']['nama'] }}</td>
+                                            @can(['edit-desa', 'hapus-desa'])
                                             <td>
                                                 @can('edit-desa')
                                                 <a href="/edit-desa/{{ $desa['id'] }}">
@@ -64,6 +72,7 @@
                                                 </a>
                                                 @endcan
                                             </td>
+                                            @endcan
                                         </tr>
                                         @endforeach
                                     </tbody>

@@ -11,7 +11,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\RoleResource;
 use Illuminate\Validation\Rule;
-
+use App\Models\User;
 
 class RoleController extends Controller
 {
@@ -24,18 +24,27 @@ class RoleController extends Controller
             'permissions' => ['nullable', 'array'],
         ];
     }
+    public function getRole(){
+        $uid = Auth::user()->id;
+        $roleName =  User::where('id', $uid)->with(['jabatan'])->first()->toArray();
+        
+        return $roleName;
+    }
+
     public function index()
     {
         $roles = Role::get()->toArray();
         return view("$this->componentPath/index", [
-            'roles' => new RoleResource($roles),
+            'roles' => new RoleResource($roles) ?? [],
+            'roleName' => $this->getRole() ?? []
            ]);  
     }
 
     public function create()
     {
         return view("$this->componentPath/create", [
-            'permissions' => Permission::get()->toArray()
+            'permissions' => Permission::get()->toArray() ?? [],
+            'roleName' => $this->getRole() ?? []
         ]);
     }
 
@@ -69,8 +78,9 @@ class RoleController extends Controller
         return view(
             "$this->componentPath/Edit",
             [
-                'permissions' => Permission::get()->toArray(),
-                'dataWithPermissions' => $dataWithPermissions ?? []
+                'permissions' => Permission::get()->toArray() ?? [],
+                'dataWithPermissions' => $dataWithPermissions ?? [],
+                'roleName' => $this->getRole() ?? []
             ]
         );
     }

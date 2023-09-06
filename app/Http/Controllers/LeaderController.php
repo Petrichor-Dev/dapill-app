@@ -6,6 +6,8 @@ use App\Models\Leader;
 use Illuminate\Support\Facades\DB;
 use Exception;
 use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class LeaderController extends Controller
 {
@@ -18,16 +20,26 @@ class LeaderController extends Controller
         ];
     }
 
+    public function getRole(){
+        $uid = Auth::user()->id;
+        $roleName =  User::where('id', $uid)->with(['jabatan'])->first()->toArray();
+        
+        return $roleName;
+    }
+
     public function index()
     {
         return view("$this->componentPath/index", [
-            'leaders' => Leader::get()->toArray() ?? []
+            'leaders' => Leader::get()->toArray() ?? [],
+            'roleName' => $this->getRole() ?? []
            ]);
     }
 
     public function create()
     {
-        return view("$this->componentPath/create");
+        return view("$this->componentPath/create", [
+            'roleName' => $this->getRole() ?? []
+        ]);
     }
 
     public function store(Request $request)
@@ -49,7 +61,8 @@ class LeaderController extends Controller
     public function edit(leader $leader)
     {
         return view("$this->componentPath/edit", [
-            'leader' => $leader->toArray()
+            'leader' => $leader->toArray() ?? [],
+            'roleName' => $this->getRole() ?? []
         ]);
     }
 
