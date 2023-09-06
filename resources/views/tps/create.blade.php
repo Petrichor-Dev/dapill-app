@@ -19,7 +19,7 @@
                   @enderror
                 </div>
 
-                <div class="mb-3">
+                {{-- <div class="mb-3">
                   <label for="kecamatan" class="form-label">Kecamatan</label>
                   <select class="form-select" name="kecamatan" id="kecamatan" aria-label="Default select example">
                     <option selected>Pilih Kecamatan</option>
@@ -32,7 +32,7 @@
                   @error('kecamatan')
                       <div class="form-text text-danger">{{ $message }}</div>
                   @enderror
-                </div>
+                </div> --}}
                 
                 <div class="mb-3">
                   <label for="desa" class="form-label">Desa</label>

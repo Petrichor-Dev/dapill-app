@@ -20,7 +20,6 @@ class TpsController extends Controller
     {
         return [
             'namaTps' => 'required',
-            'kecamatan' => 'required',
             'desa' => 'required',
             'jumlahPemilih' => 'required|integer',
         ];
@@ -45,17 +44,19 @@ class TpsController extends Controller
         // dd($userRoleId);
         //cek apakah idnya mayor atau bukan
         if($userRoleId === 4){
-            //satukan semua array
-            array_push($idAtasan, $uid);
-             //kalo mayor, tampilkan hanya data mayor dan data admin serta panglima
-            $tpss = Tps::whereIn('user_id', $idAtasan)->get()->toArray();
+            //ambil semua daftar kecamatan berdasarkan si yang menginput (mayor)
+            $atasanDesaId = Desa::whereIn('user_id', $idAtasan)->get()->pluck(['id'])->toArray();
+            $mayorDesaId = Desa::where('user_id', $uid)->get()->pluck(['id'])->toArray();
+            $arrayResult = array_merge($atasanDesaId, $mayorDesaId);
+            // dd($atasanKecamatanId);
+            $tpss = Tps::whereIn('desa_id', $arrayResult)->get()->toArray();
         } elseif($userRoleId === 5){
             //ambil semua daftar kecamatan berdasarkan si yang menginput (mayor)
             $atasanKecamatanId = Kecamatan::whereIn('user_id', $idAtasan)->get()->pluck(['id'])->toArray();
             $mayorKecamatanId = Kecamatan::where('user_id', $uid)->get()->pluck(['id'])->toArray();
             $arrayResult = array_merge($atasanKecamatanId, $mayorKecamatanId);
             // dd($atasanKecamatanId);
-            $tpss = Desa::with(['mayor', 'kecamatan'])->whereIn('kecamatan_id', $arrayResult)->get()->toArray();
+            $tpss = Tps::whereIn('kecamatan_id', $arrayResult)->get()->toArray();
         } elseif($userRoleId === 2 || $userRoleId === 3 || $userRoleId === 1){
             $tpss = Tps::get()->toArray();
         } else{
@@ -74,8 +75,21 @@ class TpsController extends Controller
      */
     public function create()
     {
+        $uid = Auth::user()->id;
+        $userRoleId = User::where('id', $uid)->with(['jabatan'])->first()->toArray()['jabatan']['id'];
+
+        if($userRoleId === 4){
+            $idAtasan = User::whereIn('jabatan_id', [1,2,3])->with(['jabatan'])->get()->pluck(['id'])->toArray();
+            $atasanDesaId = Desa::whereIn('user_id', $idAtasan)->get()->toArray();
+            $mayorDesaId = Desa::where('user_id', $uid)->get()->toArray();
+            $arrayResult = array_merge($atasanDesaId, $mayorDesaId);
+            // dd($arrayResult);
+            $desas = $arrayResult;
+        } else {
+            $desas = [];
+        }
+        
         $kecamatans = Kecamatan::get()->toArray();
-        $desas = Desa::get()->toArray();
         return view("$this->componentPath/create", [
             'kecamatans' => $kecamatans ?? [],
             'desas' => $desas ?? [],
@@ -89,16 +103,16 @@ class TpsController extends Controller
     public function store(Request $request)
     {
         $request->validate($this->rules());
-       $kecamatan = Kecamatan::where('id', $request->kecamatan)->pluck('nama')->get(0);
+       $kecamatan = Desa::with('kecamatan')->where('id', $request->desa)->first()->toArray();
        $desa = Desa::where('id', $request->desa)->pluck('nama')->get(0);
        DB::beginTransaction();
        try {
            $category = Tps::create([
-               'kecamatan_id' => $request->kecamatan,
+               'kecamatan_id' => $kecamatan['kecamatan_id'],
                'user_id' => Auth::user()->id,
                'desa_id' => $request->desa,
                'namaDesa' => $desa,
-               'namaKecamatan' => $kecamatan,
+               'namaKecamatan' => $kecamatan['kecamatan']['nama'],
                'nama' => $request->namaTps,
                'ketua' => Auth::user()->name,
                'jumlah_pemilih' => $request->jumlahPemilih,
@@ -114,8 +128,21 @@ class TpsController extends Controller
 
     public function edit(Tps $tps)
     {
+        $uid = Auth::user()->id;
+        $userRoleId = User::where('id', $uid)->with(['jabatan'])->first()->toArray()['jabatan']['id'];
+
+        if($userRoleId === 4){
+            $idAtasan = User::whereIn('jabatan_id', [1,2,3])->with(['jabatan'])->get()->pluck(['id'])->toArray();
+            $atasanDesaId = Desa::whereIn('user_id', $idAtasan)->get()->toArray();
+            $mayorDesaId = Desa::where('user_id', $uid)->get()->toArray();
+            $arrayResult = array_merge($atasanDesaId, $mayorDesaId);
+            // dd($arrayResult);
+            $desas = $arrayResult;
+        } else {
+            $desas = [];
+        }
         $kecamatans = Kecamatan::get()->toArray();
-        $desas = Desa::get()->toArray();
+    
         return view("$this->componentPath/edit", [
             'tps' => $tps->toArray() ?? [],
             'desas' => $desas ?? [],
@@ -128,16 +155,16 @@ class TpsController extends Controller
     {
         // dd($request->all());
         $request->validate($this->rules());
-        $kecamatan = Kecamatan::where('id', $request->kecamatan)->pluck('nama')->get(0);
+        $kecamatan = Desa::with('kecamatan')->where('id', $request->desa)->first()->toArray();
         $desa = Desa::where('id', $request->desa)->pluck('nama')->get(0);
         DB::beginTransaction();
         try {
             $tps->update([
-                'kecamatan_id' => $request->kecamatan,
+                'kecamatan_id' => $kecamatan['kecamatan_id'],
                'user_id' => Auth::user()->id,
                'desa_id' => $request->desa,
                'namaDesa' => $desa,
-               'namaKecamatan' => $kecamatan,
+               'namaKecamatan' => $kecamatan['kecamatan']['nama'],
                'nama' => $request->namaTps,
                'ketua' => Auth::user()->name,
                'jumlah_pemilih' => $request->jumlahPemilih,
