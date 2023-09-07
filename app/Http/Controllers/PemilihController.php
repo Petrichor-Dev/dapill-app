@@ -44,8 +44,46 @@ class PemilihController extends Controller
     
     public function index()
     {
-        $pemilihs = Pemilih::with(['admin', 'leader', 'kapten', 'mayor'])->get()->toArray() ?? [];
-        // dd($pemilihs);
+        //get data panglima, admin dan super admin
+        $idAtasan = User::whereIn('jabatan_id', [1,2,3])->with(['jabatan'])->get()->pluck(['id'])->toArray();
+        
+        //get user lalu lihat id nya
+        $uid = Auth::user()->id;
+        // lalu lihat rolenya
+        $userRoleId = User::where('id', $uid)->with(['jabatan'])->first()->toArray()['jabatan']['id'];
+        //cek apakah idnya mayor atau bukan
+        if($userRoleId === 6){
+            array_push($idAtasan, $uid);
+            $pemilihs = Pemilih::whereIn('user_id', $idAtasan)
+                ->with(['admin', 'leader', 'kapten', 'mayor'])
+                ->get()
+                ->toArray() ?? [];
+        } elseif($userRoleId === 4){
+            //ambil semua daftar kecamatan berdasarkan si yang menginput (mayor)
+            $atasanDesaId = Desa::whereIn('user_id', $idAtasan)->get()->pluck(['id'])->toArray();
+            $mayorDesaId = Desa::where('user_id', $uid)->get()->pluck(['id'])->toArray();
+            $arrayResult = array_merge($atasanDesaId, $mayorDesaId);
+
+            $pemilihs = Pemilih::whereIn('desa_id', $arrayResult)
+                ->with(['admin', 'leader', 'kapten', 'mayor'])
+                ->get()
+                ->toArray() ?? [];
+        } elseif($userRoleId === 5){
+            //ambil semua daftar kecamatan berdasarkan si yang menginput (mayor)
+            $atasanKecamatanId = Kecamatan::whereIn('user_id', $idAtasan)->get()->pluck(['id'])->toArray();
+            $mayorKecamatanId = Kecamatan::where('user_id', $uid)->get()->pluck(['id'])->toArray();
+            $arrayResult = array_merge($atasanKecamatanId, $mayorKecamatanId);
+
+            $pemilihs = Pemilih::whereIn('kecamatan_id', $arrayResult)
+                ->with(['admin', 'leader', 'kapten', 'mayor'])
+                ->get()
+                ->toArray() ?? [];
+        } elseif($userRoleId === 2 || $userRoleId === 3 || $userRoleId === 1){
+            $pemilihs = Pemilih::with(['admin', 'leader', 'kapten', 'mayor'])->get()->toArray() ?? [];
+        } else{
+            $pemilihs = [];
+        }
+
         return view("$this->componentPath/index",[
             'pemilihs' => $pemilihs ?? [],
             'roleName' => $this->getRole() ?? []

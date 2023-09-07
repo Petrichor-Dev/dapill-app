@@ -43,10 +43,14 @@
                                             <th>Leader</th>
                                             <th>Kapten</th>
                                             <th>Mayor</th>
+                                            <th>Kecamatan</th>
+                                            <th>Desa</th>
                                             <th>Nama TPS</th>
                                             <th>Status Memilih</th>
                                             <th>Admin</th>
-                                            <th>Aksi</th>
+                                            @can(['edit-pemilih', 'hapus-pemilih'])
+                                                <th>Aksi</th>
+                                            @endcan
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -56,10 +60,14 @@
                                             <th>Leader</th>
                                             <th>Kapten</th>
                                             <th>Mayor</th>
+                                            <th>Kecamatan</th>
+                                            <th>Desa</th>
                                             <th>Nama TPS</th>
                                             <th>Status Memilih</th>
                                             <th>Admin</th>
-                                            <th>Aksi</th>
+                                            @can(['edit-pemilih', 'hapus-pemilih'])
+                                                <th>Aksi</th>
+                                            @endcan
                                         </tr>
                                     </tfoot>
                                     <tbody>
@@ -70,6 +78,8 @@
                                             <td>{{ $pemilih['leader']['name'] }}</td>
                                             <td>{{ $pemilih['kapten']['name'] }}</td>
                                             <td>{{ $pemilih['mayor']['name'] }}</td>
+                                            <td>{{ $pemilih['namaKecamatan'] }}</td>
+                                            <td>{{ $pemilih['namaDesa'] }}</td>
                                             <td>{{ $pemilih['namaTps'] }}</td>
                                             <td>
                                                 @switch($pemilih['status_memilih'])
@@ -91,6 +101,7 @@
                                                 @endswitch
                                             </td>
                                             <td>{{ $pemilih['admin']['name'] }}</td>
+                                            @can(['edit-pemilih', 'hapus-pemilih'])
                                             <td>
                                                 @can('edit-pemilih')
                                                 <a href="/edit-pemilih/{{ $pemilih['id'] }}">
@@ -103,6 +114,7 @@
                                                 </a>
                                                 @endcan
                                             </td>
+                                            @endcan
                                         </tr>
                                         @endforeach
                                     </tbody>
