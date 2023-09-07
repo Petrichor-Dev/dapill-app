@@ -18,16 +18,18 @@
                   {{-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> --}}
                 </div>
 
-                {{-- <div class="mb-3">
-                  <label for="kecamatan" class="form-label">Kecamatan</label>
-                  <select class="form-select" name="kecamatan" id="kecamatan" aria-label="Default select example">
-                    @foreach ($kecamatans as $kecamatan)
-                          <option value="{{ $kecamatan['id'] }}" @if(old('kecamatan', $tps['kecamatan_id']) == $kecamatan['id']) selected @endif>
-                              {{ $kecamatan['nama'] }}
-                          </option>
-                      @endforeach
-                  </select>
-                </div> --}}
+                @if ($userRoleId !== 4)
+                  <div class="mb-3">
+                    <label for="kecamatan" class="form-label">Kecamatan</label>
+                    <select class="form-select" name="kecamatan" id="kecamatan" aria-label="Default select example">
+                      @foreach ($kecamatans as $kecamatan)
+                            <option value="{{ $kecamatan['id'] }}" @if(old('kecamatan', $tps['kecamatan_id']) == $kecamatan['id']) selected @endif>
+                                {{ $kecamatan['nama'] }}
+                            </option>
+                        @endforeach
+                    </select>
+                  </div>
+                @endif
                 
                   <div class="mb-3">
                     <label for="desa" class="form-label">Desa</label>

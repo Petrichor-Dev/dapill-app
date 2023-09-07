@@ -86,44 +86,69 @@ class TpsController extends Controller
             // dd($arrayResult);
             $desas = $arrayResult;
         } else {
-            $desas = [];
+            $desas = Desa::get()->toArray();
         }
         
         $kecamatans = Kecamatan::get()->toArray();
         return view("$this->componentPath/create", [
             'kecamatans' => $kecamatans ?? [],
             'desas' => $desas ?? [],
-            'roleName' => $this->getRole() ?? []
+            'roleName' => $this->getRole() ?? [],
+            'userRoleId' => $userRoleId ?? []
+
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
+        //kalo yang input bukan jendral
+       if($this->getRole()['jabatan_id'] !== 4){
         $request->validate($this->rules());
-       $kecamatan = Desa::with('kecamatan')->where('id', $request->desa)->first()->toArray();
-       $desa = Desa::where('id', $request->desa)->pluck('nama')->get(0);
-       DB::beginTransaction();
-       try {
-           $category = Tps::create([
-               'kecamatan_id' => $kecamatan['kecamatan_id'],
-               'user_id' => Auth::user()->id,
-               'desa_id' => $request->desa,
-               'namaDesa' => $desa,
-               'namaKecamatan' => $kecamatan['kecamatan']['nama'],
-               'nama' => $request->namaTps,
-               'ketua' => Auth::user()->name,
-               'jumlah_pemilih' => $request->jumlahPemilih,
-           ]);
+        $kecamatan = Kecamatan::where('id', $request->kecamatan)->pluck('nama')->get(0);
+        $desa = Desa::where('id', $request->desa)->pluck('nama')->get(0);
+        DB::beginTransaction();
+        try {
+            $category = Tps::create([
+                'kecamatan_id' => $request->kecamatan,
+                'user_id' => Auth::user()->id,
+                'desa_id' => $request->desa,
+                'namaDesa' => $desa,
+                'namaKecamatan' => $kecamatan,
+                'nama' => $request->namaTps,
+                'ketua' => Auth::user()->name,
+                'jumlah_pemilih' => $request->jumlahPemilih,
+            ]);
 
-           DB::commit();
-           $request->session()->flash('success', 'Data Tps Berhasil di Tambahkan');
-           return redirect('/tps');
-       } catch (Exception $e) {
-           return back()->withErrors($e->getMessage());
-       }
+            DB::commit();
+            $request->session()->flash('success', 'Data Tps Berhasil di Tambahkan');
+            return redirect('/tps');
+        } catch (Exception $e) {
+            return back()->withErrors($e->getMessage());
+        }
+       } 
+            $request->validate($this->rules());
+            $kecamatan = Desa::with('kecamatan')->where('id', $request->desa)->first()->toArray();
+            $desa = Desa::where('id', $request->desa)->pluck('nama')->get(0);
+            DB::beginTransaction();
+            try {
+                $category = Tps::create([
+                    'kecamatan_id' => $kecamatan['kecamatan_id'],
+                    'user_id' => Auth::user()->id,
+                    'desa_id' => $request->desa,
+                    'namaDesa' => $desa,
+                    'namaKecamatan' => $kecamatan['kecamatan']['nama'],
+                    'nama' => $request->namaTps,
+                    'ketua' => Auth::user()->name,
+                    'jumlah_pemilih' => $request->jumlahPemilih,
+                ]);
+
+                DB::commit();
+                $request->session()->flash('success', 'Data Tps Berhasil di Tambahkan');
+                return redirect('/tps');
+            } catch (Exception $e) {
+                return back()->withErrors($e->getMessage());
+            }
+       
     }
 
     public function edit(Tps $tps)
@@ -153,7 +178,30 @@ class TpsController extends Controller
 
     public function update(Request $request, Tps $tps)
     {
-        // dd($request->all());
+        if($this->getRole()['jabatan_id'] !== 4){
+            $request->validate($this->rules());
+            $kecamatan = Kecamatan::where('id', $request->kecamatan)->pluck('nama')->get(0);
+            $desa = Desa::where('id', $request->desa)->pluck('nama')->get(0);
+            DB::beginTransaction();
+            try {
+                $tps->update([
+                'kecamatan_id' => $request->kecamatan,
+                'user_id' => Auth::user()->id,
+                'desa_id' => $request->desa,
+                'namaDesa' => $desa,
+                'namaKecamatan' => $kecamatan,
+                'nama' => $request->namaTps,
+                'ketua' => Auth::user()->name,
+                'jumlah_pemilih' => $request->jumlahPemilih,
+                ]);
+
+                DB::commit();
+                $request->session()->flash('success', 'Data Desa Berhasil di Edit');
+                return redirect('/tps');    
+            } catch (Exception $e) {
+                return back()->withErrors($e->getMessage());
+            }
+        }
         $request->validate($this->rules());
         $kecamatan = Desa::with('kecamatan')->where('id', $request->desa)->first()->toArray();
         $desa = Desa::where('id', $request->desa)->pluck('nama')->get(0);
