@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pemilih', function (Blueprint $table) {
+        Schema::create('dpt', function (Blueprint $table) {
             $table->id();
             $table->foreignId('tps_id')->nullable()->constrained('tps');
             $table->foreignId('user_id')->nullable()->constrained('users');
-            $table->foreignId('leader_id')->nullable()->constrained('users');
-            $table->foreignId('mayor_id')->nullable()->constrained('users');
-            $table->foreignId('kapten_id')->nullable()->constrained('users');
             $table->foreignId('desa_id')->nullable()->constrained('desa');
             $table->foreignId('kecamatan_id')->nullable()->constrained('kecamatan');
             $table->string('namaKecamatan');
@@ -25,9 +22,7 @@ return new class extends Migration
             $table->string('namaTps');
             $table->string('nama');
             $table->string('nik');
-            $table->string('status_memilih')->nullable();
-            $table->boolean('is_dpt')->default(false);
-            $table->timestamps();   
+            $table->timestamps();
         });
     }
 
@@ -36,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pemilih');
+        Schema::dropIfExists('dpt');
     }
 };

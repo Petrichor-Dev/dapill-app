@@ -74,7 +74,11 @@
                                         @foreach ($pemilihs as $key => $pemilih)
                                         <tr>
                                             <td>{{ $key+1 }}</td>
-                                            <td>{{ $pemilih['nama'] }}</td>
+                                            @if($pemilih['is_dpt'] === 1)
+                                                <td><b><span class="text-primary">{{ $pemilih['nama'] }}</span></b></td>
+                                            @else
+                                                <td><b>{{ $pemilih['nama'] }}</b></td>
+                                            @endif
                                             <td>{{ $pemilih['leader']['name'] }}</td>
                                             <td>{{ $pemilih['kapten']['name'] }}</td>
                                             <td>{{ $pemilih['mayor']['name'] }}</td>

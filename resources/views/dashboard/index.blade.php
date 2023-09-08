@@ -9,7 +9,7 @@
             </ol>
             <div class="row">
                 <div class="col-xl-3 col-md-6">
-                    <div class="card bg-primary text-white mb-4">
+                    <div class="card bg-success text-white mb-4">
                         
                         <div class="card-body"><b>Total DPT</b></div>
                         <p class="mx-3"><b> {{ $totalDpt }}</b></p>
@@ -24,7 +24,7 @@
                     </div>
                 </div>
                 <div class="col-xl-3 col-md-6">
-                    <div class="card bg-success text-white mb-4">
+                    <div class="card bg-danger text-white mb-4">
                         <div class="card-body"><b>Memilih</b></div>
                         <p class="mx-3"><b> {{ $jumlahMemilih }}</b></p>
                         @can('lihat-pemilih')
@@ -48,7 +48,7 @@
                     </div>
                 </div>
                 <div class="col-xl-3 col-md-6">
-                    <div class="card bg-danger text-white mb-4">
+                    <div class="card bg-black text-white mb-4">
                         <div class="card-body"><b>Tidak Memilih</b></div>
                         <p class="mx-3"><b> {{ $jumlahTidakMemilih }}</b></p>
                         @can('lihat-pemilih')

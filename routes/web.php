@@ -69,12 +69,12 @@ Route::prefix('/tps')->name('.tps')->middleware('auth')->group(function () {
 
 // DPT
 Route::get('/tambah-dpt', [DptController::class, 'create'])->middleware('auth');
-Route::get('/edit-dpt/{pemilih}', [DptController::class, 'edit'])->middleware('auth');
+Route::get('/edit-dpt/{dpt}', [DptController::class, 'edit'])->middleware('auth');
 Route::prefix('/dpt')->name('.dpt')->middleware('auth')->group(function () {
     Route::get('/', [DptController::class, 'index']);
     Route::post('/create', [DptController::class, 'store']);
-    Route::put('/edit/{pemilih}', [DptController::class, 'update']);
-    Route::get('/delete/{pemilih}', [DptController::class, 'destroy']);
+    Route::put('/edit/{dpt}', [DptController::class, 'update']);
+    Route::get('/delete/{dpt}', [DptController::class, 'destroy']);
     Route::get('/export', [DptController::class, 'export']);
 });
 

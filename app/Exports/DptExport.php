@@ -2,7 +2,7 @@
 
 namespace App\Exports;
 
-use App\Models\Pemilih;
+use App\Models\Dpt;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
@@ -27,7 +27,7 @@ WithStyles
     */
     public function headings(): array
     {
-        return ["NO", "NAMA", "NIK", "LEADER", "KAPTEN", "MAYOR", "NAMA TPS", "ADMIN"];
+        return ["NO", "NAMA", "NIK", "NAMA TPS", "ADMIN"];
     }
 
     public function styles(Worksheet $sheet)
@@ -55,7 +55,7 @@ WithStyles
     }
 
     public function collection(){
-        return Pemilih::with(['admin', 'leader', 'kapten', 'mayor'])->get();
+        return Dpt::with(['admin'])->get();
     }
 
     private $rowNumber = 0;
@@ -67,9 +67,6 @@ WithStyles
             $this->rowNumber,
             $row->nama,
             $row->nik,
-            $row->leader->name,
-            $row->kapten->name, 
-            $row->mayor->name,
             $row->namaTps . ', ' . 'Desa ' . $row->namaDesa . ', ' .  'Kecamatan ' . $row->namaKecamatan,
             $row->admin->name
         ];

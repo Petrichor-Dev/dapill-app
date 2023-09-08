@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pemilih;
+use App\Models\Dpt;
 use App\Models\Desa;
 use App\Models\Tps;
 use App\Models\Leader;
@@ -58,6 +59,7 @@ class PemilihController extends Controller
                 ->with(['admin', 'leader', 'kapten', 'mayor'])
                 ->get()
                 ->toArray() ?? [];
+                // dd($pemilihs);
         } elseif($userRoleId === 4){
             //ambil semua daftar kecamatan berdasarkan si yang menginput (mayor)
             $atasanDesaId = Desa::whereIn('user_id', $idAtasan)->get()->pluck(['id'])->toArray();
@@ -112,6 +114,8 @@ class PemilihController extends Controller
        $tps = Tps::where('id', $request->tps)->pluck('nama')->get(0);
        DB::beginTransaction();
        try {
+           $cekDpt = Dpt::where('nik', $request->nik)->first();
+           $cekDpt ? $is_dpt = 1 : $is_dpt = 0;
            $category = Pemilih::create([
                'kecamatan_id' => $request->kecamatan,
                'user_id' => Auth::user()->id,
@@ -126,6 +130,7 @@ class PemilihController extends Controller
                'nama' => $request->nama,
                'nik' => $request->nik,
                'status_memilih' => $request->statusMemilih,
+               'is_dpt' => $is_dpt
            ]);
 
            DB::commit();
@@ -162,6 +167,8 @@ class PemilihController extends Controller
                 $tps = Tps::where('id', $request->tps)->pluck('nama')->get(0);
                 DB::beginTransaction();
                 try {
+                    $cekDpt = Dpt::where('nik', $request->nik)->first();
+                    $cekDpt ? $is_dpt = 1 : $is_dpt = 0;
                     $pemilih->update([
                         'kecamatan_id' => $request->kecamatan,
                         'user_id' => Auth::user()->id,
@@ -176,6 +183,7 @@ class PemilihController extends Controller
                         'nama' => $request->nama,
                         'nik' => $request->nik,
                         'status_memilih' => $request->statusMemilih,
+                        'is_dpt' => $is_dpt
                     ]);
     
                     DB::commit();

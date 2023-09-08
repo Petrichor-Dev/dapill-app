@@ -17,7 +17,7 @@
                         </ol>
                         <div class="card mb-4">
                             <div class="card-header">
-                                @if ($pemilihs !== [])
+                                @if ($dpts !== [])
                                 @can('lihat-dpt')
                                 <a href="/dpt/export">
                                     <button class="btn btn-success">Eksport Data</button>
@@ -38,9 +38,6 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Nama</th>
-                                            <th>Leader</th>
-                                            <th>Kapten</th>
-                                            <th>Mayor</th>
                                             <th>Nama TPS</th>
                                             <th>Status Memilih</th>
                                             <th>Admin</th>
@@ -51,9 +48,6 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Nama</th>
-                                            <th>Leader</th>
-                                            <th>Kapten</th>
-                                            <th>Mayor</th>
                                             <th>Nama TPS</th>
                                             <th>Status Memilih</th>
                                             <th>Admin</th>
@@ -61,27 +55,24 @@
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                        @foreach ($pemilihs as $key => $pemilih)
+                                        @foreach ($dpts as $key => $dpt)
                                         <tr>
                                             <td>{{ $key+1 }}</td>
-                                            <td>{{ $pemilih['nama'] }}</td>
-                                            <td>{{ $pemilih['leader']['name'] }}</td>
-                                            <td>{{ $pemilih['kapten']['name'] }}</td>
-                                            <td>{{ $pemilih['mayor']['name'] }}</td>
-                                            <td>{{ $pemilih['namaTps'] }}</td>
+                                            <td>{{ $dpt['nama'] }}</td>
+                                            <td>{{ $dpt['namaTps'] }}</td>
                                             <td>
                                                 -
                                             </td>
-                                            <td>{{ $pemilih['admin']['name'] }}</td>
+                                            <td>{{ $dpt['admin']['name'] }}</td>
                                             <td>
                                                 @can('edit-dpt')
-                                                <a href="/edit-dpt/{{ $pemilih['id'] }}">
+                                                <a href="/edit-dpt/{{ $dpt['id'] }}">
                                                     <button type="button" class="btn btn-outline-primary">Edit</button>
                                                 </a>
                                                 @endcan
                                                 
                                                 @can('hapus-dpt')
-                                                <a href="/dpt/delete/{{ $pemilih['id'] }}">
+                                                <a href="/dpt/delete/{{ $dpt['id'] }}">
                                                     <button type="button" class="btn btn-outline-danger">Hapus</button>
                                                 </a>
                                                 @endcan

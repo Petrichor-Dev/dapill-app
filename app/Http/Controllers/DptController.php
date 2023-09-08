@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pemilih;
 use App\Models\Desa;
 use App\Models\Tps;
 use App\Models\Kecamatan;
@@ -15,6 +14,7 @@ use App\Models\Leader;
 use App\Models\User;
 use Illuminate\Validation\Rule;
 use App\Exports\DptExport;
+use App\Models\Dpt;
 use Maatwebsite\Excel\Facades\Excel;
 
 class DptController extends Controller
@@ -25,7 +25,7 @@ class DptController extends Controller
     {
         return [
             'nama' => 'required|string',
-            'nik' => 'required|digits:16|integer|unique:pemilih,nik',
+            'nik' => 'required|digits:16|integer|unique:dpt,nik',
             'kecamatan' => 'required',
             'desa' => 'required',
             'tps' => 'required',
@@ -36,14 +36,14 @@ class DptController extends Controller
         $uid = Auth::user()->id;
         $roleName =  User::where('id', $uid)->with(['jabatan'])->first()->toArray();
         
-        return $roleName;
+        return $roleName; 
     }
 
     public function index()
     {
-        $pemilihs = Pemilih::with(['admin', 'leader', 'kapten', 'mayor'])->get()->toArray();
+        $dpts = Dpt::with(['admin'])->get()->toArray();
         return view("$this->componentPath/index", [
-            'pemilihs' => $pemilihs,
+            'dpts' => $dpts,
             'roleName' => $this->getRole() ?? []
         ]);
     }
@@ -54,27 +54,21 @@ class DptController extends Controller
             'kecamatans' => Kecamatan::get()->toArray() ?? [],
             'desas' => Desa::get()->toArray() ?? [],
             'tpss' => Tps::get()->toArray() ?? [],
-            'leaders' => Leader::get()->toArray() ?? [],
-            'mayors' => User::where('jabatan_id', 5)->get()->toArray() ?? [],
-            'kaptens' => User::where('jabatan_id', 6)->get()->toArray() ?? [],
             'roleName' => $this->getRole() ?? []
         ]);
     }
 
     public function store(Request $request)
-    {
+    {   
         $request->validate($this->rules());
         $kecamatan = Kecamatan::where('id', $request->kecamatan)->pluck('nama')->get(0);
         $desa = Desa::where('id', $request->desa)->pluck('nama')->get(0);
         $tps = Tps::where('id', $request->tps)->pluck('nama')->get(0);
         DB::beginTransaction();
         try {
-            $category = Pemilih::create([
+            $category = Dpt::create([
                 'kecamatan_id' => $request->kecamatan,
                 'user_id' => Auth::user()->id,
-                'leader_id' => $request->leader,
-                'mayor_id' => $request->mayor,
-                'kapten_id' => $request->kapten,
                 'tps_id' => $request->tps,
                 'desa_id' => $request->desa,
                 'namaDesa' => $desa,
@@ -92,39 +86,33 @@ class DptController extends Controller
         }
     }
 
-    public function edit(Pemilih $pemilih)
-    {
+    public function edit(Dpt $dpt)
+    {   
         return view("$this->componentPath/edit", [
-            'pemilih' => $pemilih->toArray() ?? [],
+            'dpt' => $dpt->toArray() ?? [],
             'kecamatans' => Kecamatan::get()->toArray() ?? [],
             'desas' => Desa::get()->toArray() ?? [],
             'tpss' => Tps::get()->toArray(),
-            'leaders' => Leader::get()->toArray() ?? [],
-            'mayors' => User::where('jabatan_id', 5)->get()->toArray() ?? [],
-            'kaptens' => User::where('jabatan_id', 6)->get()->toArray() ?? [],
             'roleName' => $this->getRole() ?? []
         ]);
     }
 
-    public function update(Request $request, Pemilih $pemilih)
+    public function update(Request $request, Dpt $dpt)
     {
         $request->validate([
             'nama' => ['required', 'string'],
-            'nik' => ['required', 'digits:16', 'integer', Rule::unique('pemilih')->ignore($pemilih->id)],
+            'nik' => ['required', 'digits:16', 'integer', Rule::unique('dpt')->ignore($dpt->id)],
         ]);
         $kecamatan = Kecamatan::where('id', $request->kecamatan)->pluck('nama')->get(0);
         $desa = Desa::where('id', $request->desa)->pluck('nama')->get(0);
         $tps = Tps::where('id', $request->tps)->pluck('nama')->get(0);
         DB::beginTransaction();
         try {
-            $pemilih->update([
+            $dpt->update([
                 'kecamatan_id' => $request->kecamatan,
                 'user_id' => Auth::user()->id,
                 'tps_id' => $request->tps,
                 'desa_id' => $request->desa,
-                'leader_id' => $request->leader,
-                'mayor_id' => $request->mayor,
-                'kapten_id' => $request->kapten,
                 'namaDesa' => $desa,
                 'namaTps' => $tps,
                 'namaKecamatan' => $kecamatan,
@@ -140,11 +128,11 @@ class DptController extends Controller
         }
     }
 
-    public function destroy(Pemilih $pemilih)
+    public function destroy(Dpt $dpt)
     {
         DB::beginTransaction();
         try {
-            $pemilih->delete();
+            $dpt->delete();
             DB::commit();
             return back();
         } catch (Exception $e) {
