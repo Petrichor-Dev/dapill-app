@@ -25,7 +25,7 @@ class PemilihController extends Controller
     public function rules()
     { 
         return [
-            'nama' => 'required|string',
+            'nama' => 'required|string|unique:pemilih,nama',
             'nik' => 'required|digits:16|integer|unique:pemilih,nik',
             'kecamatan' => 'required',
             'desa' => 'required',
@@ -158,7 +158,7 @@ class PemilihController extends Controller
     {
 
         $request->validate([
-                'nama' => ['required','string'],
+                'nama' => ['required','string', Rule::unique('pemilih')->ignore($pemilih->id)],
                 'nik' => ['required','digits:16','integer', Rule::unique('pemilih')->ignore($pemilih->id)]
             ]);
 

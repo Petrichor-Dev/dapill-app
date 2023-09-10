@@ -114,14 +114,13 @@
                                             @endcan
                                 </nav>
                             </div>
-                                @can('lihat-pemilih')
+                                @can('lihat-dpt')
                                 <a class="nav-link" href="/dpt">
                                     <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                                     DPT
                                 </a>
                                 @endcan
                             {{-- <div class="sb-sidenav-menu-heading">Addons</div> --}}
-
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
                                 <div class="sb-nav-link-icon"><i class="fas fa-gear"></i></div>
                                 Setting
@@ -138,6 +137,7 @@
                                     @endcan
                                 </nav>
                             </div>
+                            
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">

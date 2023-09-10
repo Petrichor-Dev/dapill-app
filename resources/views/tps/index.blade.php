@@ -32,7 +32,7 @@
                                             <th>No</th>
                                             <th>Nama TPS</th>
                                             <th>Jumlah Pemilih</th>
-                                            <th>Prajurit</th>
+                                            <th>Kapten</th>
                                             <th>Alamat TPS</th>
                                             <th>Aksi</th>
                                         </tr>
@@ -42,7 +42,7 @@
                                             <th>No</th>
                                             <th>Nama TPS</th>
                                             <th>Jumlah Pemilih</th>
-                                            <th>Prajurit</th>
+                                            <th>Kapten</th>
                                             <th>Alamat TPS</th>
                                             <th>Aksi</th>
                                         </tr>

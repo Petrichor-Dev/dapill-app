@@ -38,6 +38,8 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Nama</th>
+                                            <th>Desa</th>
+                                            <th>Kecamatan</th>
                                             <th>Nama TPS</th>
                                             <th>Status Memilih</th>
                                             <th>Admin</th>
@@ -48,6 +50,8 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Nama</th>
+                                            <th>Desa</th>
+                                            <th>Kecamatan</th>
                                             <th>Nama TPS</th>
                                             <th>Status Memilih</th>
                                             <th>Admin</th>
@@ -59,6 +63,8 @@
                                         <tr>
                                             <td>{{ $key+1 }}</td>
                                             <td>{{ $dpt['nama'] }}</td>
+                                            <td>{{ $dpt['namaDesa'] }}</td>
+                                            <td>{{ $dpt['namaKecamatan'] }}</td>
                                             <td>{{ $dpt['namaTps'] }}</td>
                                             <td>
                                                 -
