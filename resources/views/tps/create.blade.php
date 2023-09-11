@@ -51,13 +51,6 @@
                   @enderror
                 </div>
 
-                <div class="mb-4">
-                  <label for="jumlahPemilih" class="form-label">Jumlah Pemilih</label>
-                  <input type="number" name="jumlahPemilih" class="form-control" id="jumlahPemilih">
-                  @error('jumlahPemilih')
-                      <div class="form-text text-danger">{{ $message }}</div>
-                  @enderror
-                </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
               </form>
             </div>

@@ -54,12 +54,15 @@ class PemilihController extends Controller
         $userRoleId = User::where('id', $uid)->with(['jabatan'])->first()->toArray()['jabatan']['id'];
         //cek apakah idnya mayor atau bukan
         if($userRoleId === 6){
-            array_push($idAtasan, $uid);
-            $pemilihs = Pemilih::whereIn('user_id', $idAtasan)
+            // array_push($idAtasan, $uid);
+            // $pemilihs = Pemilih::whereIn('user_id', $idAtasan)
+            //     ->with(['admin', 'leader', 'kapten', 'mayor'])
+            //     ->get()
+            //     ->toArray() ?? [];   
+            $pemilihs = Pemilih::where('user_id', $uid)
                 ->with(['admin', 'leader', 'kapten', 'mayor'])
                 ->get()
                 ->toArray() ?? [];
-                // dd($pemilihs);
         } elseif($userRoleId === 4){
             //ambil semua daftar kecamatan berdasarkan si yang menginput (mayor)
             $atasanDesaId = Desa::whereIn('user_id', $idAtasan)->get()->pluck(['id'])->toArray();

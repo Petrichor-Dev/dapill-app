@@ -52,7 +52,7 @@
                                         <tr>
                                             <td>{{ $key+1 }}</td>
                                             <td>{{ $tps['nama'] }}</td>
-                                            <td>{{ $tps['jumlah_pemilih'] }} orang</td>
+                                            <td>{{ count($tps['pemilih']) }} orang</td>
                                             <td>{{ $tps['ketua'] }}</td>
                                             <td>Desa {{ $tps['namaDesa'] }}, kecamatan {{ $tps['namaKecamatan'] }}</td>
                                             <td>
@@ -67,6 +67,9 @@
                                                     <button type="button" class="btn btn-outline-danger">Hapus</button>
                                                 </a>
                                                 @endcan
+                                                <a href="/tps/download/{{ $tps['id'] }}">
+                                                    <button type="button" class="btn btn-outline-success">Unduh</button>
+                                                </a>
                                             </td>
                                         </tr>
                                         @endforeach

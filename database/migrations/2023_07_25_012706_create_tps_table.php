@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('namaKecamatan');
             $table->string('nama');
             $table->string('ketua')->nullable();
-            $table->integer('jumlah_pemilih');
             $table->timestamps();
         });
     }

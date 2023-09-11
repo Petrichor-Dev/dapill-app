@@ -62,6 +62,7 @@ Route::get('/tambah-tps', [TpsController::class, 'create'])->middleware('auth');
 Route::get('/edit-tps/{tps}', [TpsController::class, 'edit'])->middleware('auth');
 Route::prefix('/tps')->name('.tps')->middleware('auth')->group(function () {
     Route::get('/', [TpsController::class, 'index']);
+    Route::get('/download/{tps}', [TpsController::class, 'export']);
     Route::post('/create', [TpsController::class, 'store']);
     Route::put('/edit/{tps}', [TpsController::class, 'update']);
     Route::get('/delete/{tps}', [TpsController::class, 'destroy']);
@@ -83,6 +84,7 @@ Route::get('/tambah-leader', [LeaderController::class, 'create'])->middleware('a
 Route::get('/edit-leader/{leader}', [LeaderController::class, 'edit'])->middleware('auth');
 Route::prefix('/leader')->name('.leader')->middleware('auth')->group(function () {
     Route::get('/', [LeaderController::class, 'index']);
+    Route::get('/detail/{leader}', [LeaderController::class, 'show']);
     Route::post('/create', [LeaderController::class, 'store']);
     Route::put('/edit/{leader}', [LeaderController::class, 'update']);
     Route::get('/delete/{leader}', [LeaderController::class, 'destroy']);

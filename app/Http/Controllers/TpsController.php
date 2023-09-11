@@ -10,7 +10,10 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Exports\TpsExport;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Models\User;
+use Illuminate\Support\Str;
 
 class TpsController extends Controller
 {
@@ -21,7 +24,6 @@ class TpsController extends Controller
         return [
             'namaTps' => 'required',
             'desa' => 'required',
-            'jumlahPemilih' => 'required|integer',
         ];
     }
 
@@ -49,16 +51,16 @@ class TpsController extends Controller
             $mayorDesaId = Desa::where('user_id', $uid)->get()->pluck(['id'])->toArray();
             $arrayResult = array_merge($atasanDesaId, $mayorDesaId);
             // dd($atasanKecamatanId);
-            $tpss = Tps::whereIn('desa_id', $arrayResult)->get()->toArray();
+            $tpss = Tps::with(['pemilih'])->whereIn('desa_id', $arrayResult)->get()->toArray();
         } elseif($userRoleId === 5){
             //ambil semua daftar kecamatan berdasarkan si yang menginput (mayor)
             $atasanKecamatanId = Kecamatan::whereIn('user_id', $idAtasan)->get()->pluck(['id'])->toArray();
             $mayorKecamatanId = Kecamatan::where('user_id', $uid)->get()->pluck(['id'])->toArray();
             $arrayResult = array_merge($atasanKecamatanId, $mayorKecamatanId);
             // dd($atasanKecamatanId);
-            $tpss = Tps::whereIn('kecamatan_id', $arrayResult)->get()->toArray();
+            $tpss = Tps::with(['pemilih'])->whereIn('kecamatan_id', $arrayResult)->get()->toArray();
         } elseif($userRoleId === 2 || $userRoleId === 3 || $userRoleId === 1){
-            $tpss = Tps::get()->toArray();
+            $tpss = Tps::with(['pemilih'])->get()->toArray();
         } else{
             $tpss = [];
         }
@@ -70,9 +72,6 @@ class TpsController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $uid = Auth::user()->id;
@@ -116,7 +115,6 @@ class TpsController extends Controller
                 'namaKecamatan' => $kecamatan,
                 'nama' => $request->namaTps,
                 'ketua' => Auth::user()->name,
-                'jumlah_pemilih' => $request->jumlahPemilih,
             ]);
 
             DB::commit();
@@ -139,7 +137,6 @@ class TpsController extends Controller
                     'namaKecamatan' => $kecamatan['kecamatan']['nama'],
                     'nama' => $request->namaTps,
                     'ketua' => Auth::user()->name,
-                    'jumlah_pemilih' => $request->jumlahPemilih,
                 ]);
 
                 DB::commit();
@@ -164,7 +161,7 @@ class TpsController extends Controller
             // dd($arrayResult);
             $desas = $arrayResult;
         } else {
-            $desas = [];
+            $desas = Desa::get()->toArray();
         }
         $kecamatans = Kecamatan::get()->toArray();
     
@@ -172,7 +169,8 @@ class TpsController extends Controller
             'tps' => $tps->toArray() ?? [],
             'desas' => $desas ?? [],
             'kecamatans' => $kecamatans ?? [],
-            'roleName' => $this->getRole() ?? []
+            'roleName' => $this->getRole() ?? [],
+            'userRoleId' => $userRoleId
         ]);
     }
 
@@ -192,7 +190,7 @@ class TpsController extends Controller
                 'namaKecamatan' => $kecamatan,
                 'nama' => $request->namaTps,
                 'ketua' => Auth::user()->name,
-                'jumlah_pemilih' => $request->jumlahPemilih,
+                
                 ]);
 
                 DB::commit();
@@ -215,7 +213,7 @@ class TpsController extends Controller
                'namaKecamatan' => $kecamatan['kecamatan']['nama'],
                'nama' => $request->namaTps,
                'ketua' => Auth::user()->name,
-               'jumlah_pemilih' => $request->jumlahPemilih,
+               
             ]);
 
             DB::commit();
@@ -238,4 +236,12 @@ class TpsController extends Controller
             return back()->withErrors($e->getMessage());
         }
     }
+
+    public function export($tps)
+	{   
+        $tpsExport = new TpsExport($tps);
+        $tpsName = Tps::where('id', $tps)->get()->pluck(['nama'])->first();
+        $resultName = Str::slug($tpsName, '-');
+		return Excel::download($tpsExport, 'data-'.$resultName.'.xlsx');
+	}
 }

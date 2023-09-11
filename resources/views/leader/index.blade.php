@@ -39,6 +39,7 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Nama Leader</th>
+                                            <th>Jumlah Pemilih</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
@@ -46,14 +47,21 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Nama Leader</th>
+                                            <th>Jumlah Pemilih</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
                                         @foreach ($leaders as $key => $leader)
+                                        {{-- @dd(strlen($leader['pemilih'])) --}}
                                         <tr>
                                             <td>{{ $key+1 }}</td>
-                                            <td>{{ $leader['name'] }}</td>
+                                            <td>
+                                                <a href="/leader/detail/{{ $leader['id'] }}" class="text-grey text-reset">
+                                                    <b>{{ strtoupper($leader['name']) }}</b>
+                                                </a>
+                                            </td>
+                                            <td><b>{{ count($leader['pemilih']) }} Orang</b></td>
                                             <td>
                                                 @can('edit-leader')
                                                 <a href="/edit-leader/{{ $leader['id'] }}">

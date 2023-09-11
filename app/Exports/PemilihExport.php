@@ -22,7 +22,6 @@ FromCollection,
 WithHeadings, 
 WithMapping, 
 ShouldAutoSize, 
-// WithColumnWidths,
 WithStyles
 
 {

@@ -1,38 +1,18 @@
-
-@php
-    use Illuminate\Support\Facades\Auth;
-@endphp
 @extends('layout.main')
 
     @section('body')
                 <main>
                     <div class="container-fluid px-4">
-                        @if (session()->has('success'))
-                        <div class="alert alert-primary mt-4" role="alert">
-                            {{ session('success') }}
-                        </div>
-                        @endif
                         <h1 class="mt-4">Pemilih</h1>
                         <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item active">Daftar Pemilih</li>
+                            <li class="breadcrumb-item active">Daftar Pemilih Yang Memilih <b>{{ strtoupper($leader) }}</b></li>
                         </ol>
                         <div class="card mb-4">
-                            <div class="card-header">
-                                @if ($pemilihs !== [])
-                                @can('lihat-pemilih')
-                                <a href="/pemilih/export">
-                                    <button class="btn btn-success">Eksport Data</button>
+                            <div class="card-header">   
+                                <a href="/leader">
+                                    <button class="btn btn-primary">&larr; Kembali</button>
                                 </a>
-                                @endcan 
-                                    
-                                @endif
-                                @can('tambah-pemilih')
-                                <a href="/tambah-pemilih">
-                                    <button class="btn btn-primary">Tambah Pemilih</button>
-                                </a>
-                                @endcan
-                            </div>
-                            
+                            </div>                  
                             @can('lihat-pemilih')
                             <div class="card-body">
                                 <table id="datatablesSimple">
@@ -48,7 +28,6 @@
                                             <th>Nama TPS</th>
                                             <th>Status Memilih</th>
                                             <th>Admin</th>
-                                                <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -63,7 +42,6 @@
                                             <th>Nama TPS</th>
                                             <th>Status Memilih</th>
                                             <th>Admin</th>
-                                            <th>Aksi</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
@@ -102,19 +80,7 @@
                                                 @endswitch
                                             </td>
                                             <td>{{ $pemilih['admin']['name'] }}</td>
-                                            <td>
-                                                @can('edit-pemilih')
-                                                <a href="/edit-pemilih/{{ $pemilih['id'] }}">
-                                                    <button type="button" class="btn btn-outline-primary">Edit</button>
-                                                </a>
-                                                @endcan
-                                                @can('hapus-pemilih')
-                                                <a href="/pemilih/delete/{{ $pemilih['id'] }}">
-                                                    <button type="button" class="btn btn-outline-danger">Hapus</button>
-                                                </a>
-                                                @endcan
-                                            </td>
-                                        
+                 
                                         </tr>
                                         @endforeach
                                     </tbody>

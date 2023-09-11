@@ -42,10 +42,6 @@
                     </select>
                   </div>
 
-                <div class="mb-4">
-                  <label for="jumlahPemilih" class="form-label">Jumlah Pemilih</label>
-                  <input value="{{ $tps['jumlah_pemilih'] }}" name="jumlahPemilih" type="number" class="form-control" id="jumlahPemilih">
-                </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
               </form>
             </div>
