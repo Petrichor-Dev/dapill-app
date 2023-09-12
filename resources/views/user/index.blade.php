@@ -20,7 +20,7 @@
                             <div class="card-header">   
                                 @can('tambah-user')
                                 <a href="/tambah-user">
-                                    <button class="btn btn-primary">Tambah User</button>
+                                    <button class="btn btn-primary"><i class="fa-solid fa-plus"></i> Tambah User</button>
                                 </a>
                                 @endcan
                             </div>
@@ -58,13 +58,13 @@
                                             <td>
                                                 @can('edit-user')
                                                 <a href="/edit-user/{{ $user['id'] }}">
-                                                    <button type="button" class="btn btn-outline-primary">Edit</button>
+                                                    <button type="button" class="btn btn-outline-primary"><i class="fa-regular fa-pen-to-square"></i></button>
                                                 </a>
                                                 @endcan
                                                 
                                                 @can('hapus-user')
                                                 <a href="/user/delete/{{ $user['id'] }}">
-                                                    <button type="button" class="btn btn-outline-danger">Hapus</button>
+                                                    <button type="button" class="btn btn-outline-danger"><i class="fa-regular fa-trash-can"></i></button>
                                                 </a>
                                                 @endcan
                                             </td>

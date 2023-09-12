@@ -21,4 +21,9 @@ class Desa extends Model
     {
         return $this->belongsTo(Kecamatan::class, 'kecamatan_id', 'id', 'name');
     }
+
+    public function tps()
+    {
+        return $this->hasMany(Tps::class, 'desa_id', 'id', 'name');
+    }
 }

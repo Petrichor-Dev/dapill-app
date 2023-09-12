@@ -18,7 +18,7 @@
                             <div class="card-header">   
                                 @can('tambah-desa')
                                 <a href="/tambah-desa">
-                                    <button class="btn btn-primary">Tambah Desa</button>
+                                    <button class="btn btn-primary"><i class="fa-solid fa-plus"></i> Tambah Desa</button>
                                 </a>
                                 @endcan
                             </div>
@@ -56,19 +56,19 @@
                                             <td>{{ $key+1 }}</td>
                                             <td>{{ $desa['nama'] }}</td>
                                             <td>{{ $desa['mayor']['name'] }}</td>
-                                            <td>{{ $desa['jumlah_tps'] }}</td>
+                                            <td><b>{{ count($desa['tps']) }}</b></td>
                                             <td>{{ $desa['kecamatan']['nama'] }}</td>
                                             @can(['edit-desa', 'hapus-desa'])
                                             <td>
                                                 @can('edit-desa')
                                                 <a href="/edit-desa/{{ $desa['id'] }}">
-                                                    <button type="button" class="btn btn-outline-primary">Edit</button>
+                                                    <button type="button" class="btn btn-outline-primary"><i class="fa-regular fa-pen-to-square"></i></button>
                                                 </a>
                                                 @endcan
 
                                                 @can('hapus-desa')
                                                 <a href="/desa/delete/{{ $desa['id'] }}">
-                                                    <button type="button" class="btn btn-outline-danger">Hapus</button>
+                                                    <button type="button" class="btn btn-outline-danger"><i class="fa-regular fa-trash-can"></i></button>
                                                 </a>
                                                 @endcan
                                             </td>

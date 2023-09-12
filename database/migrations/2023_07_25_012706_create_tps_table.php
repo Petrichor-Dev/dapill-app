@@ -17,10 +17,11 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->constrained('users');
             $table->foreignId('kapten_id')->nullable()->constrained('users');
             $table->foreignId('desa_id')->nullable()->constrained('desa');
+            $table->string('nama');
             $table->string('namaDesa');
             $table->string('namaKecamatan');
-            $table->string('nama');
             $table->string('ketua')->nullable();
+            $table->boolean('isa_active')->default(true);
             $table->timestamps();
         });
     }

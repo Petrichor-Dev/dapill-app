@@ -61,7 +61,7 @@
                             @can('lihat-dashboard')
                             {{-- <div class="sb-sidenav-menu-heading">Core</div> --}}
                             <a class="nav-link mt-4" href="/">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-house"></i></div>
                                 Dashboard
                             </a>
                             @endcan
@@ -69,7 +69,7 @@
                             {{-- <div class="sb-sidenav-menu-heading">Interface</div> --}}
                             
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-                                <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-map-location-dot"></i></div>
                                 Dapil 1
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
@@ -78,6 +78,7 @@
 
                  
                                             @can('lihat-kecamatan')
+                                            
                                                 <a class="nav-link collapsed" href="/kecamatan">
                                                     Kecamatan
                                                     {{-- <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div> --}}
@@ -116,7 +117,7 @@
                             </div>
                                 @can('lihat-dpt')
                                 <a class="nav-link" href="/dpt">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                    <div class="sb-nav-link-icon"><i class="fa-solid fa-lock"></i></div>
                                     DPT
                                 </a>
                                 @endcan

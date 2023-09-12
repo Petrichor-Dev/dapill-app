@@ -20,7 +20,7 @@
                 <div class="card-header">   
                     @can('tambah-kecamatan')
                     <a href="/tambah-kecamatan">
-                        <button class="btn btn-primary">Tambah Kecamatan</button>
+                        <button class="btn btn-primary"><i class="fa-solid fa-plus"></i> Tambah Kecamatan</button>
                     </a>
                     @endcan
                 </div>
@@ -51,17 +51,17 @@
                                 <td>{{ $key+1 }}</td> 
                                 <td>{{ $kecamatan['nama'] }}</td>
                                 <td>{{ $kecamatan['jendral']['name'] }}</td>
-                                <td>{{ $kecamatan['jumlah_desa'] }}</td>
+                                <td><b>{{ count($kecamatan['desa']) }}</b></td>
                                 <td>
                                     @can('edit-kecamatan')
                                     <a href="/edit-kecamatan/{{ $kecamatan['id'] }}">
-                                        <button type="button" class="btn btn-outline-primary">Edit</button>
+                                        <button type="button" class="btn btn-outline-primary"><i class="fa-regular fa-pen-to-square"></i></button>
                                     </a>
                                     @endcan
                                     
                                     @can('hapus-kecamatan')
                                     <a href="/kecamatan/delete/{{ $kecamatan['id'] }}">
-                                        <button type="button" class="btn btn-outline-danger">Hapus</button>
+                                        <button type="button" class="btn btn-outline-danger"><i class="fa-regular fa-trash-can"></i></button>
                                     </a>
                                     @endcan
                                 </td>

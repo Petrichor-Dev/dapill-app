@@ -17,13 +17,13 @@
                             <li class="breadcrumb-item active">Daftar Role</li>
                         </ol>
                         <div class="card mb-4">
-                            <div class="card-header">   
+                            {{-- <div class="card-header">   
                                 @can('tambah-role')
                                 <a href="/tambah-role">
                                     <button class="btn btn-primary">Tambah Role</button>
                                 </a>
                                 @endcan
-                            </div>
+                            </div> --}}
                             
                             @can('lihat-role')
                             <div class="card-body">
@@ -51,14 +51,14 @@
                                             <td>
                                                 @can('edit-role')
                                                 <a href="/edit-role/{{$role['id'] }}">
-                                                    <button type="button" class="btn btn-outline-primary">Edit</button>
+                                                    <button type="button" class="btn btn-outline-primary"><i class="fa-regular fa-pen-to-square"></i></button>
                                                 </a>
                                                 @endcan
-                                                @can('hapus-role')
+                                                {{-- @can('hapus-role')
                                                 <a href="/role/delete/{{$role['id'] }}">
-                                                    <button type="button" class="btn btn-outline-danger">Hapus</button>
+                                                    <button type="button" class="btn btn-outline-danger"><i class="fa-regular fa-trash-can"></i></button>
                                                 </a>
-                                                @endcan
+                                                @endcan --}}
                                             </td>
                                         </tr>
                                         @endforeach

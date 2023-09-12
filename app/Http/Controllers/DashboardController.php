@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Pemilih;
+use App\Models\Dpt;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -20,13 +21,13 @@ class DashboardController extends Controller
     }
 
     public function index(){
-        $memilih = Pemilih::where('status_memilih', "Memilih")->get()->toArray();
-        $raguRagu = Pemilih::where('status_memilih', "Ragu-Ragu")->get()->toArray();
-        $tidakMemilih = Pemilih::where('status_memilih', "Tidak-Memilih")->get()->toArray();
-        $totalDpt = Pemilih::get()->toArray();
+        $memilih = Pemilih::where('status_memilih', "Memilih")->where('is_active', 1)->get()->toArray();
+        $raguRagu = Pemilih::where('status_memilih', "Ragu-Ragu")->where('is_active', 1)->get()->toArray();
+        $tidakMemilih = Pemilih::where('status_memilih', "Tidak-Memilih")->where('is_active', 1)->get()->toArray();
+        $totalDpt = Dpt::where('is_active', 1)->get()->toArray();
         $uid = Auth::user()->id;
         $roleName =  User::where('id', $uid)->with(['jabatan'])->first()->toArray();
-        $leaders = Pemilih::with('leader')->get()->pluck('leader')->toArray();
+        $leaders = Pemilih::with('leader')->where('is_active', 1)->get()->pluck('leader')->toArray();
         return view("$this->componentPath/index", [
             'jumlahMemilih' => count($memilih) ?? [],
             'jumlahRaguRagu' => count($raguRagu) ?? [],
@@ -44,19 +45,19 @@ class DashboardController extends Controller
             switch ($status) {
                 case 'Memilih':
                     $datas = Pemilih::with(['admin', 'leader', 'kapten', 'mayor'])
-                    ->where('status_memilih', "Memilih")->get()->toArray();
+                    ->where('status_memilih', "Memilih")->where('is_active', 1)->get()->toArray();
                     $status = "Memilih";
                     break;
     
                 case 'Ragu-Ragu':
                     $datas = Pemilih::with(['admin', 'leader', 'kapten', 'mayor'])
-                    ->where('status_memilih', "Ragu-Ragu")->get()->toArray();
+                    ->where('status_memilih', "Ragu-Ragu")->where('is_active', 1)->get()->toArray();
                     $status = "Ragu-Ragu";
                     break;
     
                 case 'Tidak-Memilih':
                     $datas = Pemilih::with(['admin', 'leader', 'kapten', 'mayor'])
-                    ->where('status_memilih', "Tidak-Memilih")->get()->toArray();
+                    ->where('status_memilih', "Tidak-Memilih")->where('is_active', 1)->get()->toArray();
                     $status = "Tidak-Memilih";
                     break;
                 
@@ -66,7 +67,7 @@ class DashboardController extends Controller
                     break;
             }
         } else{
-            $datas = Pemilih::with(['admin', 'leader', 'kapten', 'mayor'])->get()->toArray();
+            $datas = Dpt::with(['admin'])->where('is_active', 1)->get()->toArray();
             $status = "DPT";
         }
 

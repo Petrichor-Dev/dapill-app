@@ -31,7 +31,8 @@ WithStyles
 
     public function headings(): array
     {
-        return ["NO", "NAMA", "NIK", "LEADER", "KAPTEN", "MAYOR", "NAMA TPS", "STATUS MEMILIH", "ADMIN"];
+        return ["NO", "NAMA", "LEADER", "KAPTEN", "MAYOR", "NAMA TPS", "STATUS MEMILIH", "ADMIN"];
+        // return ["NO", "NAMA", "NIK", "LEADER", "KAPTEN", "MAYOR", "NAMA TPS", "STATUS MEMILIH", "ADMIN"];
     }
 
     public function styles(Worksheet $sheet)
@@ -63,7 +64,7 @@ WithStyles
     */
     public function collection()
     {
-        $pemilihs =  Pemilih::where('tps_id', $this->id)->get();
+        $pemilihs =  Pemilih::where('tps_id', $this->id)->where('is_active', 1)->get();
         return $pemilihs;
     }
 
@@ -74,7 +75,7 @@ WithStyles
         return [
             $this->rowNumber,
             $row->nama,
-            $row->nik,
+            // $row->nik,
             $row->leader->name,
             $row->kapten->name, 
             $row->mayor->name,

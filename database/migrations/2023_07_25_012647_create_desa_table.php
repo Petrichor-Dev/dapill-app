@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('kecamatan_id')->nullable()->constrained('kecamatan');
             $table->foreignId('user_id')->nullable()->constrained('users');
-            $table->string('nama');
             $table->foreignId('mayor_id')->nullable()->constrained('users');
-            $table->integer('jumlah_tps');
+            $table->string('nama');
+            // $table->integer('jumlah_tps');
+            $table->boolean('isa_active')->default(true);
             $table->timestamps();
         });
     }

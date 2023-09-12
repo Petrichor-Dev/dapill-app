@@ -37,7 +37,7 @@ class TpsController extends Controller
     public function index()
     {
         //get data panglima, admin dan super admin
-        $idAtasan = User::whereIn('jabatan_id', [1,2,3])->with(['jabatan'])->get()->pluck(['id'])->toArray();
+        $idAtasan = User::whereIn('jabatan_id', [1,2])->with(['jabatan'])->get()->pluck(['id'])->toArray();
         
         //get user lalu lihat id nya
         $uid = Auth::user()->id;
@@ -47,20 +47,20 @@ class TpsController extends Controller
         //cek apakah idnya mayor atau bukan
         if($userRoleId === 4){
             //ambil semua daftar kecamatan berdasarkan si yang menginput (mayor)
-            $atasanDesaId = Desa::whereIn('user_id', $idAtasan)->get()->pluck(['id'])->toArray();
-            $mayorDesaId = Desa::where('user_id', $uid)->get()->pluck(['id'])->toArray();
+            $atasanDesaId = Desa::whereIn('user_id', $idAtasan)->where('is_active', 1)->get()->pluck(['id'])->toArray();
+            $mayorDesaId = Desa::where('user_id', $uid)->where('is_active', 1)->get()->pluck(['id'])->toArray();
             $arrayResult = array_merge($atasanDesaId, $mayorDesaId);
             // dd($atasanKecamatanId);
-            $tpss = Tps::with(['pemilih'])->whereIn('desa_id', $arrayResult)->get()->toArray();
-        } elseif($userRoleId === 5){
+            $tpss = Tps::with(['pemilih'])->whereIn('desa_id', $arrayResult)->where('is_active', 1)->get()->toArray();
+        } elseif($userRoleId === 3){
             //ambil semua daftar kecamatan berdasarkan si yang menginput (mayor)
-            $atasanKecamatanId = Kecamatan::whereIn('user_id', $idAtasan)->get()->pluck(['id'])->toArray();
-            $mayorKecamatanId = Kecamatan::where('user_id', $uid)->get()->pluck(['id'])->toArray();
+            $atasanKecamatanId = Kecamatan::whereIn('user_id', $idAtasan)->where('is_active', 1)->get()->pluck(['id'])->toArray();
+            $mayorKecamatanId = Kecamatan::where('user_id', $uid)->where('is_active', 1)->get()->pluck(['id'])->toArray();
             $arrayResult = array_merge($atasanKecamatanId, $mayorKecamatanId);
             // dd($atasanKecamatanId);
-            $tpss = Tps::with(['pemilih'])->whereIn('kecamatan_id', $arrayResult)->get()->toArray();
-        } elseif($userRoleId === 2 || $userRoleId === 3 || $userRoleId === 1){
-            $tpss = Tps::with(['pemilih'])->get()->toArray();
+            $tpss = Tps::with(['pemilih'])->whereIn('kecamatan_id', $arrayResult)->where('is_active', 1)->get()->toArray();
+        } elseif($userRoleId === 1 || $userRoleId === 2){
+            $tpss = Tps::with(['pemilih'])->where('is_active', 1)->get()->toArray();
         } else{
             $tpss = [];
         }
@@ -78,14 +78,14 @@ class TpsController extends Controller
         $userRoleId = User::where('id', $uid)->with(['jabatan'])->first()->toArray()['jabatan']['id'];
 
         if($userRoleId === 4){
-            $idAtasan = User::whereIn('jabatan_id', [1,2,3])->with(['jabatan'])->get()->pluck(['id'])->toArray();
-            $atasanDesaId = Desa::whereIn('user_id', $idAtasan)->get()->toArray();
-            $mayorDesaId = Desa::where('user_id', $uid)->get()->toArray();
+            $idAtasan = User::whereIn('jabatan_id', [1,2])->with(['jabatan'])->get()->pluck(['id'])->toArray();
+            $atasanDesaId = Desa::whereIn('user_id', $idAtasan)->where('is_active', 1)->get()->toArray();
+            $mayorDesaId = Desa::where('user_id', $uid)->where('is_active', 1)->get()->toArray();
             $arrayResult = array_merge($atasanDesaId, $mayorDesaId);
             // dd($arrayResult);
             $desas = $arrayResult;
         } else {
-            $desas = Desa::get()->toArray();
+            $desas = Desa::where('is_active', 1)->get()->toArray();
         }
         
         $kecamatans = Kecamatan::get()->toArray();
@@ -103,8 +103,8 @@ class TpsController extends Controller
         //kalo yang input bukan jendral
        if($this->getRole()['jabatan_id'] !== 4){
         $request->validate($this->rules());
-        $kecamatan = Kecamatan::where('id', $request->kecamatan)->pluck('nama')->get(0);
-        $desa = Desa::where('id', $request->desa)->pluck('nama')->get(0);
+        $kecamatan = Kecamatan::where('id', $request->kecamatan)->where('is_active', 1)->pluck('nama')->get(0);
+        $desa = Desa::where('id', $request->desa)->where('is_active', 1)->pluck('nama')->get(0);
         DB::beginTransaction();
         try {
             $category = Tps::create([
@@ -125,8 +125,8 @@ class TpsController extends Controller
         }
        } 
             $request->validate($this->rules());
-            $kecamatan = Desa::with('kecamatan')->where('id', $request->desa)->first()->toArray();
-            $desa = Desa::where('id', $request->desa)->pluck('nama')->get(0);
+            $kecamatan = Desa::with('kecamatan')->where('id', $request->desa)->where('is_active', 1)->first()->toArray();
+            $desa = Desa::where('id', $request->desa)->where('is_active', 1)->pluck('nama')->get(0);
             DB::beginTransaction();
             try {
                 $category = Tps::create([
@@ -154,16 +154,16 @@ class TpsController extends Controller
         $userRoleId = User::where('id', $uid)->with(['jabatan'])->first()->toArray()['jabatan']['id'];
 
         if($userRoleId === 4){
-            $idAtasan = User::whereIn('jabatan_id', [1,2,3])->with(['jabatan'])->get()->pluck(['id'])->toArray();
-            $atasanDesaId = Desa::whereIn('user_id', $idAtasan)->get()->toArray();
-            $mayorDesaId = Desa::where('user_id', $uid)->get()->toArray();
+            $idAtasan = User::whereIn('jabatan_id', [1,2])->where('is_active', 1)->with(['jabatan'])->get()->pluck(['id'])->toArray();
+            $atasanDesaId = Desa::whereIn('user_id', $idAtasan)->where('is_active', 1)->get()->toArray();
+            $mayorDesaId = Desa::where('user_id', $uid)->where('is_active', 1)->get()->toArray();
             $arrayResult = array_merge($atasanDesaId, $mayorDesaId);
             // dd($arrayResult);
             $desas = $arrayResult;
         } else {
             $desas = Desa::get()->toArray();
         }
-        $kecamatans = Kecamatan::get()->toArray();
+        $kecamatans = Kecamatan::where('is_active', 1)->get()->toArray();
     
         return view("$this->componentPath/edit", [
             'tps' => $tps->toArray() ?? [],
@@ -178,8 +178,8 @@ class TpsController extends Controller
     {
         if($this->getRole()['jabatan_id'] !== 4){
             $request->validate($this->rules());
-            $kecamatan = Kecamatan::where('id', $request->kecamatan)->pluck('nama')->get(0);
-            $desa = Desa::where('id', $request->desa)->pluck('nama')->get(0);
+            $kecamatan = Kecamatan::where('id', $request->kecamatan)->where('is_active', 1)->pluck('nama')->get(0);
+            $desa = Desa::where('id', $request->desa)->where('is_active', 1)->pluck('nama')->get(0);
             DB::beginTransaction();
             try {
                 $tps->update([
@@ -201,8 +201,8 @@ class TpsController extends Controller
             }
         }
         $request->validate($this->rules());
-        $kecamatan = Desa::with('kecamatan')->where('id', $request->desa)->first()->toArray();
-        $desa = Desa::where('id', $request->desa)->pluck('nama')->get(0);
+        $kecamatan = Desa::with('kecamatan')->where('id', $request->desa)->where('is_active', 1)->first()->toArray();
+        $desa = Desa::where('id', $request->desa)->where('is_active', 1)->pluck('nama')->get(0);
         DB::beginTransaction();
         try {
             $tps->update([
@@ -229,7 +229,9 @@ class TpsController extends Controller
     {
         DB::beginTransaction();
         try {
-            $tps->delete();
+            $tps->update([
+                'is_update' => 0
+            ]);
             DB::commit();
             return back();
         } catch (Exception $e) {
@@ -240,7 +242,7 @@ class TpsController extends Controller
     public function export($tps)
 	{   
         $tpsExport = new TpsExport($tps);
-        $tpsName = Tps::where('id', $tps)->get()->pluck(['nama'])->first();
+        $tpsName = Tps::where('id', $tps)->where('is_active', 1)->get()->pluck(['nama'])->first();
         $resultName = Str::slug($tpsName, '-');
 		return Excel::download($tpsExport, 'data-'.$resultName.'.xlsx');
 	}

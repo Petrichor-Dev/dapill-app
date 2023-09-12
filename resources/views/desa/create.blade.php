@@ -48,14 +48,17 @@
                   @enderror
                 </div>
 
-                <div class="mb-4">
+                {{-- <div class="mb-4">
                   <label for="jumlahTps" class="form-label">Jumlah Tps</label>
                   <input type="number" name="jumlahTps" class="form-control" id="jumlahTps">
                   @error('jumlahTps')
                       <div class="form-text text-danger">{{ $message }}</div>
                   @enderror
+                </div> --}}
+                <div class="mt-4">
+                  <a href="/desa"><button type="button" class="btn btn-outline-primary">Batal</button></a>
+                  <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
               </form>
             </div>
             @endcan

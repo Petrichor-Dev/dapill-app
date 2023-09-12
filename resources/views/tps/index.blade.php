@@ -19,7 +19,7 @@
                             <div class="card-header">   
                                 @can('tambah-tps')
                                     <a href="/tambah-tps">
-                                        <button class="btn btn-primary">Tambah TPS</button>
+                                        <button class="btn btn-primary"><i class="fa-solid fa-plus"></i> Tambah TPS</button>
                                     </a>
                                     @endcan
                             </div>
@@ -58,17 +58,17 @@
                                             <td>
                                                 @can('edit-tps')
                                                 <a href="/edit-tps/{{ $tps['id'] }}">
-                                                    <button type="button" class="btn btn-outline-primary">Edit</button>
+                                                    <button type="button" class="btn btn-outline-primary"><i class="fa-regular fa-pen-to-square"></i></button>
                                                 </a>
                                                 @endcan
                                                 
                                                 @can('hapus-tps')
                                                 <a href="/tps/delete/{{ $tps['id'] }}">
-                                                    <button type="button" class="btn btn-outline-danger">Hapus</button>
+                                                    <button type="button" class="btn btn-outline-danger"><i class="fa-regular fa-trash-can"></i></button>
                                                 </a>
                                                 @endcan
                                                 <a href="/tps/download/{{ $tps['id'] }}">
-                                                    <button type="button" class="btn btn-outline-success">Unduh</button>
+                                                    <button type="button" class="btn btn-outline-success"><i class="fa-solid fa-download"></i></button>
                                                 </a>
                                             </td>
                                         </tr>

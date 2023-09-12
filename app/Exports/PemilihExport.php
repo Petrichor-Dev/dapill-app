@@ -30,7 +30,8 @@ WithStyles
     */
     public function headings(): array
     {
-        return ["NO", "NAMA", "NIK", "LEADER", "KAPTEN", "MAYOR", "NAMA TPS", "STATUS MEMILIH", "ADMIN"];
+        return ["NO", "NAMA", "LEADER", "KAPTEN", "MAYOR", "NAMA TPS", "STATUS MEMILIH", "ADMIN"];
+        // return ["NO", "NAMA", "NIK", "LEADER", "KAPTEN", "MAYOR", "NAMA TPS", "STATUS MEMILIH", "ADMIN"];
     }
 
     public function styles(Worksheet $sheet)
@@ -59,39 +60,43 @@ WithStyles
 
     public function collection(){
         //get data panglima, admin dan super admin
-        $idAtasan = User::whereIn('jabatan_id', [1,2,3])->with(['jabatan'])->get()->pluck(['id'])->toArray();
+        $idAtasan = User::whereIn('jabatan_id', [1,2])->with(['jabatan'])->get()->pluck(['id'])->toArray();
         
         //get user lalu lihat id nya
         $uid = Auth::user()->id;
         // lalu lihat rolenya
         $userRoleId = User::where('id', $uid)->with(['jabatan'])->first()->toArray()['jabatan']['id'];
         //cek apakah idnya mayor atau bukan
-        if($userRoleId === 6){
+        if($userRoleId === 5){
             array_push($idAtasan, $uid);
-            $pemilihs = Pemilih::whereIn('user_id', $idAtasan)
+            // $pemilihs = Pemilih::whereIn('user_id', $idAtasan)
+            //     ->with(['admin', 'leader', 'kapten', 'mayor'])
+            //     ->get() ?? '';
+            
+            $pemilihs = Pemilih::where('user_id', $uid)->where('is_active', 1)
                 ->with(['admin', 'leader', 'kapten', 'mayor'])
-                ->get() ?? '';
-                // dd($pemilihs);
+                ->get()
+                ->toArray() ?? [];
         } elseif($userRoleId === 4){
             //ambil semua daftar kecamatan berdasarkan si yang menginput (mayor)
-            $atasanDesaId = Desa::whereIn('user_id', $idAtasan)->get()->pluck(['id'])->toArray();
-            $mayorDesaId = Desa::where('user_id', $uid)->get()->pluck(['id'])->toArray();
+            $atasanDesaId = Desa::whereIn('user_id', $idAtasan)->where('is_active', 1)->get()->pluck(['id'])->toArray();
+            $mayorDesaId = Desa::where('user_id', $uid)->where('is_active', 1)->get()->pluck(['id'])->toArray();
             $arrayResult = array_merge($atasanDesaId, $mayorDesaId);
 
-            $pemilihs = Pemilih::whereIn('desa_id', $arrayResult)
+            $pemilihs = Pemilih::whereIn('desa_id', $arrayResult)->where('is_active', 1)
                 ->with(['admin', 'leader', 'kapten', 'mayor'])
                 ->get() ?? '';
-        } elseif($userRoleId === 5){
+        } elseif($userRoleId === 3){
             //ambil semua daftar kecamatan berdasarkan si yang menginput (mayor)
-            $atasanKecamatanId = Kecamatan::whereIn('user_id', $idAtasan)->get()->pluck(['id'])->toArray();
-            $mayorKecamatanId = Kecamatan::where('user_id', $uid)->get()->pluck(['id'])->toArray();
+            $atasanKecamatanId = Kecamatan::whereIn('user_id', $idAtasan)->where('is_active', 1)->get()->pluck(['id'])->toArray();
+            $mayorKecamatanId = Kecamatan::where('user_id', $uid)->where('is_active', 1)->get()->pluck(['id'])->toArray();
             $arrayResult = array_merge($atasanKecamatanId, $mayorKecamatanId);
 
-            $pemilihs = Pemilih::whereIn('kecamatan_id', $arrayResult)
+            $pemilihs = Pemilih::whereIn('kecamatan_id', $arrayResult)->where('is_active', 1)
                 ->with(['admin', 'leader', 'kapten', 'mayor'])
                 ->get() ?? '';
-        } elseif($userRoleId === 2 || $userRoleId === 3 || $userRoleId === 1){
-            $pemilihs = Pemilih::with(['admin', 'leader', 'kapten', 'mayor'])->get() ?? '';
+        } elseif($userRoleId === 1 || $userRoleId === 2){
+            $pemilihs = Pemilih::with(['admin', 'leader', 'kapten', 'mayor'])->where('is_active', 1)->get() ?? '';
         } else{
             $pemilihs = '';
         }
@@ -107,7 +112,7 @@ WithStyles
         return [
             $this->rowNumber,
             $row->nama,
-            $row->nik,
+            // $row->nik,
             $row->leader->name,
             $row->kapten->name, 
             $row->mayor->name,

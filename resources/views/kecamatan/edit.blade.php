@@ -34,14 +34,17 @@
                   @enderror
                 </div>
 
-                <div class="mb-3">
+                {{-- <div class="mb-3">
                   <label for="jumlahDesa" class="form-label">Jumlah Desa</label>
                   <input value="{{ $kecamatan['jumlah_desa'] }}" type="number" class="form-control" name="jumlahDesa" id="jumlahDesa">
                   @error('jumlahDesa')
                       <div class="form-text text-danger">{{ $message }}</div>
                   @enderror
+                </div> --}}
+                <div class="mt-4">
+                  <a href="/kecamatan"><button type="button" class="btn btn-outline-primary">Batal</button></a>
+                  <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
             </form>
             @endcan
         </div>

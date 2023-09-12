@@ -25,7 +25,7 @@ class DptController extends Controller
     {
         return [
             'nama' => 'required|string',
-            'nik' => 'required|digits:16|integer|unique:dpt,nik',
+            // 'nik' => 'required|digits:16|integer|unique:dpt,nik',
             'kecamatan' => 'required',
             'desa' => 'required',
             'tps' => 'required',
@@ -41,7 +41,7 @@ class DptController extends Controller
 
     public function index()
     {
-        $dpts = Dpt::with(['admin'])->get()->toArray();
+        $dpts = Dpt::where('is_active', 1)->with(['admin'])->get()->toArray();
         return view("$this->componentPath/index", [
             'dpts' => $dpts,
             'roleName' => $this->getRole() ?? []
@@ -51,9 +51,9 @@ class DptController extends Controller
     public function create()
     {
         return view("$this->componentPath/create", [
-            'kecamatans' => Kecamatan::get()->toArray() ?? [],
-            'desas' => Desa::get()->toArray() ?? [],
-            'tpss' => Tps::get()->toArray() ?? [],
+            'kecamatans' => Kecamatan::where('is_active', 1)->get()->toArray() ?? [],
+            'desas' => Desa::where('is_active', 1)->get()->toArray() ?? [],
+            'tpss' => Tps::where('is_active', 1)->get()->toArray() ?? [],
             'roleName' => $this->getRole() ?? []
         ]);
     }
@@ -61,9 +61,9 @@ class DptController extends Controller
     public function store(Request $request)
     {   
         $request->validate($this->rules());
-        $kecamatan = Kecamatan::where('id', $request->kecamatan)->pluck('nama')->get(0);
-        $desa = Desa::where('id', $request->desa)->pluck('nama')->get(0);
-        $tps = Tps::where('id', $request->tps)->pluck('nama')->get(0);
+        $kecamatan = Kecamatan::where('id', $request->kecamatan)->where('is_active', 1)->pluck('nama')->get(0);
+        $desa = Desa::where('id', $request->desa)->where('is_active', 1)->pluck('nama')->get(0);
+        $tps = Tps::where('id', $request->tps)->where('is_active', 1)->pluck('nama')->get(0);
         DB::beginTransaction();
         try {
             $category = Dpt::create([
@@ -75,7 +75,7 @@ class DptController extends Controller
                 'namaTps' => $tps,
                 'namaKecamatan' => $kecamatan,
                 'nama' => $request->nama,
-                'nik' => $request->nik,
+                // 'nik' => $request->nik,
             ]);
 
             DB::commit();
@@ -90,9 +90,9 @@ class DptController extends Controller
     {   
         return view("$this->componentPath/edit", [
             'dpt' => $dpt->toArray() ?? [],
-            'kecamatans' => Kecamatan::get()->toArray() ?? [],
-            'desas' => Desa::get()->toArray() ?? [],
-            'tpss' => Tps::get()->toArray(),
+            'kecamatans' => Kecamatan::where('is_active', 1)->get()->toArray() ?? [],
+            'desas' => Desa::where('is_active', 1)->get()->toArray() ?? [],
+            'tpss' => Tps::where('is_active', 1)->get()->toArray(),
             'roleName' => $this->getRole() ?? []
         ]);
     }
@@ -101,11 +101,11 @@ class DptController extends Controller
     {
         $request->validate([
             'nama' => ['required', 'string'],
-            'nik' => ['required', 'digits:16', 'integer', Rule::unique('dpt')->ignore($dpt->id)],
+            // 'nik' => ['required', 'digits:16', 'integer', Rule::unique('dpt')->ignore($dpt->id)],
         ]);
-        $kecamatan = Kecamatan::where('id', $request->kecamatan)->pluck('nama')->get(0);
-        $desa = Desa::where('id', $request->desa)->pluck('nama')->get(0);
-        $tps = Tps::where('id', $request->tps)->pluck('nama')->get(0);
+        $kecamatan = Kecamatan::where('id', $request->kecamatan)->where('is_active', 1)->pluck('nama')->get(0);
+        $desa = Desa::where('id', $request->desa)->where('is_active', 1)->pluck('nama')->get(0);
+        $tps = Tps::where('id', $request->tps)->where('is_active', 1)->pluck('nama')->get(0);
         DB::beginTransaction();
         try {
             $dpt->update([
@@ -117,7 +117,7 @@ class DptController extends Controller
                 'namaTps' => $tps,
                 'namaKecamatan' => $kecamatan,
                 'nama' => $request->nama,
-                'nik' => $request->nik,
+                // 'nik' => $request->nik,
             ]);
 
             DB::commit();
@@ -132,7 +132,9 @@ class DptController extends Controller
     {
         DB::beginTransaction();
         try {
-            $dpt->delete();
+            $dpt->update([
+                'is_active' => 0
+            ]);
             DB::commit();
             return back();
         } catch (Exception $e) {
@@ -142,6 +144,6 @@ class DptController extends Controller
 
     public function export()
 	{   
-		return Excel::download(new DptExport, 'dataDpt.xlsx');
+		return Excel::download(new DptExport, 'data-dpt.xlsx');
 	}
 }

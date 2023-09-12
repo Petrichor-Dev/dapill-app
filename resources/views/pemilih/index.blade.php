@@ -21,14 +21,14 @@
                                 @if ($pemilihs !== [])
                                 @can('lihat-pemilih')
                                 <a href="/pemilih/export">
-                                    <button class="btn btn-success">Eksport Data</button>
+                                    <button class="btn btn-success"><i class="fa-solid fa-download"></i> Download Data</button>
                                 </a>
                                 @endcan 
                                     
                                 @endif
                                 @can('tambah-pemilih')
                                 <a href="/tambah-pemilih">
-                                    <button class="btn btn-primary">Tambah Pemilih</button>
+                                    <button class="btn btn-primary"><i class="fa-solid fa-plus"></i> Tambah Pemilih</button>
                                 </a>
                                 @endcan
                             </div>
@@ -105,12 +105,12 @@
                                             <td>
                                                 @can('edit-pemilih')
                                                 <a href="/edit-pemilih/{{ $pemilih['id'] }}">
-                                                    <button type="button" class="btn btn-outline-primary">Edit</button>
+                                                    <button type="button" class="btn btn-outline-primary mt-1"><i class="fa-regular fa-pen-to-square"></i></button>
                                                 </a>
                                                 @endcan
                                                 @can('hapus-pemilih')
                                                 <a href="/pemilih/delete/{{ $pemilih['id'] }}">
-                                                    <button type="button" class="btn btn-outline-danger">Hapus</button>
+                                                    <button type="button" class="btn btn-outline-danger mt-1"><i class="fa-regular fa-trash-can"></i></button>
                                                 </a>
                                                 @endcan
                                             </td>

@@ -20,13 +20,13 @@ return new class extends Migration
             $table->foreignId('kapten_id')->nullable()->constrained('users');
             $table->foreignId('desa_id')->nullable()->constrained('desa');
             $table->foreignId('kecamatan_id')->nullable()->constrained('kecamatan');
+            $table->string('nama');
             $table->string('namaKecamatan');
             $table->string('namaDesa');
             $table->string('namaTps');
-            $table->string('nama');
-            $table->string('nik');
             $table->string('status_memilih')->nullable();
             $table->boolean('is_dpt')->default(false);
+            $table->boolean('isa_active')->default(true);
             $table->timestamps();   
         });
     }

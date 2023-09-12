@@ -28,7 +28,7 @@
                             <div class="card-header">   
                                 @can('tambah-leader')
                                 <a href="/tambah-leader">
-                                    <button class="btn btn-primary">Tambah Leader</button>
+                                    <button class="btn btn-primary"><i class="fa-solid fa-plus"></i> Tambah Leader</button>
                                 </a>
                                 @endcan
                             </div>
@@ -65,13 +65,13 @@
                                             <td>
                                                 @can('edit-leader')
                                                 <a href="/edit-leader/{{ $leader['id'] }}">
-                                                    <button type="button" class="btn btn-outline-primary">Edit</button>
+                                                    <button type="button" class="btn btn-outline-primary"><i class="fa-regular fa-pen-to-square"></i></button>
                                                 </a>
                                                 @endcan
                                                 
                                                 @can('hapus-leader')
                                                 <a  href="/leader/delete/{{ $leader['id'] }}">
-                                                    <button type="button" class="btn btn-outline-danger">Hapus</button>
+                                                    <button type="button" class="btn btn-outline-danger"><i class="fa-regular fa-trash-can"></i></button>
                                                 </a>
                                                 @endcan
                                             </td>

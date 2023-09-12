@@ -19,7 +19,7 @@ class KecamatanController extends Controller
         return [
             'namaKecamatan' => 'required|string',
             'jendral' => 'required',
-            'jumlahDesa' => 'required|integer',
+            // 'jumlahDesa' => 'required|integer',
         ];
     }
 
@@ -33,7 +33,7 @@ class KecamatanController extends Controller
     public function index()
     {
         //get data panglima, admin dan super admin
-        $idAtasan = User::whereIn('jabatan_id', [1,2,3])->with(['jabatan'])->get()->pluck(['id'])->toArray();
+        $idAtasan = User::whereIn('jabatan_id', [1,2])->with(['jabatan'])->get()->pluck(['id'])->toArray();
         
         //get user lalu lihat id nya
         $uid = Auth::user()->id;
@@ -41,14 +41,14 @@ class KecamatanController extends Controller
         $userRoleId = User::where('id', $uid)->with(['jabatan'])->first()->toArray()['jabatan']['id'];
         // dd($userRoleId);
         //cek apakah idnya mayor atau bukan
-        if($userRoleId === 5){
+        if($userRoleId === 3){
             //satukan semua array
             array_push($idAtasan, $uid);
              //kalo mayor, tampilkan hanya data mayor dan data admin serta panglima
-            $kecamatans = Kecamatan::with('jendral')->whereIn('user_id', $idAtasan)->get()->toArray();
-        } elseif($userRoleId === 2 || $userRoleId === 3 || $userRoleId === 1){
+            $kecamatans = Kecamatan::with('jendral','desa')->where('is_active', 1)->whereIn('user_id', $idAtasan)->get()->toArray();
+        } elseif($userRoleId === 1 || $userRoleId === 2){
             //jika admin dan panglima, tampilkan semua data
-            $kecamatans = Kecamatan::with('jendral')->get()->toArray();
+            $kecamatans = Kecamatan::with('jendral', 'desa')->where('is_active', 1)->get()->toArray();
         } else{
             $kecamatans = [];
         }
@@ -75,7 +75,7 @@ class KecamatanController extends Controller
             $category = Kecamatan::create([
                 'nama' => $request->namaKecamatan,
                 'jendral_id' => $request->jendral,
-                'jumlah_desa' => $request->jumlahDesa,
+                // 'jumlah_desa' => $request->jumlahDesa,
                 'user_id' => Auth::user()->id,
             ]);
 
@@ -104,7 +104,7 @@ class KecamatanController extends Controller
             $kecamatan->update([
                 'nama' => $request->namaKecamatan,
                 'jendral_id' => $request->jendral,
-                'jumlah_desa' => $request->jumlahDesa,
+                // 'jumlah_desa' => $request->jumlahDesa,
                 'user_id' => Auth::user()->id,
             ]);
 
@@ -120,7 +120,9 @@ class KecamatanController extends Controller
     {
         DB::beginTransaction();
         try {
-            $kecamatan->delete();
+            $kecamatan->update([
+                'is_active' => 0
+            ]);
             DB::commit();
             return back();
         } catch (Exception $e) {

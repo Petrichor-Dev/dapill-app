@@ -19,13 +19,13 @@
                   @enderror
                 </div>
 
-                <div class="mb-4">
+                {{-- <div class="mb-4">
                   <label for="NIK" class="form-label">NIK</label>
                   <input name="nik" type="number" class="form-control" id="NIK" value="{{ old('nik') }}">
                   @error('nik')
                       <div class="form-text text-danger">{{ $message }}</div>
                   @enderror
-                </div>
+                </div> --}}
 
                 <div class="mb-3">
                   <label for="kecamatan" class="form-label">Kecamatan</label>
@@ -72,7 +72,10 @@
                   @enderror
                 </div>
 
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <div class="mt-4">
+                  <a href="/dpt"><button type="button" class="btn btn-outline-primary">Batal</button></a>
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
               </form>
             </div>
             @endcan

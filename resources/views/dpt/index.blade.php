@@ -20,13 +20,13 @@
                                 @if ($dpts !== [])
                                 @can('lihat-dpt')
                                 <a href="/dpt/export">
-                                    <button class="btn btn-success">Eksport Data</button>
+                                    <button class="btn btn-success"><i class="fa-solid fa-download"></i> Download Data</button>
                                 </a>
                                 @endcan
                                 @endif  
                                 @can('tambah-dpt')
                                 <a href="/tambah-dpt">
-                                    <button class="btn btn-primary">Tambah DPT</button>
+                                    <button class="btn btn-primary"><i class="fa-solid fa-plus"></i> Tambah DPT</button>
                                 </a>
                                 @endcan
                             </div>
@@ -73,13 +73,13 @@
                                             <td>
                                                 @can('edit-dpt')
                                                 <a href="/edit-dpt/{{ $dpt['id'] }}">
-                                                    <button type="button" class="btn btn-outline-primary">Edit</button>
+                                                    <button type="button" class="btn btn-outline-primary"><i class="fa-regular fa-pen-to-square"></i></button>
                                                 </a>
                                                 @endcan
                                                 
                                                 @can('hapus-dpt')
                                                 <a href="/dpt/delete/{{ $dpt['id'] }}">
-                                                    <button type="button" class="btn btn-outline-danger">Hapus</button>
+                                                    <button type="button" class="btn btn-outline-danger"><i class="fa-regular fa-trash-can"></i></button>
                                                 </a>
                                                 @endcan
                                                 

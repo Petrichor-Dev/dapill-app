@@ -21,7 +21,7 @@ class DesaController extends Controller
             'kecamatan' => 'required',
             'namaDesa' => 'required|string',
             'mayor' => 'required',
-            'jumlahTps' => 'required|integer',
+            // 'jumlahTps' => 'required|integer',
         ];
     }
 
@@ -35,7 +35,7 @@ class DesaController extends Controller
     public function index()
     {
         //get data panglima, admin dan super admin
-        $idAtasan = User::whereIn('jabatan_id', [1,2,3])->with(['jabatan'])->get()->pluck(['id'])->toArray();
+        $idAtasan = User::whereIn('jabatan_id', [1,2])->with(['jabatan'])->get()->pluck(['id'])->toArray();
         
         //get user lalu lihat id nya
         $uid = Auth::user()->id;
@@ -47,16 +47,16 @@ class DesaController extends Controller
             //satukan semua array
             array_push($idAtasan, $uid);
              //kalo mayor, tampilkan hanya data mayor dan data admin serta panglima
-            $desas = Desa::with(['mayor', 'kecamatan'])->whereIn('user_id', $idAtasan)->get()->toArray();
-        } elseif($userRoleId === 5){
+            $desas = Desa::with(['mayor', 'kecamatan', 'tps'])->where('is_active', 1)->whereIn('user_id', $idAtasan)->get()->toArray();
+        } elseif($userRoleId === 3){
             //ambil semua daftar kecamatan berdasarkan si yang menginput (mayor)
-            $atasanKecamatanId = Kecamatan::whereIn('user_id', $idAtasan)->get()->pluck(['id'])->toArray();
-            $mayorKecamatanId = Kecamatan::where('user_id', $uid)->get()->pluck(['id'])->toArray();
+            $atasanKecamatanId = Kecamatan::whereIn('user_id', $idAtasan)->where('is_active', 1)->get()->pluck(['id'])->toArray();
+            $mayorKecamatanId = Kecamatan::where('user_id', $uid)->where('is_active', 1)->get()->pluck(['id'])->toArray();
             $arrayResult = array_merge($atasanKecamatanId, $mayorKecamatanId);
             // dd($atasanKecamatanId);
-            $desas = Desa::with(['mayor', 'kecamatan'])->whereIn('kecamatan_id', $arrayResult)->get()->toArray();
-        } elseif($userRoleId === 2 || $userRoleId === 3 || $userRoleId === 1){
-            $desas = Desa::with(['mayor', 'kecamatan'])->get()->toArray();
+            $desas = Desa::with(['mayor', 'kecamatan', 'tps'])->whereIn('kecamatan_id', $arrayResult)->where('is_active', 1)->get()->toArray();
+        } elseif($userRoleId === 1 || $userRoleId === 2){
+            $desas = Desa::with(['mayor', 'kecamatan', 'tps'])->where('is_active', 1)->get()->toArray();
         } else{
             $desas = [];
         }
@@ -69,10 +69,10 @@ class DesaController extends Controller
 
     public function create()
     {
-        $kecamatans = Kecamatan::get()->toArray();
+        $kecamatans = Kecamatan::where('is_active', 1)->get()->toArray();
         return view("$this->componentPath/create", [
             'kecamatans' => $kecamatans ?? [],
-            'mayors' => User::where('jabatan_id', 5)->get()->toArray() ?? [],
+            'mayors' => User::where('jabatan_id', 3)->get()->toArray() ?? [],
             'roleName' => $this->getRole() ?? []
         ]);
     }
@@ -85,7 +85,7 @@ class DesaController extends Controller
             $category = Desa::create([
                 'nama' => $request->namaDesa,
                 'mayor_id' => $request->mayor,
-                'jumlah_tps' => $request->jumlahTps,
+                // 'jumlah_tps' => $request->jumlahTps,
                 'kecamatan_id' => $request->kecamatan,
                 'user_id' => Auth::user()->id,
             ]);
@@ -100,11 +100,11 @@ class DesaController extends Controller
 
     public function edit(Desa $desa)
     {
-        $kecamatans = Kecamatan::get()->toArray();
+        $kecamatans = Kecamatan::where('is_active', 1)->get()->toArray();
         return view("$this->componentPath/edit", [
             'desa' => $desa->toArray(),
             'kecamatans' => $kecamatans,
-            'mayors' => User::where('jabatan_id', 5)->get()->toArray() ?? [],
+            'mayors' => User::where('jabatan_id', 3)->get()->toArray() ?? [],
             'roleName' => $this->getRole() ?? []
         ]);
     }
@@ -117,7 +117,7 @@ class DesaController extends Controller
             $desa->update([
                 'nama' => $request->namaDesa,
                 'mayor_id' => $request->mayor,
-                'jumlah_tps' => $request->jumlahTps,
+                // 'jumlah_tps' => $request->jumlahTps,
                 'kecamatan_id' => $request->kecamatan,
                 'user_id' => Auth::user()->id,
             ]);
@@ -134,7 +134,9 @@ class DesaController extends Controller
     {
         DB::beginTransaction();
         try {
-            $desa->delete();
+            $desa->update([
+                'is_active' => 0
+            ]);
             DB::commit();
             return back();
         } catch (Exception $e) {

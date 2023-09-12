@@ -44,11 +44,14 @@
                 @enderror
               </div>
 
-                <div class="mb-4">
+                {{-- <div class="mb-4">
                   <label for="jumlahTps" class="form-label">Jumlah Tps</label>
                   <input value="{{ $desa['jumlah_tps'] }}" type="number" name="jumlahTps" class="form-control" id="jumlahTps">
+                </div> --}}
+                <div class="mt-4">
+                  <a href="/desa"><button type="button" class="btn btn-outline-primary">Batal</button></a>
+                  <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
               </form>
             </div>
             @endcan

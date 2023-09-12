@@ -27,7 +27,8 @@ WithStyles
     */
     public function headings(): array
     {
-        return ["NO", "NAMA", "NIK", "NAMA TPS", "ADMIN"];
+        return ["NO", "NAMA", "NAMA TPS", "ADMIN"];
+        // return ["NO", "NAMA", "NIK", "NAMA TPS", "ADMIN"];
     }
 
     public function styles(Worksheet $sheet)
@@ -55,7 +56,7 @@ WithStyles
     }
 
     public function collection(){
-        return Dpt::with(['admin'])->get();
+        return Dpt::where('is_active', 1)->with(['admin'])->get();
     }
 
     private $rowNumber = 0;
@@ -66,7 +67,7 @@ WithStyles
         return [
             $this->rowNumber,
             $row->nama,
-            $row->nik,
+            // $row->nik,
             $row->namaTps . ', ' . 'Desa ' . $row->namaDesa . ', ' .  'Kecamatan ' . $row->namaKecamatan,
             $row->admin->name
         ];

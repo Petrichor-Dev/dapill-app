@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('leaders', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->boolean('isa_active')->default(true);
             $table->timestamps();
         });
     }

@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('kecamatan', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
-            $table->foreignId('jendral_id')->nullable()->constrained('users');
-            $table->integer('jumlah_desa');
             $table->foreignId('user_id')->nullable()->constrained('users');
+            $table->foreignId('jendral_id')->nullable()->constrained('users');
+            $table->string('nama');
+            // $table->integer('jumlah_desa');
+            $table->boolean('isa_active')->default(true);
             $table->timestamps();
         });
     }

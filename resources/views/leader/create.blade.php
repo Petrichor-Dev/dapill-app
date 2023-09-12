@@ -19,7 +19,10 @@
                   @enderror
                 </div>
 
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <div class="mt-4">
+                  <a href="/leader"><button type="button" class="btn btn-outline-primary">Batal</button></a>
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
               </form>
             </div>
             @endcan
