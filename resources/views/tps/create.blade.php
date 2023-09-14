@@ -39,6 +39,18 @@
                 <div class="mb-3">
                   <label for="desa" class="form-label">Desa</label>
                   <select class="form-select" name="desa" id="desa" aria-label="Default select example">
+                    <option value="">
+                      Pilih Desa
+                    </option>
+                  </select>
+                  @error('desa')
+                      <div class="form-text text-danger">{{ $message }}</div>
+                  @enderror
+                </div>
+
+                {{-- <div class="mb-3">
+                  <label for="desa" class="form-label">Desa</label>
+                  <select class="form-select" name="desa" id="desa" aria-label="Default select example">
                     <option selected>Pilih Desa</option>
                     @foreach ($desas as $desa)
                     <option value="{{ $desa['id'] }}" @selected(old('desa') == $desa['nama'])>
@@ -49,7 +61,7 @@
                   @error('desa')
                       <div class="form-text text-danger">{{ $message }}</div>
                   @enderror
-                </div>
+                </div> --}}
 
                 <div class="mt-4">
                   <a href="/tps"><button type="button" class="btn btn-outline-primary">Batal</button></a>

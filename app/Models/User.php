@@ -36,7 +36,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
+        // 'password' => 'hashed',
     ];
     
     /**
@@ -45,7 +45,6 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
         'remember_token',
     ];
 
@@ -54,5 +53,10 @@ class User extends Authenticatable
     public function jabatan()
     {
         return $this->belongsTo(Roles::class, 'jabatan_id', 'id', 'name');
+    }
+
+    public function pemilih()
+    {
+        return $this->hasMany(Pemilih::class, 'kapten_id', 'id', 'name');
     }
 }

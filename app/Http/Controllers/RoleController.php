@@ -33,7 +33,7 @@ class RoleController extends Controller
 
     public function index()
     {
-        $roles = Role::get()->toArray();
+        $roles = Role::whereNotIn('id', [1])->get()->toArray();
         return view("$this->componentPath/index", [
             'roles' => new RoleResource($roles) ?? [],
             'roleName' => $this->getRole() ?? []

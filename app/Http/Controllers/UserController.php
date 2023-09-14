@@ -36,7 +36,7 @@ class UserController extends Controller
     public function index()
     {
         return view("$this->componentPath/index", [
-            'users' => User::with('jabatan')->get()->toArray() ?? [],
+            'users' => User::with('jabatan')->whereNotIn('id', [1])->get()->toArray() ?? [],
             'roleName' => $this->getRole() ?? []
            ]);
     }
@@ -44,7 +44,7 @@ class UserController extends Controller
     public function create()
     {   
         return view("$this->componentPath/create", [
-            'roles' => Role::get()->toArray() ?? [],
+            'roles' => Role::whereNotIn('id', [1])->get()->toArray() ?? [],
             'roleName' => $this->getRole() ?? []
         ]);
     }
@@ -58,7 +58,7 @@ class UserController extends Controller
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
-                'password' => Hash::make($request->password),
+                'password' => $request->password,
                 'jabatan_id' => (int)$request->role
             ]);
             // dd((int)$request->role);
@@ -80,7 +80,7 @@ class UserController extends Controller
             [
                 'user' => $userData->resource ?? [],
                 'userRoleName' => $user->getRoleNames()->toArray(),
-                'roles' => Role::get()->toArray() ?? [],
+                'roles' => Role::whereNotIn('id', [1])->get()->toArray() ?? [],
                 'roleName' => $this->getRole() ?? []
             ]
         );
@@ -100,7 +100,7 @@ class UserController extends Controller
             $user->update([
                 'name' => $request->name,
                 'email' => $request->email,
-                'password' => $request->password ? Hash::make($request->password) : $user->password,
+                'password' => $request->password ? $request->password : $user->password,
                 'jabatan_id' => (int)$request->role
             ]);
             $user->syncRoles($request->role);
@@ -123,5 +123,11 @@ class UserController extends Controller
         } catch (\Exception $e) {
             return back()->withErrors(['message' => $e->getMessage()]);
         }
+    }
+
+    public function getKapten()
+    {
+        $kaptens = User::where('jabatan_id', 5)->with('pemilih')->take(5)->get()->toArray();
+        dd($kaptens);
     }
 }

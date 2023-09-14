@@ -143,4 +143,9 @@ class DesaController extends Controller
             return back()->withErrors($e->getMessage());
         }
     }
+
+    public function getDesa($kecamatan){
+        $kelurahan = Desa::where('kecamatan_id', $kecamatan)->pluck('nama', 'id');
+        return response()->json($kelurahan);
+    }
 }

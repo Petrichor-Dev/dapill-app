@@ -152,7 +152,7 @@
                     <footer class="py-4 bg-light mt-auto">
                         <div class="container-fluid px-4">
                             <div class="d-flex align-items-center justify-content-between small">
-                                <div class="text-muted">Copyright &copy; Gita App</div>
+                                <div class="text-muted">Copyright &copy; GENI App</div>
                                 <div>
                                     <a href="#">Privacy Policy</a>
                                     &middot;
@@ -168,11 +168,49 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="js/scripts.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#kecamatan').on('change', function () {
+                    var kecamatanId = $(this).val();
+                    if (kecamatanId) {
+                        $.ajax({
+                            type: 'GET',
+                            url: '/get-desa/' + kecamatanId,
+                            success: function (data) {
+                                $('#desa').empty();
+                                $('#desa').append('<option value="">Pilih Desa</option>');
+                                $.each(data, function (key, value) {
+                                    $('#desa').append('<option value="' + key + '">' + value + '</option>');
+                                });
+                            }
+                        });
+                    } else {
+                        $('#desa').empty();
+                        $('#desa').append('<option value="">Pilih Desa</option>');
+                    }
+                });
+            });
+        </script>
+
         <script>
             // Set new default font family and font color to mimic Bootstrap's default styling
             Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
             Chart.defaults.global.defaultFontColor = '#292b2c';
 
+            // $( document ).ready(function() {
+            //     $.ajax({
+            //                 type: 'GET',
+            //                 url: '/get-pemilih',
+            //                 success: function (data) {
+            //                     $('#desa').empty();
+            //                     $('#desa').append('<option value="">Pilih Desa</option>');
+            //                     $.each(data, function (key, value) {
+            //                         $('#desa').append('<option value="' + key + '">' + value + '</option>');
+            //                     });
+            //                 }
+            //             });
+            // });
             // Bar Chart Example
             let ctx = document.getElementById("myBarChart");
 

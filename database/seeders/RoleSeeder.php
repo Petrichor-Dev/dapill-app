@@ -21,6 +21,7 @@ class RoleSeeder extends Seeder
         Role::create(['name' => 'Mayor', 'guard_name' => 'web']);
         Role::create(['name' => 'Jendral', 'guard_name' => 'web']);
         Role::create(['name' => 'Kapten', 'guard_name' => 'web']);
+        Role::create(['name' => 'none', 'guard_name' => 'web']);
         $permissions = Permission::get()->toArray();
         $role->givePermissionTo($permissions);
     }

@@ -45,6 +45,18 @@
                 <div class="mb-3">
                   <label for="desa" class="form-label">Desa</label>
                   <select class="form-select" name="desa" id="desa" aria-label="Default select example">
+                    <option value="">
+                      Pilih Desa
+                    </option>
+                  </select>
+                  @error('desa')
+                      <div class="form-text text-danger">{{ $message }}</div>
+                  @enderror
+                </div>
+                
+                {{-- <div class="mb-3">
+                  <label for="desa" class="form-label">Desa</label>
+                  <select class="form-select" name="desa" id="desa" aria-label="Default select example">
                     @foreach ($desas as $desa)
                       <option value="{{ $desa['id'] }}" @if(old('desa', $pemilih['desa_id']) == $desa['id']) selected @endif>
                           {{ $desa['nama'] }}
@@ -54,7 +66,7 @@
                   @error('desa')
                       <div class="form-text text-danger">{{ $message }}</div>
                   @enderror
-                </div>
+                </div> --}}
 
                 <div class="mb-3">
                   <label for="tps" class="form-label">TPS</label>
