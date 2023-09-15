@@ -71,6 +71,18 @@
                 <div class="mb-3">
                   <label for="tps" class="form-label">TPS</label>
                   <select class="form-select" name="tps" id="tps" aria-label="Default select example">
+                    <option value="">
+                      Pilih TPS
+                    </option>
+                  </select>
+                  @error('tps')
+                      <div class="form-text text-danger">{{ $message }}</div>
+                  @enderror
+                </div>
+                
+                {{-- <div class="mb-3">
+                  <label for="tps" class="form-label">TPS</label>
+                  <select class="form-select" name="tps" id="tps" aria-label="Default select example">
                     @foreach ($tpss as $tps)
                       <option value="{{ $tps['id'] }}" @if(old('tps', $pemilih['tps_id']) == $tps['id']) selected @endif>
                           {{ $tps['nama'] }}
@@ -80,7 +92,7 @@
                   @error('tps')
                       <div class="form-text text-danger">{{ $message }}</div>
                   @enderror
-                </div>
+                </div> --}}
 
                 <div class="mb-3">
                   <label for="leader" class="form-label">Leader</label>

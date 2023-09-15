@@ -190,6 +190,26 @@
                         $('#desa').append('<option value="">Pilih Desa</option>');
                     }
                 });
+
+                $('#desa').on('change', function () {
+                    var desaId = $(this).val();
+                    if (desaId) {
+                        $.ajax({
+                            type: 'GET',
+                            url: '/get-tps/' + desaId,
+                            success: function (data) {
+                                $('#tps').empty();
+                                $('#tps').append('<option value="">Pilih TPS</option>');
+                                $.each(data, function (key, value) {
+                                    $('#tps').append('<option value="' + key + '">' + value + '</option>');
+                                });
+                            }
+                        });
+                    } else {
+                        $('#tps').empty();
+                        $('#tps').append('<option value="">Pilih TPS</option>');
+                    }
+                });
             });
         </script>
 

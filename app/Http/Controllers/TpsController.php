@@ -246,4 +246,10 @@ class TpsController extends Controller
         $resultName = Str::slug($tpsName, '-');
 		return Excel::download($tpsExport, 'data-'.$resultName.'.xlsx');
 	}
+
+    public function getTps($desa)
+    {
+        $tps = Tps::where('desa_id', $desa)->pluck('nama', 'id');
+        return response()->json($tps);
+    }
 }

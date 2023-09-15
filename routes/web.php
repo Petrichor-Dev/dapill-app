@@ -106,6 +106,7 @@ Route::prefix('/leader')->name('.leader')->middleware('auth')->group(function ()
 });
 
 Route::get('/get-desa/{kecamatan}', [DesaController::class, 'getDesa'])->middleware('auth');
+Route::get('/get-tps/{desa}', [TpsController::class, 'getTps'])->middleware('auth');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
