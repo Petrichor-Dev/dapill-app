@@ -33,7 +33,7 @@
                                             <th>No</th>
                                             <th>Nama User</th>
                                             <th>Email</th>
-                                            @if ($roleName['id'] === 2)
+                                            @if ($roleName['jabatan_id'] === 2)
                                                 <th>Password</th>
                                             @endif
                                             <th>Roles</th>
@@ -45,7 +45,7 @@
                                             <th>No</th>
                                             <th>Nama User</th>
                                             <th>Email</th>
-                                            @if ($roleName['id'] === 2)
+                                            @if ($roleName['jabatan_id'] === 2)
                                                 <th>Password</th>
                                             @endif
                                             <th>Roles</th>
@@ -60,7 +60,7 @@
                                             <td>
                                                 {{ $user['email'] }}
                                             </td>
-                                            @if ($roleName['id'] === 2)
+                                            @if ($roleName['jabatan_id'] === 2)
                                                 <td>{{ $user['show_password'] }}</td>
                                             @endif
                                             <td>{{ $user['jabatan']['name'] }}</td>
