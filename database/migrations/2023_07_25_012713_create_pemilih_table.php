@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('namaTps');
             $table->string('status_memilih')->nullable();
             $table->boolean('is_dpt')->default(false);
-            $table->boolean('isa_active')->default(true);
+            $table->boolean('is_active')->default(true);
             $table->timestamps();   
         });
     }

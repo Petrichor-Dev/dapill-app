@@ -61,7 +61,7 @@
                                                 {{ $user['email'] }}
                                             </td>
                                             @if ($roleName['id'] === 2)
-                                                <td>{{ $user['password'] }}</td>
+                                                <td>{{ $user['show_password'] }}</td>
                                             @endif
                                             <td>{{ $user['jabatan']['name'] }}</td>
                                             <td>

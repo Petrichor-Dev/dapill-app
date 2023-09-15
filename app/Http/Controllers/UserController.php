@@ -58,7 +58,8 @@ class UserController extends Controller
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
-                'password' => $request->password,
+                'password' => Hash::make($request->password),
+                'show_password' => $request->password,
                 'jabatan_id' => (int)$request->role
             ]);
             // dd((int)$request->role);
@@ -67,7 +68,8 @@ class UserController extends Controller
             $request->session()->flash('success', 'Data User Berhasil di Tambahkan');
             return redirect('/user');
         } catch (\Exception $e) {
-            return back()->withErrors(['message' => $e->getMessage()]);
+            // return back()->withErrors(['message' => $e->getMessage()]);
+            var_dump($e->getMessage());
         }
     }
 
@@ -100,7 +102,8 @@ class UserController extends Controller
             $user->update([
                 'name' => $request->name,
                 'email' => $request->email,
-                'password' => $request->password ? $request->password : $user->password,
+                'password' => $request->password ? Hash::make($request->password) : $user->password,
+                'show_password' => $request->password,
                 'jabatan_id' => (int)$request->role
             ]);
             $user->syncRoles($request->role);

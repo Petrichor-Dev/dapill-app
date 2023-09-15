@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Dashboard - SB Admin</title>
+        <title>Dashboard - Geni App</title>
         
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <link href="/css/styles.css" rel="stylesheet" />
@@ -218,13 +218,13 @@
             type: 'bar',
             data: {
                 //nama leader
-                labels: ["Agus", "Bambang", "Salim", "Arman", "Yuni"],
+                // labels: ["Agus", "Bambang", "Salim", "Arman", "Yuni"],
                 datasets: [{
                 label: "Total Pemilih",
                 backgroundColor: "rgba(2,117,216,1)",
                 borderColor: "rgba(2,117,216,1)",
                 //data jumlah suara
-                data: [12, 31, 45, 83, 75].sort((a,b) => a-b),
+                // data: [12, 31, 45, 83, 75].sort((a,b) => a-b),
                 // sort((a,b) => a-b)
                 }],
             },

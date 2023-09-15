@@ -76,7 +76,7 @@ class RoleController extends Controller
     {
         $dataWithPermissions = Role::with('permissions')->where('id', $role->id)->get()->first()->toArray();
         return view(
-            "$this->componentPath/Edit",
+            "$this->componentPath/edit",
             [
                 'permissions' => Permission::get()->toArray() ?? [],
                 'dataWithPermissions' => $dataWithPermissions ?? [],

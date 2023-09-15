@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('mayor_id')->nullable()->constrained('users');
             $table->string('nama');
             // $table->integer('jumlah_tps');
-            $table->boolean('isa_active')->default(true);
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

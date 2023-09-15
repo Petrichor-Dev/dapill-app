@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('namaDesa');
             $table->string('namaKecamatan');
             $table->string('ketua')->nullable();
-            $table->boolean('isa_active')->default(true);
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

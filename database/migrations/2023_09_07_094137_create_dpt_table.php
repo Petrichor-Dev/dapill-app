@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('namaKecamatan');
             $table->string('namaDesa');
             $table->string('namaTps');
-            $table->boolean('isa_active')->default(true);
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }
