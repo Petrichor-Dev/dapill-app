@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,12 +13,12 @@ class Desa extends Model
 
     public function mayor()
     {
-        return $this->belongsTo(User::class, 'mayor_id', 'id', 'name')->where('is_active', 1);
+        return $this->belongsTo(User::class, 'mayor_id', 'id', 'name');
     }
 
     public function kecamatan()
     {
-        return $this->belongsTo(Kecamatan::class, 'kecamatan_id', 'id', 'name')->where('is_active', 1);
+        return $this->belongsTo(Kecamatan::class, 'kecamatan_id', 'id', 'name');
     }
 
     public function tps()

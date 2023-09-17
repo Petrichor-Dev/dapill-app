@@ -15,6 +15,6 @@ class Tps extends Model
 
     public function pemilih()
     {
-        return $this->hasMany(Pemilih::class, 'tps_id', 'id', 'name');
+        return $this->hasMany(Pemilih::class, 'tps_id', 'id', 'name')->where('is_active', 1);
     }
 }

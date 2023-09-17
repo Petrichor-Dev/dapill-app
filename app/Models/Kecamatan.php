@@ -20,6 +20,6 @@ class Kecamatan extends Model
 
     public function desa()
     {
-        return $this->hasMany(Desa::class, 'kecamatan_id', 'id', 'name');
+        return $this->hasMany(Desa::class, 'kecamatan_id', 'id', 'name')->where('is_active', 1);
     }
 }
