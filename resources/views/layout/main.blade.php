@@ -234,7 +234,7 @@
                             //nama leader
                             labels: namResult,
                             datasets: [{
-                            label: "Total Pemilih",
+                            label: "Total Input Suara",
                             backgroundColor: "rgba(2,117,216,1)",
                             borderColor: "rgba(2,117,216,1)",
                             //data jumlah suara
