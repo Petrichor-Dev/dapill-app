@@ -164,10 +164,16 @@ class PemilihController extends Controller
 
         $request->validate([
                 'nama' => ['required','string', Rule::unique('pemilih')->ignore($pemilih->id)],
-                // 'nik' => ['required','digits:16','integer', Rule::unique('pemilih')->ignore($pemilih->id)]
+                'kecamatan' => 'required',
+                'desa' => 'required',
+                'tps' => 'required',
+                'mayor' => 'required',
+                'leader' => 'required',
+                'kapten' => 'required',
+                'statusMemilih' => 'required'
             ]);
 
-        $kecamatan = Kecamatan::where('id', $request->kecamatan)->where('is_active', 1)->pluck('nama')->get(0);
+                $kecamatan = Kecamatan::where('id', $request->kecamatan)->where('is_active', 1)->pluck('nama')->get(0);
                 $desa = Desa::where('id', $request->desa)->where('is_active', 1)->pluck('nama')->get(0);
                 $tps = Tps::where('id', $request->tps)->where('is_active', 1)->pluck('nama')->get(0);
                 DB::beginTransaction();
@@ -197,6 +203,7 @@ class PemilihController extends Controller
                     return redirect('/pemilih');    
                 } catch (Exception $e) {
                     return back()->withErrors($e->getMessage());
+                    // dd($e->getMessage());
                 }
     }
 

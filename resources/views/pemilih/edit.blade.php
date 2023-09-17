@@ -42,7 +42,7 @@
                   @enderror
                 </div>
                 
-                <div class="mb-3">
+                {{-- <div class="mb-3">
                   <label for="desa" class="form-label">Desa</label>
                   <select class="form-select" name="desa" id="desa" aria-label="Default select example">
                     <option value="">
@@ -52,9 +52,9 @@
                   @error('desa')
                       <div class="form-text text-danger">{{ $message }}</div>
                   @enderror
-                </div>
+                </div> --}}
                 
-                {{-- <div class="mb-3">
+                <div class="mb-3">
                   <label for="desa" class="form-label">Desa</label>
                   <select class="form-select" name="desa" id="desa" aria-label="Default select example">
                     @foreach ($desas as $desa)
@@ -66,9 +66,9 @@
                   @error('desa')
                       <div class="form-text text-danger">{{ $message }}</div>
                   @enderror
-                </div> --}}
+                </div>
 
-                <div class="mb-3">
+                {{-- <div class="mb-3">
                   <label for="tps" class="form-label">TPS</label>
                   <select class="form-select" name="tps" id="tps" aria-label="Default select example">
                     <option value="">
@@ -78,9 +78,9 @@
                   @error('tps')
                       <div class="form-text text-danger">{{ $message }}</div>
                   @enderror
-                </div>
+                </div> --}}
                 
-                {{-- <div class="mb-3">
+                <div class="mb-3">
                   <label for="tps" class="form-label">TPS</label>
                   <select class="form-select" name="tps" id="tps" aria-label="Default select example">
                     @foreach ($tpss as $tps)
@@ -92,7 +92,7 @@
                   @error('tps')
                       <div class="form-text text-danger">{{ $message }}</div>
                   @enderror
-                </div> --}}
+                </div>
 
                 <div class="mb-3">
                   <label for="leader" class="form-label">Leader</label>
