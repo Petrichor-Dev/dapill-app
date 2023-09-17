@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('tps_id')->nullable()->constrained('tps');
             $table->foreignId('user_id')->nullable()->constrained('users');
-            $table->foreignId('leader_id')->nullable()->constrained('users');
+            $table->foreignId('leader_id')->nullable()->constrained('leaders');
             $table->foreignId('mayor_id')->nullable()->constrained('users');
             $table->foreignId('kapten_id')->nullable()->constrained('users');
             $table->foreignId('desa_id')->nullable()->constrained('desa');
