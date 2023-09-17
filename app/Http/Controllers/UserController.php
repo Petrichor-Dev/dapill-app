@@ -134,6 +134,7 @@ class UserController extends Controller
         ->select('users.id', 'users.name', DB::raw('COUNT(pemilih.id) as total_pemilih'))
         ->leftJoin('pemilih', 'users.id', '=', 'pemilih.kapten_id')
         ->where('users.jabatan_id', '=', 5)
+        ->where('is_active', 1)
         ->groupBy('users.id', 'users.name')
         ->orderByDesc('total_pemilih')
         ->limit(5)

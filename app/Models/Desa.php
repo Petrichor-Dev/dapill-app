@@ -14,16 +14,16 @@ class Desa extends Model
 
     public function mayor()
     {
-        return $this->belongsTo(User::class, 'mayor_id', 'id', 'name');
+        return $this->belongsTo(User::class, 'mayor_id', 'id', 'name')->where('is_active', 1);
     }
 
     public function kecamatan()
     {
-        return $this->belongsTo(Kecamatan::class, 'kecamatan_id', 'id', 'name');
+        return $this->belongsTo(Kecamatan::class, 'kecamatan_id', 'id', 'name')->where('is_active', 1);
     }
 
     public function tps()
     {
-        return $this->hasMany(Tps::class, 'desa_id', 'id', 'name');
+        return $this->hasMany(Tps::class, 'desa_id', 'id', 'name')->where('is_active', 1);
     }
 }
