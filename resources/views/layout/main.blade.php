@@ -217,37 +217,28 @@
             // Set new default font family and font color to mimic Bootstrap's default styling
             Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
             Chart.defaults.global.defaultFontColor = '#292b2c';
-
-            // $( document ).ready(function() {
-            //     $.ajax({
-            //                 type: 'GET',
-            //                 url: '/get-pemilih',
-            //                 success: function (data) {
-            //                     $('#desa').empty();
-            //                     $('#desa').append('<option value="">Pilih Desa</option>');
-            //                     $.each(data, function (key, value) {
-            //                         $('#desa').append('<option value="' + key + '">' + value + '</option>');
-            //                     });
-            //                 }
-            //             });
-            // });
             // Bar Chart Example
             let ctx = document.getElementById("myBarChart");
 
-            let myLineChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                //nama leader
-                // labels: ["Agus", "Bambang", "Salim", "Arman", "Yuni"],
-                datasets: [{
-                label: "Total Pemilih",
-                backgroundColor: "rgba(2,117,216,1)",
-                borderColor: "rgba(2,117,216,1)",
-                //data jumlah suara
-                // data: [12, 31, 45, 83, 75].sort((a,b) => a-b),
-                // sort((a,b) => a-b)
-                }],
-            },
+            $( document ).ready(function() {
+                $.ajax({
+                    type: 'GET',
+                    url: '/get-kapten',
+                    success: function (data) {
+                                let myLineChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        //nama leader
+                        labels: ["Agus", "Bambang", "Salim", "Arman", "Yuni"],
+                        datasets: [{
+                        label: "Total Pemilih",
+                        backgroundColor: "rgba(2,117,216,1)",
+                        borderColor: "rgba(2,117,216,1)",
+                        //data jumlah suara
+                        data: [12, 31, 45, 83, 75].sort((a,b) => a-b),
+                        // sort((a,b) => a-b)
+                        }],
+                    },
             options: {
                 scales: {
                 xAxes: [{
@@ -278,6 +269,12 @@
                 }
             }
             });
+                            }
+                        });
+            });
+            
+
+            
 
         </script>
         {{-- <script src="/assets/demo/chart-area-demo.js"></script>

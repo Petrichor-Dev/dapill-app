@@ -130,7 +130,26 @@ class UserController extends Controller
 
     public function getKapten()
     {
-        $kaptens = User::where('jabatan_id', 5)->with('pemilih')->take(5)->get()->toArray();
-        dd($kaptens);
+        // $kaptens = User::where('jabatan_id', 5)->with('pemilih')->take(5)->get()->toArray();
+        // dd($kaptens);
+
+        // $topCaptains = DB::table('users')->where('jabatan_id', 5)
+        // ->select('users.jabatan_id', 'users.name', DB::raw('COUNT(pemilih.id) as total_pemilih'))
+        // ->leftJoin('pemilih', 'users.jabatan_id', '=', 'pemilih.kapten_id')
+        // ->groupBy('users.jabatan_id', 'users.name')
+        // ->orderByDesc('total_pemilih')
+        // ->limit(5)
+        // ->get()->toArray();
+
+        $topCaptains = DB::table('users')
+        ->select('users.id', 'users.name', DB::raw('COUNT(pemilih.id) as total_pemilih'))
+        ->leftJoin('pemilih', 'users.id', '=', 'pemilih.kapten_id')
+        ->where('users.jabatan_id', '=', 5)
+        ->groupBy('users.id', 'users.name')
+        ->orderByDesc('total_pemilih')
+        ->limit(5)
+        ->get()->toArray();
+
+        return $topCaptains;
     }
 }

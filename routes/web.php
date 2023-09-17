@@ -120,7 +120,7 @@ Route::middleware('auth')->group(function () {
 
 //user
 Route::get('/tambah-user', [UserController::class, 'create'])->middleware('auth');
-// Route::get('/get-kapten', [UserController::class, 'getKapten'])->middleware('auth');
+Route::get('/get-kapten', [UserController::class, 'getKapten'])->middleware('auth');
 Route::get('/edit-user/{user}', [UserController::class, 'edit'])->middleware('auth');
 Route::prefix('/user')->name('.user')->middleware('auth')->group(function () {
     Route::get('/', [UserController::class, 'index']);
