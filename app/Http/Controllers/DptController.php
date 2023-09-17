@@ -75,6 +75,7 @@ class DptController extends Controller
                 'namaTps' => $tps,
                 'namaKecamatan' => $kecamatan,
                 'nama' => $request->nama,
+                'is_active' => 1
                 // 'nik' => $request->nik,
             ]);
 
@@ -117,6 +118,7 @@ class DptController extends Controller
                 'namaTps' => $tps,
                 'namaKecamatan' => $kecamatan,
                 'nama' => $request->nama,
+                'is_active' => 1
                 // 'nik' => $request->nik,
             ]);
 
@@ -136,6 +138,7 @@ class DptController extends Controller
                 'is_active' => 0
             ]);
             DB::commit();
+            $request->session()->flash('success', 'Data DPT Berhasil di Hapus');
             return back();
         } catch (Exception $e) {
             return back()->withErrors($e->getMessage());

@@ -115,6 +115,7 @@ class TpsController extends Controller
                 'namaKecamatan' => $kecamatan,
                 'nama' => $request->namaTps,
                 'ketua' => Auth::user()->name,
+                'is_active' => 1
             ]);
 
             DB::commit();
@@ -137,6 +138,7 @@ class TpsController extends Controller
                     'namaKecamatan' => $kecamatan['kecamatan']['nama'],
                     'nama' => $request->namaTps,
                     'ketua' => Auth::user()->name,
+                    'is_active' => 1
                 ]);
 
                 DB::commit();
@@ -190,7 +192,7 @@ class TpsController extends Controller
                 'namaKecamatan' => $kecamatan,
                 'nama' => $request->namaTps,
                 'ketua' => Auth::user()->name,
-                
+                'is_active' => 1
                 ]);
 
                 DB::commit();
@@ -213,6 +215,7 @@ class TpsController extends Controller
                'namaKecamatan' => $kecamatan['kecamatan']['nama'],
                'nama' => $request->namaTps,
                'ketua' => Auth::user()->name,
+               'is_active' => 1
                
             ]);
 

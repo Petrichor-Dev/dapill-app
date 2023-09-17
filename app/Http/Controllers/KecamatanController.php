@@ -77,6 +77,7 @@ class KecamatanController extends Controller
                 'jendral_id' => $request->jendral,
                 // 'jumlah_desa' => $request->jumlahDesa,
                 'user_id' => Auth::user()->id,
+                'is_active' => 1
             ]);
 
             DB::commit();
@@ -106,6 +107,7 @@ class KecamatanController extends Controller
                 'jendral_id' => $request->jendral,
                 // 'jumlah_desa' => $request->jumlahDesa,
                 'user_id' => Auth::user()->id,
+                'is_active' => 1
             ]);
 
             DB::commit();

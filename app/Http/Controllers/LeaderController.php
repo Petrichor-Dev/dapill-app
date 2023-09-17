@@ -54,6 +54,7 @@ class LeaderController extends Controller
             try {
                 $user = Leader::create([
                     'name' => $request->name,
+                    'is_active' => 1
                 ]);
                 DB::commit();
                 $request->session()->flash('success', 'Data Leader Berhasil di Tambahkan');
@@ -128,6 +129,7 @@ class LeaderController extends Controller
             try {
                 $leader->update([
                     'name' => $request->name,
+                    'is_active' => 1
                 ]);
                 DB::commit();
                 $request->session()->flash('success', 'Data Leader Berhasil di Update');

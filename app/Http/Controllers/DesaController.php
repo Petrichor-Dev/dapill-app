@@ -88,6 +88,7 @@ class DesaController extends Controller
                 // 'jumlah_tps' => $request->jumlahTps,
                 'kecamatan_id' => $request->kecamatan,
                 'user_id' => Auth::user()->id,
+                'is_active' => 1
             ]);
 
             DB::commit();
@@ -120,6 +121,7 @@ class DesaController extends Controller
                 // 'jumlah_tps' => $request->jumlahTps,
                 'kecamatan_id' => $request->kecamatan,
                 'user_id' => Auth::user()->id,
+                'is_active' => 1
             ]);
 
             DB::commit();

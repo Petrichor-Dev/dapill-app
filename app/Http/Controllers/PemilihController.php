@@ -16,6 +16,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Exports\PemilihExport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Rules\UniqueActiveName;
 use Illuminate\Validation\Rule;
 
 class PemilihController extends Controller
@@ -25,7 +26,7 @@ class PemilihController extends Controller
     public function rules()
     { 
         return [
-            'nama' => 'required|string|unique:pemilih,nama',
+            'nama' => ['required', 'string', new UniqueActiveName],
             // 'nik' => 'required|digits:16|integer|unique:pemilih,nik',
             'kecamatan' => 'required',
             'desa' => 'required',
@@ -133,7 +134,8 @@ class PemilihController extends Controller
                'nama' => $request->nama,
             //    'nik' => $request->nik,
                'status_memilih' => $request->statusMemilih,
-               'is_dpt' => $is_dpt
+               'is_dpt' => $is_dpt,
+               'is_active' => 1
            ]);
 
            DB::commit();
@@ -186,7 +188,8 @@ class PemilihController extends Controller
                         'nama' => $request->nama,
                         // 'nik' => $request->nik,
                         'status_memilih' => $request->statusMemilih,
-                        'is_dpt' => $is_dpt
+                        'is_dpt' => $is_dpt,
+                        'is_active' => 1
                     ]);
     
                     DB::commit();

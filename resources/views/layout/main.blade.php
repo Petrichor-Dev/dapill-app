@@ -225,41 +225,45 @@
                     type: 'GET',
                     url: '/get-kapten',
                     success: function (data) {
-                                let myLineChart = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        //nama leader
-                        labels: ["Agus", "Bambang", "Salim", "Arman", "Yuni"],
-                        datasets: [{
-                        label: "Total Pemilih",
-                        backgroundColor: "rgba(2,117,216,1)",
-                        borderColor: "rgba(2,117,216,1)",
-                        //data jumlah suara
-                        data: [12, 31, 45, 83, 75].sort((a,b) => a-b),
-                        // sort((a,b) => a-b)
-                        }],
-                    },
-            options: {
-                scales: {
-                xAxes: [{
-                    time: {
-                    unit: 'month'
-                    },
-                    gridLines: {
-                    display: false
-                    },
-                    ticks: {
-                    //max total data yang di tampilkan
-                    maxTicksLimit: 19
-                    }
-                }],
-                yAxes: [{
-                    ticks: {
-                    min: 0,
-                    max: 150,
-                    maxTicksLimit: 5
-                    },
-                    gridLines: {
+                        let nameOrder = data.sort((a, b) => a.total_pemilih - b.total_pemilih);
+                        let namResult = nameOrder.map(item => item.name);
+                        let totalResult = nameOrder.map(item => item.total_pemilih);
+                        let myLineChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            //nama leader
+                            labels: namResult,
+                            datasets: [{
+                            label: "Total Pemilih",
+                            backgroundColor: "rgba(2,117,216,1)",
+                            borderColor: "rgba(2,117,216,1)",
+                            //data jumlah suara
+                            data: totalResult
+                            // data: [12, 31, 45, 83, 75].sort((a,b) => a-b),
+                            // sort((a,b) => a-b)
+                            }],
+                        },
+                        options: {
+                            scales: {
+                            xAxes: [{
+                            time: {
+                                unit: 'month'
+                        },
+                        gridLines: {
+                            display: false
+                        },
+                        ticks: {
+                        //max total data yang di tampilkan
+                        maxTicksLimit: 5
+                        }
+                     }],
+                    yAxes: [{
+                        ticks: {
+                        min: 0,
+                        max: 150,
+                        maxTicksLimit: 20
+                        },
+                        gridLines: {
                     display: true
                     }
                 }],
