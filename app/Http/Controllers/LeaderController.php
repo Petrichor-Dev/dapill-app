@@ -115,6 +115,7 @@ class LeaderController extends Controller
             $pemilihs = [];
         }
 
+        
         return view("$this->componentPath/show", [
             'pemilihs' => $pemilihs ?? [],
             'leader' => Leader::where('id', $leader)->where('is_active', 1)->with(['pemilih'])->get()->pluck('name')->first() ?? [],
