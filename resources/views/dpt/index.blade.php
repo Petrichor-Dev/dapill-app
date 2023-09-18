@@ -62,7 +62,11 @@
                                         @foreach ($dpts as $key => $dpt)
                                         <tr>
                                             <td>{{ $key+1 }}</td>
-                                            <td>{{ $dpt['nama'] }}</td>
+                                            @if($dpt['is_pemilih'] === 1)
+                                                <td><b><span class="text-primary">{{ $dpt['nama'] }}</span></b></td>
+                                            @else
+                                                <td><b>{{ $dpt['nama'] }}</b></td>
+                                            @endif
                                             <td>{{ $dpt['namaDesa'] }}</td>
                                             <td>{{ $dpt['namaKecamatan'] }}</td>
                                             <td>{{ $dpt['namaTps'] }}</td>
@@ -73,13 +77,13 @@
                                             <td>
                                                 @can('edit-dpt')
                                                 <a href="/edit-dpt/{{ $dpt['id'] }}">
-                                                    <button type="button" class="btn btn-outline-primary"><i class="fa-regular fa-pen-to-square"></i></button>
+                                                    <button type="button" class="btn btn-outline-primary mt-1"><i class="fa-regular fa-pen-to-square"></i></button>
                                                 </a>
                                                 @endcan
                                                 
                                                 @can('hapus-dpt')
                                                 <a href="/dpt/delete/{{ $dpt['id'] }}">
-                                                    <button type="button" class="btn btn-outline-danger"><i class="fa-regular fa-trash-can"></i></button>
+                                                    <button type="button" class="btn btn-outline-danger mt-1"><i class="fa-regular fa-trash-can"></i></button>
                                                 </a>
                                                 @endcan
                                                 

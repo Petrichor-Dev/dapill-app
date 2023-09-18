@@ -62,13 +62,13 @@
                                             <td>
                                                 @can('edit-desa')
                                                 <a href="/edit-desa/{{ $desa['id'] }}">
-                                                    <button type="button" class="btn btn-outline-primary"><i class="fa-regular fa-pen-to-square"></i></button>
+                                                    <button type="button" class="btn btn-outline-primary mt-1"><i class="fa-regular fa-pen-to-square"></i></button>
                                                 </a>
                                                 @endcan
 
                                                 @can('hapus-desa')
                                                 <a href="/desa/delete/{{ $desa['id'] }}">
-                                                    <button type="button" class="btn btn-outline-danger"><i class="fa-regular fa-trash-can"></i></button>
+                                                    <button type="button" class="btn btn-outline-danger mt-1"><i class="fa-regular fa-trash-can"></i></button>
                                                 </a>
                                                 @endcan
                                             </td>

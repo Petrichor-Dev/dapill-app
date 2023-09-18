@@ -15,6 +15,7 @@ use App\Models\User;
 use Illuminate\Validation\Rule;
 use App\Exports\DptExport;
 use App\Models\Dpt;
+use App\Models\Pemilih;
 use Maatwebsite\Excel\Facades\Excel;
 
 class DptController extends Controller
@@ -66,6 +67,8 @@ class DptController extends Controller
         $tps = Tps::where('id', $request->tps)->where('is_active', 1)->pluck('nama')->get(0);
         DB::beginTransaction();
         try {
+            $cekPemilih = Pemilih::where('nama', $request->nama)->where('is_active', 1)->first();
+            $cekPemilih ? $is_pemilih = 1 : $is_pemilih = 0;
             $category = Dpt::create([
                 'kecamatan_id' => $request->kecamatan,
                 'user_id' => Auth::user()->id,
@@ -75,7 +78,8 @@ class DptController extends Controller
                 'namaTps' => $tps,
                 'namaKecamatan' => $kecamatan,
                 'nama' => $request->nama,
-                'is_active' => 1
+                'is_active' => 1,
+                'is_pemilih' => $is_pemilih
                 // 'nik' => $request->nik,
             ]);
 
@@ -109,6 +113,8 @@ class DptController extends Controller
         $tps = Tps::where('id', $request->tps)->where('is_active', 1)->pluck('nama')->get(0);
         DB::beginTransaction();
         try {
+            $cekPemilih = Pemilih::where('nama', $request->nama)->where('is_active', 1)->first();
+            $cekPemilih ? $is_pemilih = 1 : $is_pemilih = 0;
             $dpt->update([
                 'kecamatan_id' => $request->kecamatan,
                 'user_id' => Auth::user()->id,
@@ -118,7 +124,8 @@ class DptController extends Controller
                 'namaTps' => $tps,
                 'namaKecamatan' => $kecamatan,
                 'nama' => $request->nama,
-                'is_active' => 1
+                'is_active' => 1,
+                'is_pemilih' => $is_pemilih
                 // 'nik' => $request->nik,
             ]);
 

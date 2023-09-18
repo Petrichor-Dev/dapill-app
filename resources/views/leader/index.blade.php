@@ -65,13 +65,13 @@
                                             <td>
                                                 @can('edit-leader')
                                                 <a href="/edit-leader/{{ $leader['id'] }}">
-                                                    <button type="button" class="btn btn-outline-primary"><i class="fa-regular fa-pen-to-square"></i></button>
+                                                    <button type="button" class="btn btn-outline-primary mt-1"><i class="fa-regular fa-pen-to-square"></i></button>
                                                 </a>
                                                 @endcan
                                                 
                                                 @can('hapus-leader')
                                                 <a  href="/leader/delete/{{ $leader['id'] }}">
-                                                    <button type="button" class="btn btn-outline-danger"><i class="fa-regular fa-trash-can"></i></button>
+                                                    <button type="button" class="btn btn-outline-danger mt-1"><i class="fa-regular fa-trash-can"></i></button>
                                                 </a>
                                                 @endcan
                                             </td>
