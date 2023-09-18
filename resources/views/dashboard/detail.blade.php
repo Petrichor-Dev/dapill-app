@@ -52,7 +52,11 @@
                                             @foreach ($datas as $key => $data)
                                             <tr>
                                                 <td>{{ $key+1 }}</td>
-                                                <td>{{ $data['nama'] }}</td>
+                                                @if($data['is_pemilih'] === 1)
+                                                    <td><b><span class="text-primary">{{ $data['nama'] }}</span></b></td>
+                                                @else
+                                                    <td><b>{{ $data['nama'] }}</b></td>
+                                                @endif
                                                 
                                                 <td>{{ $data['namaKecamatan'] }}</td>
                                                 <td>{{ $data['namaDesa'] }}</td>
@@ -122,7 +126,11 @@
                                             @foreach ($datas as $key => $data)
                                             <tr>
                                                 <td>{{ $key+1 }}</td>
-                                                <td>{{ $data['nama'] }}</td>
+                                                @if($data['is_dpt'] === 1)
+                                                    <td><b><span class="text-primary">{{ $data['nama'] }}</span></b></td>
+                                                @else
+                                                    <td><b>{{ $data['nama'] }}</b></td>
+                                                @endif
                                                 <td>{{ $data['leader']['name'] }}</td>
                                                 <td>{{ $data['kapten']['name'] }}</td>
                                                 <td>{{ $data['mayor']['name'] }}</td>
