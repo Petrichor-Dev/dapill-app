@@ -83,6 +83,12 @@ class DptController extends Controller
                 // 'nik' => $request->nik,
             ]);
 
+            if($is_pemilih === 1){
+                $cekPemilih->update([
+                    'is_dpt' => 1
+                ]);
+               }
+
             DB::commit();
             $request->session()->flash('success', 'Data DPT Berhasil di Tambahkan');
             return redirect('/dpt');
@@ -128,6 +134,12 @@ class DptController extends Controller
                 'is_pemilih' => $is_pemilih
                 // 'nik' => $request->nik,
             ]);
+
+            if($is_pemilih === 1){
+                $cekPemilih->update([
+                    'is_dpt' => 1
+                ]);
+               }
 
             DB::commit();
             $request->session()->flash('success', 'Data DPT Berhasil di Edit');

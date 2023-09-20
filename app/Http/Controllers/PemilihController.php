@@ -138,6 +138,12 @@ class PemilihController extends Controller
                'is_active' => 1
            ]);
 
+           if($is_dpt === 1){
+            $cekDpt->update([
+                'is_pemilih' => 1
+            ]);
+           }
+
            DB::commit();
            $request->session()->flash('success', 'Data Pemilih Berhasil di Tambahkan');
            return redirect('/pemilih');
@@ -197,6 +203,12 @@ class PemilihController extends Controller
                         'is_dpt' => $is_dpt,
                         'is_active' => 1
                     ]);
+
+                    if($is_dpt === 1){
+                        $cekDpt->update([
+                            'is_pemilih' => 1
+                        ]);
+                       }
     
                     DB::commit();
                     $request->session()->flash('success', 'Data Pemilih Berhasil di Edit');
