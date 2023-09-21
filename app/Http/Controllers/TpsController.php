@@ -228,14 +228,15 @@ class TpsController extends Controller
     }
 
 
-    public function destroy(Tps $tps)
+    public function destroy(Request $request, Tps $tps)
     {
         DB::beginTransaction();
         try {
             $tps->update([
-                'is_update' => 0
+                'is_active' => 0
             ]);
             DB::commit();
+            $request->session()->flash('success', 'Data TPS ('.$tps->nama.') Berhasil di Hapus');
             return back();
         } catch (Exception $e) {
             return back()->withErrors($e->getMessage());
@@ -252,7 +253,7 @@ class TpsController extends Controller
 
     public function getTps($desa)
     {
-        $tps = Tps::where('desa_id', $desa)->pluck('nama', 'id');
+        $tps = Tps::where('desa_id', $desa)->where('is_active', 1)->pluck('nama', 'id');
         return response()->json($tps);
     }
 }

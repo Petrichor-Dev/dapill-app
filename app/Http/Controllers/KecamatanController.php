@@ -118,7 +118,7 @@ class KecamatanController extends Controller
         }
     }
 
-    public function destroy(Kecamatan $kecamatan)
+    public function destroy(Request $request, Kecamatan $kecamatan)
     {
         DB::beginTransaction();
         try {
@@ -126,6 +126,7 @@ class KecamatanController extends Controller
                 'is_active' => 0
             ]);
             DB::commit();
+            $request->session()->flash('success', 'Data Kecamatan ('.$kecamatan->nama.') Berhasil di Hapus');
             return back();
         } catch (Exception $e) {
             return back()->withErrors($e->getMessage());

@@ -112,12 +112,13 @@ class RoleController extends Controller
         }
     }
 
-    public function destroy(Role $role)
+    public function destroy(Request $request, Role $role)
     {
         DB::beginTransaction();
         try {
             $role->delete();
             DB::commit();
+            $request->session()->flash('success', 'Data Role ('.$role->name.') Berhasil di Hapus');
             return back();
         } catch (\Exception $e) {
             return back()->withErrors(['message' => $e->getMessage()]);

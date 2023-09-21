@@ -9,7 +9,7 @@
                     <div class="container-fluid px-4">
                         @if (session()->has('success'))
                         <div class="alert alert-primary mt-4" role="alert">
-                            {{ session('success') }}
+                            <b>{{ session('success') }}</b>
                         </div>
                         @endif
                         <h1 class="mt-4">Pemilih</h1>
@@ -109,9 +109,15 @@
                                                 </a>
                                                 @endcan
                                                 @can('hapus-pemilih')
-                                                <a href="/pemilih/delete/{{ $pemilih['id'] }}">
-                                                    <button type="button" class="btn btn-outline-danger mt-1"><i class="fa-regular fa-trash-can"></i></button>
-                                                </a>
+                                                <form class="d-inline" action="/pemilih/delete/{{ $pemilih['id'] }}" method="post">
+                                                    @method('delete')
+                                                    @csrf
+            
+                                                    <button  class="btn btn-outline-danger mt-1" onclick="return confirm('Yakin Hapus Data ?')">
+                                                        <i class="fa-regular fa-trash-can"></i>
+                                                    </button>
+                                                </form>
+
                                                 @endcan
                                             </td>
                                         

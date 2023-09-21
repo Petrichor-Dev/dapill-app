@@ -115,16 +115,19 @@ class UserController extends Controller
         }
     }
 
-    public function destroy(User $user)
+    public function destroy(Request $request, User $user)
     {
         DB::beginTransaction();
         try {
             $user->syncRoles([]);
             $user->delete();
             DB::commit();
+            $request->session()->flash('success', 'Data User Berhasil di Hapus');
             return back();
         } catch (\Exception $e) {
-            return back()->withErrors(['message' => $e->getMessage()]);
+            // return back()->withErrors(['message' => $e->getMessage()]);
+            $request->session()->flash('success', 'Maaf, data user tidak di izinkan untuk di hapus');
+            return back();
         }
     }
 

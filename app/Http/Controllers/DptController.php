@@ -149,7 +149,7 @@ class DptController extends Controller
         }
     }
 
-    public function destroy(Dpt $dpt)
+    public function destroy(Request $request, Dpt $dpt)
     {
         DB::beginTransaction();
         try {
@@ -157,7 +157,7 @@ class DptController extends Controller
                 'is_active' => 0
             ]);
             DB::commit();
-            $request->session()->flash('success', 'Data DPT Berhasil di Hapus');
+            $request->session()->flash('success', 'Data DPT ('.$dpt->nama.') Berhasil di Hapus');
             return back();
         } catch (Exception $e) {
             return back()->withErrors($e->getMessage());

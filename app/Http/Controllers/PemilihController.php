@@ -219,7 +219,7 @@ class PemilihController extends Controller
                 }
     }
 
-    public function destroy(Pemilih $pemilih)
+    public function destroy(Request $request, Pemilih $pemilih)
     {
         DB::beginTransaction();
         try {
@@ -227,6 +227,7 @@ class PemilihController extends Controller
                 'is_active' => 0
             ]);
             DB::commit();
+            $request->session()->flash('success', 'Data Pemilih ('.$pemilih->nama.') Berhasil di Hapus');
             return back();
         } catch (Exception $e) {
             return back()->withErrors($e->getMessage());

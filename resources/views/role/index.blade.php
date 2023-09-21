@@ -9,7 +9,7 @@
                     <div class="container-fluid px-4">
                         @if (session()->has('success'))
                         <div class="alert alert-primary mt-4" role="alert">
-                            {{ session('success') }}
+                            <b>{{ session('success') }}</b>
                         </div>
                         @endif
                         <h1 class="mt-4">Role</h1>

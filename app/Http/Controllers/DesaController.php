@@ -132,7 +132,7 @@ class DesaController extends Controller
         }
     }
 
-    public function destroy(Desa $desa)
+    public function destroy(Request $request, Desa $desa)
     {
         DB::beginTransaction();
         try {
@@ -140,6 +140,7 @@ class DesaController extends Controller
                 'is_active' => 0
             ]);
             DB::commit();
+            $request->session()->flash('success', 'Data Desa (' .$desa->nama. ') Berhasil di Hapus');
             return back();
         } catch (Exception $e) {
             return back()->withErrors($e->getMessage());
@@ -147,7 +148,7 @@ class DesaController extends Controller
     }
 
     public function getDesa($kecamatan){
-        $kelurahan = Desa::where('kecamatan_id', $kecamatan)->pluck('nama', 'id');
+        $kelurahan = Desa::where('kecamatan_id', $kecamatan)->where('is_active', 1)->pluck('nama', 'id');
         return response()->json($kelurahan);
     }
 }

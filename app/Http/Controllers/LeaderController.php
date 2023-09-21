@@ -140,7 +140,7 @@ class LeaderController extends Controller
             }
     }
 
-    public function destroy(leader $leader)
+    public function destroy(Request $request, leader $leader)
     {
         DB::beginTransaction();
             try {
@@ -148,6 +148,7 @@ class LeaderController extends Controller
                     'is_active' => 0
                 ]);
                 DB::commit();
+                $request->session()->flash('success', 'Data Leader ('.$leader->name.') Berhasil di Hapus');
                 return back();
             } catch (\Exception $e) {
                 return back()->withErrors(['message' => $e->getMessage()]);

@@ -33,7 +33,7 @@ Route::prefix('/kecamatan')->name('.kecamatan')->middleware('auth')->group(funct
     Route::post('/create', [KecamatanController::class, 'store']);
     Route::put('/edit/{kecamatan}', [KecamatanController::class, 'update']);
     Route::group(['middleware' => ['can:hapus-kecamatan']], function () {
-        Route::get('/delete/{kecamatan}', [KecamatanController::class, 'destroy']);
+        Route::delete('/delete/{kecamatan}', [KecamatanController::class, 'destroy']);
     });
 });
 
@@ -45,7 +45,7 @@ Route::prefix('/desa')->name('.desa')->middleware('auth')->group(function () {
     Route::post('/create', [DesaController::class, 'store']);
     Route::put('/edit/{desa}', [DesaController::class, 'update']);
     Route::group(['middleware' => ['can:hapus-desa']], function () {
-        Route::get('/delete/{desa}', [DesaController::class, 'destroy']);
+        Route::delete('/delete/{desa}', [DesaController::class, 'destroy']);
     });
     
 });
@@ -58,7 +58,7 @@ Route::prefix('/pemilih')->name('.pemilih')->middleware('auth')->group(function 
     Route::post('/create', [PemilihController::class, 'store']);
     Route::put('/edit/{pemilih}', [PemilihController::class, 'update']);
     Route::group(['middleware' => ['can:hapus-pemilih']], function () {
-        Route::get('/delete/{pemilih}', [PemilihController::class, 'destroy']);
+        Route::delete('/delete/{pemilih}', [PemilihController::class, 'destroy']);
     });
     Route::get('/export', [PemilihController::class, 'export']);
     Route::get('/show/{status}', [PemilihController::class, 'show']);
@@ -73,7 +73,7 @@ Route::prefix('/tps')->name('.tps')->middleware('auth')->group(function () {
     Route::post('/create', [TpsController::class, 'store']);
     Route::put('/edit/{tps}', [TpsController::class, 'update']);
     Route::group(['middleware' => ['can:hapus-tps']], function () {
-        Route::get('/delete/{tps}', [TpsController::class, 'destroy']);
+        Route::delete('/delete/{tps}', [TpsController::class, 'destroy']);
     });
     
 });
@@ -86,7 +86,7 @@ Route::prefix('/dpt')->name('.dpt')->middleware('auth')->group(function () {
     Route::post('/create', [DptController::class, 'store']);
     Route::put('/edit/{dpt}', [DptController::class, 'update']);
     Route::group(['middleware' => ['can:hapus-dpt']], function () {
-        Route::get('/delete/{dpt}', [DptController::class, 'destroy']);
+        Route::delete('/delete/{dpt}', [DptController::class, 'destroy']);
     });
     Route::get('/export', [DptController::class, 'export']);
 });
@@ -100,7 +100,7 @@ Route::prefix('/leader')->name('.leader')->middleware('auth')->group(function ()
     Route::post('/create', [LeaderController::class, 'store']);
     Route::put('/edit/{leader}', [LeaderController::class, 'update']);
     Route::group(['middleware' => ['can:hapus-leader']], function () {
-        Route::get('/delete/{leader}', [LeaderController::class, 'destroy']);
+        Route::delete('/delete/{leader}', [LeaderController::class, 'destroy']);
     });
     
 });
@@ -127,7 +127,7 @@ Route::prefix('/user')->name('.user')->middleware('auth')->group(function () {
     Route::post('/create', [UserController::class, 'store']);
     Route::put('/edit/{user}', [UserController::class, 'update']);
     Route::group(['middleware' => ['can:hapus-user']], function () {
-        Route::get('/delete/{user}', [UserController::class, 'destroy']);
+        Route::delete('/delete/{user}', [UserController::class, 'destroy']);
     });
 });
 
@@ -139,7 +139,7 @@ Route::prefix('/role')->name('.role')->middleware('auth')->group(function () {
     Route::post('/create', [RoleController::class, 'store']);
     Route::put('/edit/{role}', [RoleController::class, 'update']);
     Route::group(['middleware' => ['can:hapus-role']], function () {
-        Route::get('/delete/{role}', [RoleController::class, 'destroy']);
+        Route::delete('/delete/{role}', [RoleController::class, 'destroy']);
     });
     
 });
