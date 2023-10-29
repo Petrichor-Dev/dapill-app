@@ -128,6 +128,10 @@
                             </div>
                             @endcan
                         </div>
+                        <div class="d-flex justify-content-between">
+                            <p>Go To Next Page</p>
+                            {{ $pemilihs->links() }}
+                        </div>
                     </div>
                 </main>
     @endsection

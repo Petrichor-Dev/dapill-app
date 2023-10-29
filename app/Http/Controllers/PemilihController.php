@@ -62,8 +62,7 @@ class PemilihController extends Controller
             //     ->toArray() ?? [];   
             $pemilihs = Pemilih::where('user_id', $uid)->where('is_active', 1)
                 ->with(['admin', 'leader', 'kapten', 'mayor'])
-                ->get()
-                ->toArray() ?? [];
+                ->paginate(100) ?? [];
         } elseif($userRoleId === 4){
             //ambil semua daftar kecamatan berdasarkan si yang menginput (mayor)
             $atasanDesaId = Desa::whereIn('user_id', $idAtasan)->where('is_active', 1)->get()->pluck(['id'])->toArray();
@@ -72,8 +71,7 @@ class PemilihController extends Controller
 
             $pemilihs = Pemilih::whereIn('desa_id', $arrayResult)->where('is_active', 1)
                 ->with(['admin', 'leader', 'kapten', 'mayor'])
-                ->get()
-                ->toArray() ?? [];
+                ->paginate(100) ?? [];
         } elseif($userRoleId === 3){
             //ambil semua daftar kecamatan berdasarkan si yang menginput (mayor)
             $atasanKecamatanId = Kecamatan::whereIn('user_id', $idAtasan)->where('is_active', 1)->get()->pluck(['id'])->toArray();
@@ -82,10 +80,9 @@ class PemilihController extends Controller
 
             $pemilihs = Pemilih::whereIn('kecamatan_id', $arrayResult)->where('is_active', 1)
                 ->with(['admin', 'leader', 'kapten', 'mayor'])
-                ->get()
-                ->toArray() ?? [];
+                ->paginate(100) ?? [];
         } elseif($userRoleId === 1 || $userRoleId === 2){
-            $pemilihs = Pemilih::with(['admin', 'leader', 'kapten', 'mayor'])->where('is_active', 1)->get()->toArray() ?? [];
+            $pemilihs = Pemilih::with(['admin', 'leader', 'kapten', 'mayor'])->where('is_active', 1)->paginate(100) ?? [];
         } else{
             $pemilihs = [];
         }
