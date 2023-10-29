@@ -29,6 +29,7 @@
                                     <button class="btn btn-primary"><i class="fa-solid fa-plus"></i> Tambah DPT</button>
                                 </a>
                                 @endcan
+                                
                             </div>
                             
                             @can('lihat-dpt')
@@ -97,9 +98,18 @@
                                         @endforeach
                                     </tbody>
                                 </table>
+                                
                             </div>
+                            
+                            {{-- {{ ->links() }}   --}}
                             @endcan
+                            
                         </div>
+                        <div class="d-flex justify-content-between">
+                            <p>Go To Next Page</p>
+                            {{ $dpts->links() }}
+                        </div>
+                        
                     </div>
                 </main>
     @endsection
