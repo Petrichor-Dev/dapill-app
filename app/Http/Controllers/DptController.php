@@ -43,7 +43,7 @@ class DptController extends Controller
     public function index()
     {
         // $dpts = Dpt::where('is_active', 1)->with(['admin'])->get()->toArray();
-        $dpts = Dpt::where('is_active', 1)->with(['admin'])->paginate(50)->withQueryString();
+        $dpts = Dpt::where('is_active', 1)->with(['admin'])->paginate(100)->withQueryString();
         return view("$this->componentPath/index", [
             'dpts' => $dpts,
             'roleName' => $this->getRole() ?? []
